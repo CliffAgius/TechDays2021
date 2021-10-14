@@ -1,4 +1,4 @@
-Callsign,Date,Time,Latitude,Longditude,Altitude,V/S FPM,Seconds Last report,Speed,Direction,OutSide Air Temp,Wind Direction,Wind Speed
+callSign,date,time,latitude,longitude,altitude,vSFPM,secondsLastReport,speed,direction,outSideAirTemp,windDirection,windSpeed
 BAW874,04/10/2021,11:20:50,51.473122,-0.486201,0,0,0,0,270,15,250,6
 BAW874,04/10/2021,11:21:29,51.473156,-0.485997,0,0,39,2,270,15,250,6
 BAW874,04/10/2021,11:21:42,51.473167,-0.485792,0,0,13,2,270,15,250,6
