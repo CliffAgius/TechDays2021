@@ -12,22 +12,20 @@ Interested in building an end-to-end IoT solution or learning about Azure IoT, b
 
 # Agenda:
 
-    10.00	Welcome to the show
-    10.05	Follow Pete and Cliff as they take a Raspberry Pi simulated 
-            device, connect it to the IoT Hub and walk through the set-up of the device within IoT Hub.
-    10:25am	Q&A
-    10:35am	Pete and Cliff will introduce you to NanoFramework with 
-            Microsoft Visual Studio and code in DotNet C# controlling a real Esp32 device connecting real sensor data back to the IoT Hub created in the first session.
-    10:55am	Q&A
-    11:05am	In this session the IoT Hub routes the live data to send a 
-            tweet based on sensor data from the device, showing where the flight is in real time.
-    11:25am	Q&A
-    11:35am	BREAK
-    11:40am	Pete and Cliff explore Time Series Insights and the power 
-            and tools available to take data, understand how that data can support business objectives and how to store and display that data. 
-    12:00 pm	Q&A
-    12:10pm	Pete and Cliff take live data from the device and display 
-            it using Microsoft Power BI dashboard, showing a map of the flight’s progress, including altitude, heading, speed etc and showing how that data supports business needs.
-    12:30pm	Q&A
-    12:40pm	Wrap up and next steps
-    12:45pm	Session Close
+| Time | Speaker | Description |
+| :--- | :--- | :--- |
+| 10.00 |     |	Welcome to the show |
+| 10.05	| Pete & Cliff | Pete and Cliff kick off the show by introducing the overall IoT solution, the moving parts and how they connect together to form the end product. |
+| 10:15am | Pete | Pete explains how, although a physical device will be used to drive the data, it’s also possible to use a free online Azure Raspberry Pi Simulator as way to get data flowing into Azure.|
+| 10:25am |    | Q&A |
+| 10:35am | Cliff and Jose | Cliff and Jose will introduce you to .NET nanoFramework with Microsoft Visual Studio and code written in .NET C# to control a real ESP32 device. The ESP32 will send flight sensor data to an Azure IoT Hub and onwards to the rest of the solution. |
+| 10:55am |    | Q&A |
+| 11:05am | Maria-Anastasia | In this session Maria-Anastasia will show how to configure the IoT Hub to route live “out of bounds” data to a Service Bus and on to a Logic App, to send notifications to services like Twitter or Microsoft Teams. |
+| 11:25am |     | Q&A |
+| 11:35am |     | BREAK |
+| 11:40am | Sander | Sander shows the power of Time Series Insights to capture data, understand how that data can support business objectives and how to surface that data from an engineer’s perspective. |
+| 12:00pm |     | Q&A |
+| 12:10pm | John | John shows the finished product, taking live data from the device and displaying it using a Microsoft Power BI dashboard. The dashboard shows a map of the flight’s progress, including altitude, heading, speed etc and showing how that data supports business needs. |
+| 12:30pm |      | Q&A |
+| 12:40pm |      | Wrap up and next steps |
+| 12:45pm |      | Session Close |
