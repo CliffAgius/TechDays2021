@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TechDays2021
 {
-    public class FlightData
+    public class FlightDataModel
     {
         // ID of datapoint
         public int ID { get; set; }
