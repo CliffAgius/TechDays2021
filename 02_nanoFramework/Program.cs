@@ -26,6 +26,9 @@ namespace TechDays2021
         // AMQP Tracing.
         static bool TraceOn = false;
 
+        // Model Data
+        private static FlightDataModel FlightDataModel = new();
+
         public static void Main()
         {
             // Connect the ESP32 Device to the Wifi and check the connection...
@@ -82,7 +85,7 @@ namespace TechDays2021
                 while (true)
                 {
 
-                    string messagePayload = $"{{\"Latitude\":{Latitude},\"Longitude\":{Longitude}}}";
+                    string messagePayload = $"{{\"Latitude\":{FlightDataModel.Latitude},\"Longitude\":{FlightDataModel.Longitude}}}";
 
                     // compose message
                     Message message = new Message(Encoding.UTF8.GetBytes(messagePayload));
@@ -92,7 +95,7 @@ namespace TechDays2021
                     sender.Send(message, null, null);
 
                     // data sent
-                    Debug.WriteLine($"*** DATA SENT - Lat - {Latitude}, Lon - {Longitude} ***");
+                    Debug.WriteLine($"*** DATA SENT - Lat - {FlightDataModel.Latitude}, Lon - {FlightDataModel.Longitude} ***");
 
                     // update the location data
                    
@@ -112,9 +115,9 @@ namespace TechDays2021
             try
             {
                 // command received 
-                Double.TryParse((string)message.ApplicationProperties["setlat"], out Latitude);
-                Double.TryParse((string)message.ApplicationProperties["setlon"], out Longitude);
-                Debug.WriteLine($"== Received new Location setting: Lat - {Latitude}, Lon - {Longitude} ==");
+                //Double.TryParse((string)message.ApplicationProperties["setlat"], out FlightDataModel.Latitude);
+                //Double.TryParse((string)message.ApplicationProperties["setlon"], out FlightDataModel.Longitude);
+                //Debug.WriteLine($"== Received new Location setting: Lat - {Latitude}, Lon - {Longitude} ==");
             }
             catch (Exception ex)
             {
