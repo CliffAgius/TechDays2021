@@ -1,5 +1,6 @@
 using Amqp;
 using nanoFramework.Networking;
+using nanoFramework.Json;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -27,7 +28,8 @@ namespace TechDays2021
         static bool TraceOn = false;
 
         // Model Data
-        private static FlightDataModel FlightDataModel = new();
+        private static FlightDataModel[] FlightDataModel = new FlightDataModel[456];
+        private static int counter = 0;
 
         public static void Main()
         {
@@ -60,6 +62,10 @@ namespace TechDays2021
             AmqpTrace.TraceListener = WriteTrace;
             Connection.DisableServerCertValidation = false;
 
+            // Get the JSON Data from the SD card File...
+            FlightDataStore flightDataStore = new();
+            FlightDataModel = flightDataStore.GetConfig();
+
             // launch worker thread where the real work is done!
             new Thread(WorkerThread).Start();
 
@@ -84,8 +90,9 @@ namespace TechDays2021
 
                 while (true)
                 {
-
-                    string messagePayload = $"{{\"Latitude\":{FlightDataModel.Latitude},\"Longitude\":{FlightDataModel.Longitude}}}";
+                    //  $"{{\"Latitude\":{FlightDataModel[counter].Latitude},\"Longitude\":{FlightDataModel[counter].Longitude}}}";
+                    // Serialize the Current FlightDataModel into JSON to send as the mssage payload.
+                    string messagePayload = JsonConvert.SerializeObject(FlightDataModel[counter]);
 
                     // compose message
                     Message message = new Message(Encoding.UTF8.GetBytes(messagePayload));
@@ -95,13 +102,11 @@ namespace TechDays2021
                     sender.Send(message, null, null);
 
                     // data sent
-                    Debug.WriteLine($"*** DATA SENT - Lat - {FlightDataModel.Latitude}, Lon - {FlightDataModel.Longitude} ***");
-
-                    // update the location data
-                   
+                    Debug.WriteLine($"*** DATA SENT - Next packet will be sent in {FlightDataModel[counter].SecondsNextReport} seconds ***");
 
                     // wait before sending the next position update
-                    Thread.Sleep(5000);
+                    Thread.Sleep(FlightDataModel[counter].SecondsNextReport);
+                    counter++;
                 }
             }
             catch (Exception ex)
