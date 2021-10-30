@@ -6,7 +6,7 @@ const Client = require('azure-iot-device').Client;
 const Message = require('azure-iot-device').Message;
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
 
-const connectionString = 'HostName=TechDays2021.azure-devices.net;DeviceId=RPiSimulator-John;SharedAccessKey=qApTEtzfIqsQT1AYrFCSPeBVEsalB8pnCBJTsr+DnfQ=';
+const connectionString = 'ENTER YOUR CONNECTION STRING';
 const LEDPin = 4;
 
 var sendingMessage = false;
