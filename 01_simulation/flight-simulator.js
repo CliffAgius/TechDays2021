@@ -6,13 +6,12 @@ const Client = require('azure-iot-device').Client;
 const Message = require('azure-iot-device').Message;
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
 
-const connectionString = 'ENTER DEVICE CONNECTION STRING';
+const connectionString = 'HostName=TechDays2021.azure-devices.net;DeviceId=RPiSimulator1;SharedAccessKey=wcSBfKdemxffGO0JPtNS0x5B0YiipbMDUCM9XMrCDk8=';
 const LEDPin = 4;
 
 var sendingMessage = false;
 var messageId = 0;
 var client;
-var blinkLEDTimeout = null;
 
 var flightData = [
     {
@@ -5741,7 +5740,6 @@ function sendMessage() {
             if (err) {
                 console.error('Failed to send message to Azure IoT Hub');
             } else {
-                blinkLED();
                 console.log('Message sent to Azure IoT Hub');
             }
         });
@@ -5771,7 +5769,6 @@ function onStop(request, response) {
 }
 
 function receiveMessageCallback(msg) {
-    blinkLED();
     var message = msg.getData().toString('utf-8');
     client.complete(msg, function () {
         console.log('Receive message: ' + message);
