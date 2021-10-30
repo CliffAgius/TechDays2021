@@ -5718,7 +5718,7 @@ function getMessage(cb) {
         longitude: data.longitude,
         altitude: data.altitude,
         vSFPM: data.vSFPM,
-        secondsLastReport: data.secondsLastReport,
+        secondsNextReport: data.secondsNextReport,
         speed: data.speed,
         direction: data.direction,
         outSideAirTemp: data.outSideAirTemp,
