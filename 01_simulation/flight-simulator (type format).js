@@ -6,7 +6,7 @@ const Client = require('azure-iot-device').Client;
 const Message = require('azure-iot-device').Message;
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
 
-const connectionString = 'ENTER DEVICE ID';
+const connectionString = 'HostName=TechDays2021-neu-ih.azure-devices.net;DeviceId=JohnSim;SharedAccessKey=pgiM1yoPCtQW93H/c4nuAiiIJOZNZAoxTj+19LjS6YI=';
 const LEDPin = 4;
 
 var sendingMessage = false;
@@ -5721,8 +5721,10 @@ function getMessage(cb) {
         secondsNextReport: data.secondsNextReport,
         speed: data.speed,
         direction: data.direction,
+        directionString: degToCompass(data.direction),
         outSideAirTemp: data.outSideAirTemp,
         windDirection: data.windDirection,
+        windDirectionString: degToCompass(data.windDirection),
         windSpeed: data.windSpeed
     }));
 
@@ -5773,6 +5775,12 @@ function receiveMessageCallback(msg) {
     client.complete(msg, function () {
         console.log('Receive message: ' + message);
     });
+}
+
+function degToCompass(num) {
+    var val = Math.floor((num / 22.5) + 0.5);
+    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return arr[(val % 16)];
 }
 
 sendingMessage = true;
