@@ -6,7 +6,7 @@ const Client = require('azure-iot-device').Client;
 const Message = require('azure-iot-device').Message;
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
 
-const connectionString = 'HostName=az220iothub1.azure-devices.net;DeviceId=FlightSimulator;SharedAccessKey=PBnuL7iAqpdjC/DZVdlRh1FoNO+aFhT5GZMDEbo7Nfg=';
+const connectionString = 'HostName=TechDays2021.azure-devices.net;DeviceId=RPiSimulator1;SharedAccessKey=wcSBfKdemxffGO0JPtNS0x5B0YiipbMDUCM9XMrCDk8=';
 const LEDPin = 4;
 
 var sendingMessage = false;
@@ -5778,20 +5778,6 @@ function receiveMessageCallback(msg) {
     });
 }
 
-function blinkLED() {
-    // Light up LED for 500 ms
-    if (blinkLEDTimeout) {
-        clearTimeout(blinkLEDTimeout);
-    }
-    wpi.digitalWrite(LEDPin, 1);
-    blinkLEDTimeout = setTimeout(function () {
-        wpi.digitalWrite(LEDPin, 0);
-    }, 500);
-}
-
-// set up wiring
-wpi.setup('wpi');
-wpi.pinMode(LEDPin, wpi.OUTPUT);
 sendingMessage = true;
 
 // create a client
