@@ -16,19 +16,19 @@ namespace TechDays2021
         // Join our lively Discord community: https://discord.gg/gCyBu8T
 
         // Set-up Wifi Credentials so we can connect to the web.
-        private static string Ssid = "<ENTER YOUR WIFI SSID";
-        private static string WifiPassword = "<ENTER YOUR WIFI PASSOWRD>";
+        private static string Ssid = "";
+        private static string WifiPassword = "";
 
         // Azure IoTHub settings
-        const string _hubName = "<ENTER YOUR IOTHub NAME>";
+        const string _hubName = "TechDays2021";
         const string _deviceId = "TechDays2021-Device1";    // <- Give your device a meaningful name...
-        const string _sasToken = "<ENTER YOUR SAS TOKEN>";  // <- See blog post on how to obtain your SAS token.
+        const string _sasToken = "SharedAccessSignature sr=TechDays2021.azure-devices.net%2Fdevices%2FTechDays2021-Device1&sig=YnPUPjpCBUlPO1rqBFzSn2cOUhOEn%2FF1l0YlKtRD%2FZA%3D&se=1635172297";  // <- See blog post on how to obtain your SAS token.
         
         // AMQP Tracing.
         static bool TraceOn = false;
 
         // Model Data
-        private static FlightDataModel[] FlightDataModel = new FlightDataModel[456];
+        private static FlightDataModel[] FlightDataModel;
         private static int counter = 0;
 
         public static void Main()
@@ -65,9 +65,16 @@ namespace TechDays2021
             // Get the JSON Data from the SD card File...
             FlightDataStore flightDataStore = new();
             FlightDataModel = flightDataStore.GetConfig();
-
-            // launch worker thread where the real work is done!
-            new Thread(WorkerThread).Start();
+            
+            if (FlightDataModel == null || FlightDataModel.Length == 0)
+            {
+                Debug.WriteLine($"-- JSON Data missing... --");
+            }
+            else
+            {
+                // launch worker thread where the real work is done!
+                new Thread(WorkerThread).Start();
+            }
 
             Thread.Sleep(Timeout.Infinite);
         }
@@ -90,7 +97,6 @@ namespace TechDays2021
 
                 while (true)
                 {
-                    //  $"{{\"Latitude\":{FlightDataModel[counter].Latitude},\"Longitude\":{FlightDataModel[counter].Longitude}}}";
                     // Serialize the Current FlightDataModel into JSON to send as the mssage payload.
                     string messagePayload = JsonConvert.SerializeObject(FlightDataModel[counter]);
 
@@ -102,10 +108,10 @@ namespace TechDays2021
                     sender.Send(message, null, null);
 
                     // data sent
-                    Debug.WriteLine($"*** DATA SENT - Next packet will be sent in {FlightDataModel[counter].SecondsNextReport} seconds ***");
+                    Debug.WriteLine($"*** DATA SENT - Next packet will be sent in {FlightDataModel[counter].secondsNextReport} seconds ***");
 
                     // wait before sending the next position update
-                    Thread.Sleep(FlightDataModel[counter].SecondsNextReport);
+                    Thread.Sleep(FlightDataModel[counter].secondsNextReport);
                     counter++;
                 }
             }
