@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using nanoFramework.System.IO.FileSystem;
 using System;
+using nanoFramework.Json;
 
 namespace TechDays2021
 {
@@ -64,15 +65,15 @@ namespace TechDays2021
                 {
                     Debug.WriteLine($"Found file: {file}");
                     //TODO: we should really check if certs are in the mcu flash before retreiving them from the filesystem (SD).
-                    if (file.Contains(".json"))
+                    if (file.Contains("2.json"))
                     {
                         using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read))
                         {
-                            var buffer = new byte[fs.Length];
-                            fs.Read(buffer, 0, (int)fs.Length);
-                            string json = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                            //var buffer = new byte[fs.Length];
+                            //fs.Read(buffer, 0, (int)fs.Length);
+                            //string json = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
 
-                            FlightDataModel[] config = new FlightDataModel[10]; // (FlightDataModel[])JsonConvert.DeserializeObject(json, typeof(FlightDataModel[]));
+                            FlightDataModel[] config = (FlightDataModel[])JsonConvert.DeserializeObject(fs, typeof(FlightDataModel[]));
                             return config;
 
                         }
