@@ -1,6 +1,4 @@
-﻿using nanoFramework.Json;
-using Windows.Storage;
-using System.IO;
+﻿using System.IO;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
@@ -11,7 +9,7 @@ namespace TechDays2021
 {
     public class FlightDataStore
     {
-        private StorageFolder flightDataFolder { get; set; }
+        //private StorageFolder flightDataFolder { get; set; }
         private string flightDataFilePath { get; set; }
         static SDCard mycard;
 
@@ -22,16 +20,11 @@ namespace TechDays2021
             flightDataFilePath = path;
         }
 
-        public bool ClearConfig()
-        {
-            return WriteConfig(new FlightDataModel());
-        }
-
         public FlightDataModel[] GetConfig()
         {
             //D:\\FlightData.json
 
-            mycard = new SDCard(new SDCard.SDCardMmcParameters { dataWidth = SDCard.SDDataWidth._4_bit, enableCardDetectPin = false, cardDetectPin = 21 });
+            mycard = new SDCard(new SDCard.SDCardMmcParameters { dataWidth = SDCard.SDDataWidth._4_bit, enableCardDetectPin = false });
 
             Thread.Sleep(3000);     // Wait until the Storage Devices are mounted (SD Card & USB). This usally takes some seconds after startup.
 
@@ -46,7 +39,7 @@ namespace TechDays2021
                 Debug.WriteLine($"IsMounted {mycard.IsMounted}");
             }
 
-            
+
 
             if (string.IsNullOrEmpty(flightDataFilePath)) //Generally only "should" happen on initialization.
             {
@@ -81,7 +74,7 @@ namespace TechDays2021
                             fs.Read(buffer, 0, (int)fs.Length);
                             string json = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
 
-                            FlightDataModel[] config = (FlightDataModel[])JsonConvert.DeserializeObject(json, typeof(FlightDataModel[]));
+                            FlightDataModel[] config = new FlightDataModel[10]; // (FlightDataModel[])JsonConvert.DeserializeObject(json, typeof(FlightDataModel[]));
                             return config;
 
                         }
@@ -90,27 +83,6 @@ namespace TechDays2021
                 }
             }
             return null;
-        }
-                    //Open the File.
-            //        FileStream fs = new FileStream(flightDataFilePath, FileMode.Open, FileAccess.Read);
-            //byte[] fileContent = new byte[fs.Length];
-            //fs.Read(fileContent, 0, (int)fs.Length);
-
-            //string json = System.Text.Encoding.UTF8.GetString(fileContent, 0, 0);
-
-        public bool WriteConfig(FlightDataModel config)
-        {
-            try
-            {
-                var configJson = JsonConvert.SerializeObject(config);
-                StorageFile configFile = flightDataFolder.CreateFile("FlightData.json", CreationCollisionOption.ReplaceExisting);
-                FileIO.WriteText(configFile, configJson);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

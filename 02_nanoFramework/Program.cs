@@ -1,6 +1,5 @@
 using Amqp;
 using nanoFramework.Networking;
-using nanoFramework.Json;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -16,8 +15,8 @@ namespace TechDays2021
         // Join our lively Discord community: https://discord.gg/gCyBu8T
 
         // Set-up Wifi Credentials so we can connect to the web.
-        private static string Ssid = "";
-        private static string WifiPassword = "";
+        private static string Ssid = "CAS-Wifi";
+        private static string WifiPassword = "JacobAgius0406!";
 
         // Azure IoTHub settings
         const string _hubName = "TechDays2021";
@@ -98,7 +97,7 @@ namespace TechDays2021
                 while (true)
                 {
                     // Serialize the Current FlightDataModel into JSON to send as the mssage payload.
-                    string messagePayload = JsonConvert.SerializeObject(FlightDataModel[counter]);
+                    string messagePayload = ""; // JsonConvert.SerializeObject(FlightDataModel[counter]);
 
                     // compose message
                     Message message = new Message(Encoding.UTF8.GetBytes(messagePayload));
