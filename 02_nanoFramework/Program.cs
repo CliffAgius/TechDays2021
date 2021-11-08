@@ -1,7 +1,11 @@
 using Amqp;
+using nanoFramework.Azure.Devices.Client;
+using nanoFramework.Azure.Devices.Provisioning.Client;
 using nanoFramework.Networking;
+using nanoFramework.Runtime.Native;
 using System;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using AmqpTrace = Amqp.Trace;
@@ -19,6 +23,14 @@ namespace TechDays2021
         const string _deviceId = "TechDays2021-Device1";    // <- Give your device a meaningful name...
         const string _sasToken = "SharedAccessSignature sr=TechDays2021.azure-devices.net%2Fdevices%2FTechDays2021-Device1&sig=YnPUPjpCBUlPO1rqBFzSn2cOUhOEn%2FF1l0YlKtRD%2FZA%3D&se=1635172297";  // <- See blog post on how to obtain your SAS token.
 
+        //***  FOR DPS ***
+        public static string RegistrationID = "nanoFramework-01";
+        const string DpsAddress = "global.azure-devices-provisioning.net";
+        const string IdScope = "0ne00426F38";
+        const string SasKey = "2QST571ueS3VBUP3SeRhtGLzbMGKt2fenvqmAbbbfgvMnLL3G6L7ZOhdhs8HE8MbUCM0EAwFq2rzTjcN5raeDQ==";
+
+
+
         // AMQP Tracing.
         static bool TraceOn = false;
 
@@ -29,7 +41,6 @@ namespace TechDays2021
         public static void Main()
         {
             // Connect the ESP32 Device to the Wifi and check the connection...
-
             Debug.WriteLine("Waiting for network up and IP address...");
 
             if (!NetworkHelper.IsConfigurationStored())
@@ -72,11 +83,61 @@ namespace TechDays2021
             }
             else
             {
+                //Update the RegistrationID with the Flight CallSign before we connect to DPS.
+                RegistrationID = FlightDataModel[0].callSign;
+
+                // Connect to DPS...
+                ConnectWithDPS();
+
                 // launch worker thread where the real work is done!
                 new Thread(WorkerThread).Start();
             }
 
             Thread.Sleep(Timeout.Infinite);
+        }
+
+        private static bool ConnectWithDPS()
+        {
+            var provisioning = ProvisioningDeviceClient.Create(DpsAddress, IdScope, RegistrationID, SasKey);
+            var myDevice = provisioning.Register(new CancellationTokenSource(60000).Token);
+
+            if (myDevice.Status != ProvisioningRegistrationStatusType.Assigned)
+            {
+                Debug.WriteLine($"Registration is not assigned: {myDevice.Status}, error message: {myDevice.ErrorMessage}");
+                return false;
+            }
+
+            Debug.WriteLine($"Device successfully assigned:");
+            Debug.WriteLine($"  Assigned Hub: {myDevice.AssignedHub}");
+            Debug.WriteLine($"  Created time: {myDevice.CreatedDateTimeUtc}");
+            Debug.WriteLine($"  Device ID: {myDevice.DeviceId}");
+            Debug.WriteLine($"  Error code: {myDevice.ErrorCode}");
+            Debug.WriteLine($"  Error message: {myDevice.ErrorMessage}");
+            Debug.WriteLine($"  ETAG: {myDevice.Etag}");
+            Debug.WriteLine($"  Generation ID: {myDevice.GenerationId}");
+            Debug.WriteLine($"  Last update: {myDevice.LastUpdatedDateTimeUtc}");
+            Debug.WriteLine($"  Status: {myDevice.Status}");
+            Debug.WriteLine($"  Sub Status: {myDevice.Substatus}");
+
+            // You can then create the device
+            var device = new DeviceClient(myDevice.AssignedHub, myDevice.DeviceId, SasKey, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtMostOnce);
+            // Open it and continue like for the previous sections
+            var res = device.Open();
+            if (!res)
+            {
+                Debug.WriteLine($"can't open the device");
+                return false;
+            }
+
+            var twin = device.GetTwin(new CancellationTokenSource(15000).Token);
+
+            if (twin != null)
+            {
+                Debug.WriteLine($"Got twins");
+                Debug.WriteLine($"  {twin.Properties.Desired.ToJson()}");
+            }
+
+            return true;
         }
 
         private static void WorkerThread()
