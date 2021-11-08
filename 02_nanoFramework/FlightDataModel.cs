@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using nanoFramework.Json;
-
-namespace TechDays2021
+﻿namespace TechDays2021
 {
     public class FlightDataModel
     {
