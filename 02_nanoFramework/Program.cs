@@ -18,7 +18,7 @@ namespace TechDays2021
         const string _hubName = "TechDays2021";
         const string _deviceId = "TechDays2021-Device1";    // <- Give your device a meaningful name...
         const string _sasToken = "SharedAccessSignature sr=TechDays2021.azure-devices.net%2Fdevices%2FTechDays2021-Device1&sig=YnPUPjpCBUlPO1rqBFzSn2cOUhOEn%2FF1l0YlKtRD%2FZA%3D&se=1635172297";  // <- See blog post on how to obtain your SAS token.
-        
+
         // AMQP Tracing.
         static bool TraceOn = false;
 
@@ -64,8 +64,8 @@ namespace TechDays2021
 
             // Get the JSON Data from the SD card File...
             FlightDataStore flightDataStore = new();
-            FlightDataModel = flightDataStore.GetConfig();
-            
+            FlightDataModel = flightDataStore.GetFlightData();
+
             if (FlightDataModel == null || FlightDataModel.Length == 0)
             {
                 Debug.WriteLine($"-- JSON Data missing... --");
