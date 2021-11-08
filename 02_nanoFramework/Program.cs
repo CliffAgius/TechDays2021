@@ -14,10 +14,6 @@ namespace TechDays2021
         // Check our documentation online: https://docs.nanoframework.net/
         // Join our lively Discord community: https://discord.gg/gCyBu8T
 
-        // Set-up Wifi Credentials so we can connect to the web.
-        private static string Ssid = "CAS-Wifi";
-        private static string WifiPassword = "JacobAgius0406!";
-
         // Azure IoTHub settings
         const string _hubName = "TechDays2021";
         const string _deviceId = "TechDays2021-Device1";    // <- Give your device a meaningful name...
@@ -35,23 +31,28 @@ namespace TechDays2021
             // Connect the ESP32 Device to the Wifi and check the connection...
 
             Debug.WriteLine("Waiting for network up and IP address...");
-            bool success = false;
-            CancellationTokenSource cs = new(60000);
 
-            success = NetworkHelper.ConnectWifiDhcp(Ssid, WifiPassword, setDateTime: true, token: cs.Token);
-
-            if (!success)
+            if (!NetworkHelper.IsConfigurationStored())
             {
-                Debug.WriteLine($"Can't get a proper IP address and DateTime, error: {NetworkHelper.ConnectionError.Error}.");
-                if (NetworkHelper.ConnectionError.Exception != null)
-                {
-                    Debug.WriteLine($"Exception: {NetworkHelper.ConnectionError.Exception}");
-                }
-                return;
+                Debug.WriteLine("No configuration stored in the device");
             }
             else
             {
-                Debug.WriteLine($"YAY! Connected to Wifi - {Ssid}");
+                // The wifi credentials are already stored on the device
+                // Give 60 seconds to the wifi join to happen
+                CancellationTokenSource cs = new(60000);
+                var success = NetworkHelper.ReconnectWifi(setDateTime: true, token: cs.Token);
+                if (!success)
+                {
+                    // Something went wrong, you can get details with the ConnectionError property:
+                    Debug.WriteLine($"Can't connect to the network, error: {NetworkHelper.ConnectionError.Error}");
+                    if (NetworkHelper.ConnectionError.Exception != null)
+                    {
+                        Debug.WriteLine($"ex: { NetworkHelper.ConnectionError.Exception}");
+                    }
+                }
+                // Otherwise, you are connected and have a valid IP and date
+                Debug.WriteLine($"YAY! Connected to Wifi...");
             }
 
             // Setup AMQP

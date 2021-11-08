@@ -18,7 +18,6 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="FlightData.cs" />
     <Compile Include="FlightDataModel.cs" />
     <Compile Include="FlightDataStore.cs" />
     <Compile Include="Program.cs" />
