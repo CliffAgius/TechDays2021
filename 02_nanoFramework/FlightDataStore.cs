@@ -39,8 +39,6 @@ namespace TechDays2021
                 Debug.WriteLine($"IsMounted {mycard.IsMounted}");
             }
 
-
-
             if (string.IsNullOrEmpty(flightDataFilePath)) //Generally only "should" happen on initialization.
             {
                 // list all removable drives
