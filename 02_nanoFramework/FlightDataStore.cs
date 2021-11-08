@@ -13,15 +13,16 @@ namespace TechDays2021
         //private StorageFolder flightDataFolder { get; set; }
         private string flightDataFilePath { get; set; }
         static SDCard mycard;
-
+        static int fileCount = 1;
 
         public FlightDataStore(string path = "")
         {
             //Store the path value.
             flightDataFilePath = path;
+            InitSDCard();
         }
 
-        public FlightDataModel[] GetConfig()
+        public void InitSDCard()
         {
             //D:\\FlightData.json
 
@@ -52,21 +53,27 @@ namespace TechDays2021
                 //TODO: techincally we should handle more than one drive... but for the moment, we are just going to handle the first one!
                 flightDataFilePath = "D:\\"; //removableDrives[0];
             }
+        }
 
+        public FlightDataModel[] GetFlightData()
+        {
             if (!string.IsNullOrEmpty(flightDataFilePath))
             {
                 Debug.WriteLine("Reading storage...");
 
                 // get files on the root of the 1st removable device
-                var filesInDevice = Directory.GetFiles(flightDataFilePath);
+                //var filesInDevice = Directory.GetFiles(flightDataFilePath);
+
+                string file = $"{flightDataFilePath}\\{fileCount++}.json";
 
                 //TODO: in certain cases it would be helpful to support File.ReadAllText -- https://zetcode.com/csharp/file/ (Helper lib??)
-                foreach (var file in filesInDevice)
+                //foreach (var file in filesInDevice)
+
+                if (File.Exists(file))
                 {
                     Debug.WriteLine($"Found file: {file}");
-                    //TODO: we should really check if certs are in the mcu flash before retreiving them from the filesystem (SD).
-                    if (file.Contains("2.json"))
-                    {
+                    //if (file.Contains("2.json"))
+                    //{
                         using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read))
                         {
                             //var buffer = new byte[fs.Length];
@@ -78,10 +85,11 @@ namespace TechDays2021
 
                         }
                         //Should load into secure storage (somewhere) and delete file on removable device?
-                    }
+                    //}
                 }
             }
             return null;
         }
+
     }
 }
