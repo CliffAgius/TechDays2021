@@ -5,7 +5,7 @@ const Client = require('azure-iot-device').Client;
 const Message = require('azure-iot-device').Message;
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
 
-const connectionString = 'ENTER DEVICE CONNECTION STRING';
+const connectionString = 'ENTER DEVICE CONNECTION STRING HERE';
 const LEDPin = 4;
 
 var sendingMessage = false;
@@ -5736,6 +5736,8 @@ function sendMessage() {
 
     getMessage(function (content) {
         var message = new Message(content);
+        message.contentType = "application/json";
+        message.contentEncoding = "utf-8";
         console.log('Sending message: ' + content);
         client.sendEvent(message, function (err) {
             if (err) {
