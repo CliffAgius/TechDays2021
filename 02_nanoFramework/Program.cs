@@ -6,6 +6,7 @@ using nanoFramework.Runtime.Native;
 using System;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using AmqpTrace = Amqp.Trace;
@@ -27,7 +28,7 @@ namespace TechDays2021
         public static string RegistrationID = "nanoFramework-01";
         const string DpsAddress = "global.azure-devices-provisioning.net";
         const string IdScope = "0ne00426F38";
-        const string SasKey = "2QST571ueS3VBUP3SeRhtGLzbMGKt2fenvqmAbbbfgvMnLL3G6L7ZOhdhs8HE8MbUCM0EAwFq2rzTjcN5raeDQ==";
+        const string SasKey = "266pldCRiFGxSXkt6QcCPkqfCf8FMFIvD6yqpi+6Jy0=";
 
 
 
@@ -98,7 +99,8 @@ namespace TechDays2021
 
         private static bool ConnectWithDPS()
         {
-            var provisioning = ProvisioningDeviceClient.Create(DpsAddress, IdScope, RegistrationID, SasKey);
+            X509Certificate azureCA = new X509Certificate(Resources.GetBytes(Resources.BinaryResources.BaltimoreRootCA_crt));
+            var provisioning = ProvisioningDeviceClient.Create(DpsAddress, IdScope, RegistrationID, SasKey, azureCA);
             var myDevice = provisioning.Register(new CancellationTokenSource(60000).Token);
 
             if (myDevice.Status != ProvisioningRegistrationStatusType.Assigned)
@@ -120,7 +122,7 @@ namespace TechDays2021
             Debug.WriteLine($"  Sub Status: {myDevice.Substatus}");
 
             // You can then create the device
-            var device = new DeviceClient(myDevice.AssignedHub, myDevice.DeviceId, SasKey, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtMostOnce);
+            var device = new DeviceClient(myDevice.AssignedHub, myDevice.DeviceId, SasKey, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtMostOnce, azureCA);
             // Open it and continue like for the previous sections
             var res = device.Open();
             if (!res)
