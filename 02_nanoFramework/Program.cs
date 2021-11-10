@@ -3,6 +3,7 @@ using nanoFramework.Azure.Devices.Provisioning.Client;
 using nanoFramework.Azure.Devices.Shared;
 using nanoFramework.Json;
 using nanoFramework.Networking;
+using nanoFramework.Runtime.Native;
 using System;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
