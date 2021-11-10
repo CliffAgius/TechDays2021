@@ -5736,7 +5736,7 @@ function getMessage(cb) {
         speed: data.speed,
         direction: data.direction,
         directionString: degToCompass(data.direction),
-        outsideAirTemp:data.outsideAirTemp,
+        outsideAirTemp: data.outsideAirTemp,
         windDirection: data.windDirection,
         windDirectionString: degToCompass(data.windDirection),
         windSpeed: data.windSpeed
