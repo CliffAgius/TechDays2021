@@ -12,20 +12,23 @@ namespace TechDays2021
 {
     public class Program
     {
-        // Browse our samples repository: https://github.com/nanoframework/samples
-        // Check our documentation online: https://docs.nanoframework.net/
-        // Join our lively Discord community: https://discord.gg/gCyBu8T.
+        // *** Notes from the nanoFrameWork Team ***
+        // *  Browse our samples repository: https://github.com/nanoframework/samples
+        // *  Check our documentation online: https://docs.nanoframework.net/
+        // *  Join our lively Discord community: https://discord.gg/gCyBu8T.
+        // *****************************************
 
-        // Azure DPS/IoTHub settings
+        // Azure DPS/IoTHub settings...
         public static string RegistrationID = "nanoFramework-01";   //TempName will be replaced by the Flight number from the JSON packets.
         const string DpsAddress = "global.azure-devices-provisioning.net";
         const string IdScope = "0ne00426F38";
         const string SasKey = "266pldCRiFGxSXkt6QcCPkqfCf8FMFIvD6yqpi+6Jy0=";
 
+        // Device details...
         public static DeviceClient DeviceClient;
         public static Twin DeviceTwin;
 
-        // Model Data
+        // Model Data...
         private static FlightDataStore flightDataStore = new();
         private static FlightDataModel[] FlightDataModel;
         private static int counter = 0;
@@ -36,6 +39,7 @@ namespace TechDays2021
             // Connect the ESP32 Device to the Wifi and check the connection...
             Debug.WriteLine("Waiting for network up and IP address...");
 
+            // Check if there is any stored Wifi COnfiguration...
             if (!NetworkHelper.IsConfigurationStored())
             {
                 Debug.WriteLine("No configuration stored in the device");
@@ -81,21 +85,27 @@ namespace TechDays2021
                 new Thread(WorkerThread).Start();
             }
 
+            // Should never reach here but it's to stop the device crashing if we reach the end of the program...
             Thread.Sleep(Timeout.Infinite);
         }
 
         private static bool ConnectWithDPS()
         {
+            // Grab the X509 Azure connection Cert from the resources folder...
             X509Certificate azureCA = new X509Certificate(Resources.GetBytes(Resources.BinaryResources.BaltimoreRootCA_crt));
+            // Create the Provisioning client ready for the device - Ensure your SasKey derived Device ID and RegistartionID match otherwise this line will cause an exception...
             var provisioning = ProvisioningDeviceClient.Create(DpsAddress, IdScope, RegistrationID, SasKey, azureCA);
+            // Register the device with DPS and thus the assigned IoTHub...
             var myDeviceRegistration = provisioning.Register(new CancellationTokenSource(60000).Token);
 
+            //Check that the registration worked and we have a valid IoTHub assigned...
             if (myDeviceRegistration.Status != ProvisioningRegistrationStatusType.Assigned)
             {
                 Debug.WriteLine($"Registration is not assigned: {myDeviceRegistration.Status}, error message: {myDeviceRegistration.ErrorMessage}");
                 throw new OperationCanceledException();
             }
 
+            // Write out all the IoTHub details that were assigned by DPS...
             Debug.WriteLine($"Device successfully assigned:");
             Debug.WriteLine($"  Assigned Hub: {myDeviceRegistration.AssignedHub}");
             Debug.WriteLine($"  Created time: {myDeviceRegistration.CreatedDateTimeUtc}");
@@ -108,9 +118,9 @@ namespace TechDays2021
             Debug.WriteLine($"  Status: {myDeviceRegistration.Status}");
             Debug.WriteLine($"  Sub Status: {myDeviceRegistration.Substatus}");
 
-            // You can then create the device
+            // Now we have a valid IoTHub Connection create the device on the IoTHub...
             DeviceClient = new DeviceClient(myDeviceRegistration.AssignedHub, myDeviceRegistration.DeviceId, SasKey, nanoFramework.M2Mqtt.Messages.MqttQoSLevel.AtMostOnce, azureCA);
-            // Open it and continue like for the previous sections
+            // Open the IoTHub connection and check it has worked...
             if (!DeviceClient.Open())
             {
                 Debug.WriteLine($"can't open the device");
@@ -118,10 +128,11 @@ namespace TechDays2021
                 return false;
             }
 
+            // Grab the Device Twins that have been set by the DPS and IoTHub for this device...
             DeviceTwin = DeviceClient.GetTwin(new CancellationTokenSource(15000).Token);
-
             Debug.WriteLine($"Twin DeviceID: {DeviceTwin.DeviceId}, #desired: {DeviceTwin.Properties.Desired.Count}, #reported: {DeviceTwin.Properties.Reported.Count}");
 
+            // Update the Device Twins with information for this Device...
             TwinCollection reported = new TwinCollection();
             reported.Add("firmware", "nanoFramework");
             reported.Add("sdk", "1.7.1-preview.1102");
@@ -149,7 +160,7 @@ namespace TechDays2021
                         switch (Warning)
                         {
                             case (int)Emergency.AltitudeError:
-                                FlightDataModel[counter].altitude = 50000;
+                                FlightDataModel[counter].altitude = 40000;
                                 break;
                             case (int)Emergency.VerticalSpeedDive:
                                 FlightDataModel[counter].vSFPM = -6000;
@@ -159,7 +170,7 @@ namespace TechDays2021
                                 break;
                             default:
                                 break;
-                        }                        
+                        }
                     }
 
                     // Serialize the Current FlightDataModel into JSON to send as the mssage payload...
@@ -170,7 +181,7 @@ namespace TechDays2021
                     // Send message to IoTHub...
                     DeviceClient.SendMessage(messagePayload, new CancellationTokenSource(2000).Token);
 
-                    // data sent
+                    // Data sent to log what was sent...
                     Debug.WriteLine($"Message Payload - {messagePayload}");
                     Debug.WriteLine($"*** DATA SENT - Next packet will be sent in {FlightDataModel[counter].secondsNextReport} seconds ***");
 
@@ -178,6 +189,7 @@ namespace TechDays2021
                     Thread.Sleep(TimeSpan.FromSeconds(FlightDataModel[counter].secondsNextReport));
                     counter++;
 
+                    // Check if we need to grab the next JSON Chunk from the SD card.
                     if (counter >= FlightDataModel.Length)
                     {
                         // All the current data chunk has been used grab the next...
@@ -187,6 +199,7 @@ namespace TechDays2021
             }
             catch (Exception ex)
             {
+                // Oh Dear bad things happened...
                 Debug.WriteLine($"-- D2C Error - {ex.Message} --");
             }
         }
@@ -196,6 +209,7 @@ namespace TechDays2021
         {
             Debug.WriteLine($"*** C2D Message arrived: {e.Message} ***");
 
+            // Switch on the message sent in so that we know what data to fake as part of the warning...
             switch (e.Message)
             {
                 case "AltitudeError":
@@ -208,12 +222,14 @@ namespace TechDays2021
                     Warning = (int)Emergency.IceCrystalIcingWarning;
                     break;
                 default:
+                    Warning = (int)Emergency.None;
                     break;
             }
         }
 
         private static void DeviceClient_TwinUpated(object sender, nanoFramework.Azure.Devices.Shared.TwinUpdateEventArgs e)
         {
+            // Device Twins have been updated we are not doing anything with them but you can in here, all we are doing is logging them out to the console...
             if (e.Twin != null)
             {
                 Debug.WriteLine($"Got twins");
@@ -221,10 +237,11 @@ namespace TechDays2021
             }
         }
 
-        private static string ConvertDegreesToCompass(double degrees){
-            
+        private static string ConvertDegreesToCompass(double degrees)
+        {
+            // For the PowerBI it can't convert the numerical value into a pointer so we are showing a String value of the headings and this snippet does that conversion...
             var val = (int)Math.Floor((degrees / 22.5) + 0.5);
-            var arr = new string[] {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
+            var arr = new string[] { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };
 
             return arr[(val % 16)];
         }
@@ -233,9 +250,11 @@ namespace TechDays2021
         enum Emergency
         {
             None,
-            AltitudeError,          // Shift the Aircraft to 50,000ft...
+            AltitudeError,          // Shift the Aircraft to an out of limits Altitude...
             VerticalSpeedDive,      // Make the Aircraft dive at 6000ft per minute as if it was in an emergency decent...
             IceCrystalIcingWarning  // Make the Outside Air Temp read 0 degrees which at Cruise Altitude is an indication of Ice Crystal Icing and a real danger.
+
+            // Add your own for fun in here...
         }
     }
 }
