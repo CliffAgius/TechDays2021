@@ -31,7 +31,7 @@ namespace TechDays2021
         private static int counter = 0;
         private static int Warning = 0;
 
-        public static void Main()
+        public void Main()
         {
             // Connect the ESP32 Device to the Wifi and check the connection...
             Debug.WriteLine("Waiting for network up and IP address...");
@@ -87,7 +87,7 @@ namespace TechDays2021
             Thread.Sleep(Timeout.Infinite);
         }
 
-        private static bool ConnectWithDPS()
+        private bool ConnectWithDPS()
         {
             X509Certificate azureCA = new X509Certificate(Resources.GetBytes(Resources.BinaryResources.BaltimoreRootCA_crt));
             var provisioning = ProvisioningDeviceClient.Create(DpsAddress, IdScope, RegistrationID, SasKey, azureCA);
@@ -133,12 +133,12 @@ namespace TechDays2021
             return true;
         }
 
-        public static string MethodCallbackStart(int rid, string payload)
+        public string MethodCallbackStart(int rid, string payload)
         {
             return "Flight is closed and requesting pushback...";
         }
 
-        private static void WorkerThread()
+        private void WorkerThread()
         {
             try
             {
@@ -166,8 +166,9 @@ namespace TechDays2021
                     }
 
                     // Serialize the Current FlightDataModel into JSON to send as the mssage payload...
+                    FlightDataModel[counter].directionString = ConvertDegreesToCompass(FlightDataModel[counter].direction);
+                    FlightDataModel[counter].windDirectionString = ConvertDegreesToCompass(FlightDataModel[counter].windDirection);
                     messagePayload = JsonConvert.SerializeObject(FlightDataModel[counter]);
-
 
                     // Send message to IoTHub...
                     DeviceClient.SendMessage(messagePayload, new CancellationTokenSource(2000).Token);
@@ -193,7 +194,7 @@ namespace TechDays2021
         }
 
         // Cloud to Device (C2D) message has been recieved and needs to be processed...
-        private static void DeviceClient_CloudToDeviceMessage(object sender, CloudToDeviceMessageEventArgs e)
+        private void DeviceClient_CloudToDeviceMessage(object sender, CloudToDeviceMessageEventArgs e)
         {
             Debug.WriteLine($"*** C2D Message arrived: {e.Message} ***");
 
@@ -213,7 +214,7 @@ namespace TechDays2021
             }
         }
 
-        private static void DeviceClient_TwinUpated(object sender, nanoFramework.Azure.Devices.Shared.TwinUpdateEventArgs e)
+        private void DeviceClient_TwinUpated(object sender, nanoFramework.Azure.Devices.Shared.TwinUpdateEventArgs e)
         {
             if (e.Twin != null)
             {
@@ -231,15 +232,12 @@ namespace TechDays2021
             IceCrystalIcingWarning  // Make the Outside Air Temp read 0 degrees which at Cruise Altitude is an indication of Ice Crystal Icing and a real danger.
         }
 
-        private string ConvertDegreesToCompass(double value){
+        private string ConvertDegreesToCompass(double degrees){
             
-            var val = Math.floor((num / 22.5) + 0.5);
+            var val = (int)Math.Floor((degrees / 22.5) + 0.5);
             var arr = new string[] {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
 
             return arr[(val % 16)];
-
-            //directionString
-            //windDirectionString
         }
     }
 }
