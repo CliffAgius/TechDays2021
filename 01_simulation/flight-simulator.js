@@ -34,7 +34,7 @@ var flightData = [
         "secondsNextReport": 39,
         "speed": 0,
         "direction": 270,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -49,7 +49,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 2,
         "direction": 270,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -64,7 +64,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 2,
         "direction": 270,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -79,7 +79,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 2,
         "direction": 270,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -94,7 +94,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 2,
         "direction": 275,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -109,7 +109,7 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 2,
         "direction": 300,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -124,7 +124,7 @@ var flightData = [
         "secondsNextReport": 116,
         "speed": 2,
         "direction": 348,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -139,7 +139,7 @@ var flightData = [
         "secondsNextReport": 50,
         "speed": 0,
         "direction": 70,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -154,7 +154,7 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 0,
         "direction": 180,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -169,7 +169,7 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 4,
         "direction": 7,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -184,7 +184,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 6,
         "direction": 7,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -199,7 +199,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 8,
         "direction": 356,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -214,7 +214,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 9,
         "direction": 357,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -229,7 +229,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 11,
         "direction": 357,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -244,7 +244,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 12,
         "direction": 358,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -259,7 +259,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 13,
         "direction": 1,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -274,7 +274,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 13,
         "direction": 359,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -289,7 +289,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 10,
         "direction": 4,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -304,7 +304,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 8,
         "direction": 22,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -319,7 +319,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 9,
         "direction": 50,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -334,7 +334,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 10,
         "direction": 73,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -349,7 +349,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 11,
         "direction": 87,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -364,7 +364,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 12,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -379,7 +379,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 12,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -394,7 +394,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 13,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -409,7 +409,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 14,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -424,7 +424,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 16,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -439,7 +439,7 @@ var flightData = [
         "secondsNextReport": 16,
         "speed": 17,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -454,7 +454,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 19,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -469,7 +469,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 20,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -484,7 +484,7 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 22,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -499,7 +499,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 23,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -514,7 +514,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 24,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -529,7 +529,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 25,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -544,7 +544,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 26,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -559,7 +559,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 26,
         "direction": 84,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -574,7 +574,7 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 26,
         "direction": 84,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -589,7 +589,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 27,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -604,7 +604,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 27,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -619,7 +619,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 29,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -634,7 +634,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 30,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -649,7 +649,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 23,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -664,7 +664,7 @@ var flightData = [
         "secondsNextReport": 25,
         "speed": 14,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -679,7 +679,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 15,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -694,7 +694,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 15,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -709,7 +709,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 16,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -724,7 +724,7 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 17,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -739,7 +739,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 19,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -754,7 +754,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 20,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -769,7 +769,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 21,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -784,7 +784,7 @@ var flightData = [
         "secondsNextReport": 14,
         "speed": 22,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -799,7 +799,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 24,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -814,7 +814,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 25,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -829,7 +829,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 20,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -844,7 +844,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 15,
         "direction": 95,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -859,7 +859,7 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 17,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -874,7 +874,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 19,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -889,7 +889,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 20,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -904,7 +904,7 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 18,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -919,7 +919,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 10,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -934,7 +934,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 8,
         "direction": 90,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -949,7 +949,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 7,
         "direction": 84,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -964,7 +964,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 5,
         "direction": 70,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -979,7 +979,7 @@ var flightData = [
         "secondsNextReport": 69,
         "speed": 1,
         "direction": 42,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -994,7 +994,7 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 4,
         "direction": 45,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1009,7 +1009,7 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 6,
         "direction": 47,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1024,7 +1024,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 8,
         "direction": 53,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1039,7 +1039,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 8,
         "direction": 56,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1054,7 +1054,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 10,
         "direction": 50,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1069,7 +1069,7 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 10,
         "direction": 2,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1084,7 +1084,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 6,
         "direction": 306,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1099,7 +1099,7 @@ var flightData = [
         "secondsNextReport": 123,
         "speed": 6,
         "direction": 275,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1114,7 +1114,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 45,
         "direction": 267,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1129,7 +1129,7 @@ var flightData = [
         "secondsNextReport": 25,
         "speed": 80,
         "direction": 270,
-        "outsideAirTemp": 15.00,
+        "outsideAirTemp": 15.01,
         "windDirection": 250,
         "windSpeed": 6
     },
@@ -1354,7 +1354,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 189,
         "direction": 222,
-        "outsideAirTemp": 10.00,
+        "outsideAirTemp": 10.01,
         "windDirection": 265,
         "windSpeed": 15
     },
@@ -1369,7 +1369,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 189,
         "direction": 216,
-        "outsideAirTemp": 9.80,
+        "outsideAirTemp": 9.81,
         "windDirection": 265,
         "windSpeed": 15
     },
@@ -1384,7 +1384,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 189,
         "direction": 225,
-        "outsideAirTemp": 9.70,
+        "outsideAirTemp": 9.71,
         "windDirection": 265,
         "windSpeed": 15
     },
@@ -1414,7 +1414,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 192,
         "direction": 205,
-        "outsideAirTemp": 9.50,
+        "outsideAirTemp": 9.51,
         "windDirection": 265,
         "windSpeed": 15
     },
@@ -1459,7 +1459,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 193,
         "direction": 192,
-        "outSideAirTemp": 9.00,
+        "outsideAirTemp": 9.01,
         "windDirection": 265,
         "windSpeed": 15
     },
@@ -1474,7 +1474,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 192,
         "direction": 188,
-        "outsideAirTemp": 8.80,
+        "outsideAirTemp": 8.81,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1519,7 +1519,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 190,
         "direction": 184,
-        "outsideAirTemp": 7.90,
+        "outsideAirTemp": 7.91,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1534,7 +1534,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 190,
         "direction": 185,
-        "outsideAirTemp": 7.60,
+        "outsideAirTemp": 7.61,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1564,7 +1564,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 194,
         "direction": 178,
-        "outsideAirTemp": 7.40,
+        "outsideAirTemp": 7.41,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1594,7 +1594,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 205,
         "direction": 163,
-        "outsideAirTemp": 6.90,
+        "outsideAirTemp": 6.91,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1624,7 +1624,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 224,
         "direction": 142,
-        "outsideAirTemp": 6.50,
+        "outsideAirTemp": 6.51,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1639,7 +1639,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 224,
         "direction": 142,
-        "outsideAirTemp": 6.50,
+        "outsideAirTemp": 6.51,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1669,7 +1669,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 239,
         "direction": 136,
-        "outsideAirTemp": 6.20,
+        "outsideAirTemp": 6.21,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1699,7 +1699,7 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 252,
         "direction": 134,
-        "outsideAirTemp": 5.70,
+        "outsideAirTemp": 5.71,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1744,7 +1744,7 @@ var flightData = [
         "secondsNextReport": 14,
         "speed": 273,
         "direction": 136,
-        "outsideAirTemp": 3.70,
+        "outsideAirTemp": 3.71,
         "windDirection": 270,
         "windSpeed": 17
     },
@@ -1774,7 +1774,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 273,
         "direction": 136,
-        "outsideAirTemp": 2.80,
+        "outsideAirTemp": 2.81,
         "windDirection": 300,
         "windSpeed": 15
     },
@@ -1819,7 +1819,7 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 296,
         "direction": 99,
-        "outsideAirTemp": 2.80,
+        "outsideAirTemp": 2.81,
         "windDirection": 300,
         "windSpeed": 15
     },
@@ -1879,7 +1879,7 @@ var flightData = [
         "secondsNextReport": 22,
         "speed": 298,
         "direction": 90,
-        "outsideAirTemp": 2.80,
+        "outsideAirTemp": 2.81,
         "windDirection": 300,
         "windSpeed": 12
     },
@@ -1909,7 +1909,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 298,
         "direction": 90,
-        "outsideAirTemp": 2.80,
+        "outsideAirTemp": 2.81,
         "windDirection": 300,
         "windSpeed": 12
     },
@@ -1954,7 +1954,7 @@ var flightData = [
         "secondsNextReport": 14,
         "speed": 296,
         "direction": 90,
-        "outsideAirTemp": 2.70,
+        "outsideAirTemp": 2.71,
         "windDirection": 300,
         "windSpeed": 12
     },
@@ -1984,7 +1984,7 @@ var flightData = [
         "secondsNextReport": 19,
         "speed": 302,
         "direction": 90,
-        "outsideAirTemp": 0.20,
+        "outsideAirTemp": 0.21,
         "windDirection": 300,
         "windSpeed": 10
     },
@@ -1999,7 +1999,7 @@ var flightData = [
         "secondsNextReport": 25,
         "speed": 302,
         "direction": 90,
-        "outsideAirTemp": -1.90,
+        "outsideAirTemp": -1.91,
         "windDirection": 300,
         "windSpeed": 10
     },
@@ -2029,7 +2029,7 @@ var flightData = [
         "secondsNextReport": 21,
         "speed": 307,
         "direction": 90,
-        "outsideAirTemp": -5.60,
+        "outsideAirTemp": -5.61,
         "windDirection": 300,
         "windSpeed": 10
     },
@@ -2059,7 +2059,7 @@ var flightData = [
         "secondsNextReport": 23,
         "speed": 337,
         "direction": 90,
-        "outsideAirTemp": -6.80,
+        "outsideAirTemp": -6.81,
         "windDirection": 310,
         "windSpeed": 12
     },
@@ -2074,7 +2074,7 @@ var flightData = [
         "secondsNextReport": 23,
         "speed": 370,
         "direction": 90,
-        "outsideAirTemp": -7.40,
+        "outsideAirTemp": -7.41,
         "windDirection": 310,
         "windSpeed": 12
     },
@@ -2089,7 +2089,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 379,
         "direction": 95,
-        "outsideAirTemp": -8.90,
+        "outsideAirTemp": -8.91,
         "windDirection": 310,
         "windSpeed": 15
     },
@@ -2104,7 +2104,7 @@ var flightData = [
         "secondsNextReport": 30,
         "speed": 380,
         "direction": 95,
-        "outSideAirTemp": 10.00,
+        "outsideAirTemp": 10.01,
         "windDirection": 310,
         "windSpeed": 15
     },
@@ -2179,7 +2179,7 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 427,
         "direction": 95,
-        "outsideAirTemp": -21.80,
+        "outsideAirTemp": -21.81,
         "windDirection": 330,
         "windSpeed": 22
     },
@@ -2209,7 +2209,7 @@ var flightData = [
         "secondsNextReport": 60,
         "speed": 449,
         "direction": 94,
-        "outsideAirTemp": -27.30,
+        "outsideAirTemp": -27.31,
         "windDirection": 330,
         "windSpeed": 24
     },
@@ -2239,7 +2239,7 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 465,
         "direction": 100,
-        "outsideAirTemp": -33.30,
+        "outsideAirTemp": -33.31,
         "windDirection": 340,
         "windSpeed": 27
     },
@@ -2254,7 +2254,7 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 473,
         "direction": 100,
-        "outsideAirTemp": -35.90,
+        "outsideAirTemp": -35.91,
         "windDirection": 340,
         "windSpeed": 27
     },
@@ -2284,7 +2284,7 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 486,
         "direction": 101,
-        "outSideAirTemp": 41.00,
+        "outsideAirTemp": 41.01,
         "windDirection": 345,
         "windSpeed": 30
     },
@@ -2299,7 +2299,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 494,
         "direction": 101,
-        "outSideAirTemp": 43.00,
+        "outsideAirTemp": 43.01,
         "windDirection": 345,
         "windSpeed": 30
     },
@@ -2314,7 +2314,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 493,
         "direction": 101,
-        "outsideAirTemp": -45.30,
+        "outsideAirTemp": -45.31,
         "windDirection": 345,
         "windSpeed": 30
     },
@@ -2344,7 +2344,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 493,
         "direction": 101,
-        "outsideAirTemp": -49.40,
+        "outsideAirTemp": -49.41,
         "windDirection": 350,
         "windSpeed": 34
     },
@@ -2389,7 +2389,7 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 482,
         "direction": 102,
-        "outSideAirTemp": 53.00,
+        "outsideAirTemp": 53.01,
         "windDirection": 350,
         "windSpeed": 37
     },
@@ -2404,7 +2404,7 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 483,
         "direction": 102,
-        "outSideAirTemp": 53.00,
+        "outsideAirTemp": 53.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2419,7 +2419,7 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 480,
         "direction": 102,
-        "outsideAirTemp": -53.70,
+        "outsideAirTemp": -53.71,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2434,7 +2434,7 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 471,
         "direction": 102,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2449,7 +2449,7 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 475,
         "direction": 103,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2464,7 +2464,7 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 480,
         "direction": 103,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2479,7 +2479,7 @@ var flightData = [
         "secondsNextReport": 45,
         "speed": 473,
         "direction": 103,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2509,7 +2509,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 470,
         "direction": 103,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2524,7 +2524,7 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 467,
         "direction": 103,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2539,7 +2539,7 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 467,
         "direction": 104,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2554,7 +2554,7 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 470,
         "direction": 104,
-        "outsideAirTemp": -54.90,
+        "outsideAirTemp": -54.91,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2629,7 +2629,7 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 464,
         "direction": 105,
-        "outsideAirTemp": -55.10,
+        "outsideAirTemp": -55.11,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2644,7 +2644,7 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 458,
         "direction": 105,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2659,7 +2659,7 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 458,
         "direction": 105,
-        "outsideAirTemp": -54.90,
+        "outsideAirTemp": -54.91,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2674,7 +2674,7 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 459,
         "direction": 104,
-        "outsideAirTemp": -54.90,
+        "outsideAirTemp": -54.91,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2689,7 +2689,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 474,
         "direction": 97,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2719,7 +2719,7 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 473,
         "direction": 97,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 40
     },
@@ -2734,7 +2734,7 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 474,
         "direction": 98,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 42
     },
@@ -2764,7 +2764,7 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 469,
         "direction": 98,
-        "outsideAirTemp": -55.10,
+        "outsideAirTemp": -55.11,
         "windDirection": 355,
         "windSpeed": 42
     },
@@ -2779,7 +2779,7 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 466,
         "direction": 98,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 42
     },
@@ -2794,7 +2794,7 @@ var flightData = [
         "secondsNextReport": 60,
         "speed": 466,
         "direction": 98,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 42
     },
@@ -2884,7 +2884,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 475,
         "direction": 99,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 45
     },
@@ -2899,7 +2899,7 @@ var flightData = [
         "secondsNextReport": 71,
         "speed": 474,
         "direction": 100,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 45
     },
@@ -2914,7 +2914,7 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 470,
         "direction": 100,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 45
     },
@@ -2944,7 +2944,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 461,
         "direction": 105,
-        "outsideAirTemp": -55.10,
+        "outsideAirTemp": -55.11,
         "windDirection": 355,
         "windSpeed": 45
     },
@@ -2959,7 +2959,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 458,
         "direction": 105,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 45
     },
@@ -3004,7 +3004,7 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 450,
         "direction": 106,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 47
     },
@@ -3049,7 +3049,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 450,
         "direction": 106,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 355,
         "windSpeed": 47
     },
@@ -3064,7 +3064,7 @@ var flightData = [
         "secondsNextReport": 66,
         "speed": 455,
         "direction": 106,
-        "outsideAirTemp": -54.90,
+        "outsideAirTemp": -54.91,
         "windDirection": 355,
         "windSpeed": 47
     },
@@ -3109,7 +3109,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 460,
         "direction": 107,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 360,
         "windSpeed": 50
     },
@@ -3139,7 +3139,7 @@ var flightData = [
         "secondsNextReport": 69,
         "speed": 458,
         "direction": 107,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 360,
         "windSpeed": 50
     },
@@ -3259,7 +3259,7 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 459,
         "direction": 108,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 5,
         "windSpeed": 55
     },
@@ -3274,7 +3274,7 @@ var flightData = [
         "secondsNextReport": 60,
         "speed": 459,
         "direction": 108,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 5,
         "windSpeed": 55
     },
@@ -3289,7 +3289,7 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 457,
         "direction": 108,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 10,
         "windSpeed": 60
     },
@@ -3304,7 +3304,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 459,
         "direction": 108,
-        "outSideAirTemp": 55.00,
+        "outsideAirTemp": 55.01,
         "windDirection": 10,
         "windSpeed": 60
     },
@@ -3364,7 +3364,7 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 459,
         "direction": 116,
-        "outsideAirTemp": -51.10,
+        "outsideAirTemp": -51.11,
         "windDirection": 15,
         "windSpeed": 65
     },
@@ -3379,7 +3379,7 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 456,
         "direction": 127,
-        "outSideAirTemp": 51.00,
+        "outsideAirTemp": 51.01,
         "windDirection": 15,
         "windSpeed": 65
     },
@@ -3394,7 +3394,7 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 455,
         "direction": 131,
-        "outSideAirTemp": 51.00,
+        "outsideAirTemp": 51.01,
         "windDirection": 15,
         "windSpeed": 65
     },
@@ -3409,7 +3409,7 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 454,
         "direction": 133,
-        "outSideAirTemp": 51.00,
+        "outsideAirTemp": 51.01,
         "windDirection": 15,
         "windSpeed": 65
     },
@@ -3439,7 +3439,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 444,
         "direction": 133,
-        "outsideAirTemp": -46.20,
+        "outsideAirTemp": -46.21,
         "windDirection": 15,
         "windSpeed": 67
     },
@@ -3454,7 +3454,7 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 429,
         "direction": 134,
-        "outsideAirTemp": -42.20,
+        "outsideAirTemp": -42.21,
         "windDirection": 15,
         "windSpeed": 60
     },
@@ -3499,7 +3499,7 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 399,
         "direction": 134,
-        "outsideAirTemp": -22.70,
+        "outsideAirTemp": -22.71,
         "windDirection": 10,
         "windSpeed": 55
     },
@@ -3529,7 +3529,7 @@ var flightData = [
         "secondsNextReport": 32,
         "speed": 380,
         "direction": 134,
-        "outsideAirTemp": -13.60,
+        "outsideAirTemp": -13.61,
         "windDirection": 5,
         "windSpeed": 50
     },
@@ -3559,7 +3559,7 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 365,
         "direction": 134,
-        "outsideAirTemp": -8.60,
+        "outsideAirTemp": -8.61,
         "windDirection": 360,
         "windSpeed": 47
     },
@@ -3589,7 +3589,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 354,
         "direction": 135,
-        "outsideAirTemp": -7.00,
+        "outsideAirTemp": -7.01,
         "windDirection": 360,
         "windSpeed": 45
     },
@@ -3604,7 +3604,7 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 350,
         "direction": 134,
-        "outsideAirTemp": -6.30,
+        "outsideAirTemp": -6.31,
         "windDirection": 360,
         "windSpeed": 45
     },
@@ -3619,7 +3619,7 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 347,
         "direction": 134,
-        "outsideAirTemp": -5.40,
+        "outsideAirTemp": -5.41,
         "windDirection": 360,
         "windSpeed": 45
     },
@@ -3694,7 +3694,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 306,
         "direction": 134,
-        "outsideAirTemp": -3.50,
+        "outsideAirTemp": -3.51,
         "windDirection": 350,
         "windSpeed": 40
     },
@@ -3709,7 +3709,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 302,
         "direction": 135,
-        "outsideAirTemp": -3.10,
+        "outsideAirTemp": -3.11,
         "windDirection": 350,
         "windSpeed": 37
     },
@@ -3739,7 +3739,7 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 296,
         "direction": 135,
-        "outsideAirTemp": -2.70,
+        "outsideAirTemp": -2.71,
         "windDirection": 345,
         "windSpeed": 37
     },
@@ -3754,7 +3754,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 298,
         "direction": 135,
-        "outsideAirTemp": -2.70,
+        "outsideAirTemp": -2.71,
         "windDirection": 345,
         "windSpeed": 37
     },
@@ -3829,7 +3829,7 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 285,
         "direction": 134,
-        "outsideAirTemp": -2.20,
+        "outsideAirTemp": -2.21,
         "windDirection": 345,
         "windSpeed": 35
     },
@@ -3874,7 +3874,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 273,
         "direction": 139,
-        "outsideAirTemp": -1.10,
+        "outsideAirTemp": -1.11,
         "windDirection": 345,
         "windSpeed": 32
     },
@@ -3904,7 +3904,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 267,
         "direction": 149,
-        "outsideAirTemp": -0.50,
+        "outsideAirTemp": -0.51,
         "windDirection": 340,
         "windSpeed": 32
     },
@@ -3919,7 +3919,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 268,
         "direction": 149,
-        "outsideAirTemp": -0.50,
+        "outsideAirTemp": -0.51,
         "windDirection": 340,
         "windSpeed": 30
     },
@@ -3949,7 +3949,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 267,
         "direction": 145,
-        "outsideAirTemp": -0.20,
+        "outsideAirTemp": -0.21,
         "windDirection": 340,
         "windSpeed": 30
     },
@@ -3964,7 +3964,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 268,
         "direction": 136,
-        "outsideAirTemp": 0.50,
+        "outsideAirTemp": 0.51,
         "windDirection": 340,
         "windSpeed": 27
     },
@@ -3979,7 +3979,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 268,
         "direction": 135,
-        "outsideAirTemp": 0.80,
+        "outsideAirTemp": 0.81,
         "windDirection": 340,
         "windSpeed": 27
     },
@@ -4054,7 +4054,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 268,
         "direction": 132,
-        "outsideAirTemp": 1.50,
+        "outsideAirTemp": 1.51,
         "windDirection": 335,
         "windSpeed": 25
     },
@@ -4069,7 +4069,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 269,
         "direction": 132,
-        "outsideAirTemp": 1.50,
+        "outsideAirTemp": 1.51,
         "windDirection": 335,
         "windSpeed": 25
     },
@@ -4099,7 +4099,7 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 267,
         "direction": 131,
-        "outsideAirTemp": 2.20,
+        "outsideAirTemp": 2.21,
         "windDirection": 330,
         "windSpeed": 23
     },
@@ -4114,7 +4114,7 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 265,
         "direction": 131,
-        "outsideAirTemp": 2.80,
+        "outsideAirTemp": 2.81,
         "windDirection": 330,
         "windSpeed": 23
     },
@@ -4159,7 +4159,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 253,
         "direction": 132,
-        "outsideAirTemp": 4.40,
+        "outsideAirTemp": 4.41,
         "windDirection": 345,
         "windSpeed": 20
     },
@@ -4174,7 +4174,7 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 248,
         "direction": 132,
-        "outsideAirTemp": 4.90,
+        "outsideAirTemp": 4.91,
         "windDirection": 345,
         "windSpeed": 18
     },
@@ -4189,7 +4189,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 236,
         "direction": 132,
-        "outsideAirTemp": 4.90,
+        "outsideAirTemp": 4.91,
         "windDirection": 345,
         "windSpeed": 18
     },
@@ -4204,7 +4204,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 230,
         "direction": 132,
-        "outsideAirTemp": 4.90,
+        "outsideAirTemp": 4.91,
         "windDirection": 345,
         "windSpeed": 18
     },
@@ -4219,7 +4219,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 227,
         "direction": 132,
-        "outsideAirTemp": 4.90,
+        "outsideAirTemp": 4.91,
         "windDirection": 345,
         "windSpeed": 15
     },
@@ -4234,7 +4234,7 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 225,
         "direction": 132,
-        "outsideAirTemp": 4.90,
+        "outsideAirTemp": 4.91,
         "windDirection": 350,
         "windSpeed": 15
     },
@@ -4249,7 +4249,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 218,
         "direction": 131,
-        "outsideAirTemp": 4.70,
+        "outsideAirTemp": 4.71,
         "windDirection": 350,
         "windSpeed": 15
     },
@@ -4264,7 +4264,7 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 213,
         "direction": 131,
-        "outsideAirTemp": 4.70,
+        "outsideAirTemp": 4.71,
         "windDirection": 350,
         "windSpeed": 15
     },
@@ -4279,7 +4279,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 204,
         "direction": 132,
-        "outsideAirTemp": 4.70,
+        "outsideAirTemp": 4.71,
         "windDirection": 350,
         "windSpeed": 15
     },
@@ -4294,7 +4294,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 201,
         "direction": 132,
-        "outsideAirTemp": 4.70,
+        "outsideAirTemp": 4.71,
         "windDirection": 350,
         "windSpeed": 15
     },
@@ -4309,7 +4309,7 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 198,
         "direction": 132,
-        "outsideAirTemp": 4.70,
+        "outsideAirTemp": 4.71,
         "windDirection": 350,
         "windSpeed": 15
     },
@@ -4324,7 +4324,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 196,
         "direction": 132,
-        "outsideAirTemp": 4.70,
+        "outsideAirTemp": 4.71,
         "windDirection": 355,
         "windSpeed": 15
     },
@@ -4339,7 +4339,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 195,
         "direction": 132,
-        "outsideAirTemp": 4.70,
+        "outsideAirTemp": 4.71,
         "windDirection": 355,
         "windSpeed": 15
     },
@@ -4354,7 +4354,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 192,
         "direction": 132,
-        "outsideAirTemp": 4.90,
+        "outsideAirTemp": 4.91,
         "windDirection": 355,
         "windSpeed": 15
     },
@@ -4369,7 +4369,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 191,
         "direction": 131,
-        "outsideAirTemp": 4.90,
+        "outsideAirTemp": 4.91,
         "windDirection": 355,
         "windSpeed": 15
     },
@@ -4384,7 +4384,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 191,
         "direction": 132,
-        "outsideAirTemp": 4.90,
+        "outsideAirTemp": 4.91,
         "windDirection": 355,
         "windSpeed": 15
     },
@@ -4399,7 +4399,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 185,
         "direction": 131,
-        "outsideAirTemp": 5.10,
+        "outsideAirTemp": 5.11,
         "windDirection": 355,
         "windSpeed": 15
     },
@@ -4414,7 +4414,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 178,
         "direction": 132,
-        "outsideAirTemp": 5.10,
+        "outsideAirTemp": 5.11,
         "windDirection": 360,
         "windSpeed": 15
     },
@@ -4429,7 +4429,7 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 174,
         "direction": 132,
-        "outsideAirTemp": 5.10,
+        "outsideAirTemp": 5.11,
         "windDirection": 360,
         "windSpeed": 15
     },
@@ -4444,7 +4444,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 167,
         "direction": 132,
-        "outsideAirTemp": 5.10,
+        "outsideAirTemp": 5.11,
         "windDirection": 360,
         "windSpeed": 15
     },
@@ -4459,7 +4459,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 164,
         "direction": 132,
-        "outsideAirTemp": 5.30,
+        "outsideAirTemp": 5.31,
         "windDirection": 360,
         "windSpeed": 15
     },
@@ -4474,7 +4474,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 158,
         "direction": 131,
-        "outsideAirTemp": 5.30,
+        "outsideAirTemp": 5.31,
         "windDirection": 360,
         "windSpeed": 15
     },
@@ -4489,7 +4489,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 153,
         "direction": 132,
-        "outsideAirTemp": 5.30,
+        "outsideAirTemp": 5.31,
         "windDirection": 360,
         "windSpeed": 15
     },
@@ -4504,7 +4504,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 148,
         "direction": 132,
-        "outsideAirTemp": 5.30,
+        "outsideAirTemp": 5.31,
         "windDirection": 360,
         "windSpeed": 15
     },
@@ -4519,7 +4519,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 146,
         "direction": 132,
-        "outsideAirTemp": 5.50,
+        "outsideAirTemp": 5.51,
         "windDirection": 360,
         "windSpeed": 12
     },
@@ -4534,7 +4534,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 144,
         "direction": 132,
-        "outsideAirTemp": 5.50,
+        "outsideAirTemp": 5.51,
         "windDirection": 360,
         "windSpeed": 12
     },
@@ -4549,7 +4549,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 140,
         "direction": 132,
-        "outsideAirTemp": 5.50,
+        "outsideAirTemp": 5.51,
         "windDirection": 355,
         "windSpeed": 12
     },
@@ -4564,7 +4564,7 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 138,
         "direction": 131,
-        "outsideAirTemp": 5.70,
+        "outsideAirTemp": 5.71,
         "windDirection": 355,
         "windSpeed": 12
     },
@@ -4579,7 +4579,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 136,
         "direction": 132,
-        "outsideAirTemp": 5.70,
+        "outsideAirTemp": 5.71,
         "windDirection": 355,
         "windSpeed": 12
     },
@@ -4594,7 +4594,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 135,
         "direction": 132,
-        "outsideAirTemp": 5.70,
+        "outsideAirTemp": 5.71,
         "windDirection": 355,
         "windSpeed": 12
     },
@@ -4609,7 +4609,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 135,
         "direction": 132,
-        "outsideAirTemp": 5.70,
+        "outsideAirTemp": 5.71,
         "windDirection": 355,
         "windSpeed": 12
     },
@@ -4624,7 +4624,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 135,
         "direction": 132,
-        "outsideAirTemp": 5.70,
+        "outsideAirTemp": 5.71,
         "windDirection": 355,
         "windSpeed": 10
     },
@@ -4639,7 +4639,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 135,
         "direction": 132,
-        "outsideAirTemp": 5.70,
+        "outsideAirTemp": 5.71,
         "windDirection": 350,
         "windSpeed": 10
     },
@@ -4654,7 +4654,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 138,
         "direction": 132,
-        "outSideAirTemp": 6.00,
+        "outsideAirTemp": 6.01,
         "windDirection": 350,
         "windSpeed": 10
     },
@@ -4669,7 +4669,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 138,
         "direction": 132,
-        "outSideAirTemp": 6.00,
+        "outsideAirTemp": 6.01,
         "windDirection": 350,
         "windSpeed": 10
     },
@@ -4684,7 +4684,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 136,
         "direction": 132,
-        "outSideAirTemp": 6.00,
+        "outsideAirTemp": 6.01,
         "windDirection": 350,
         "windSpeed": 10
     },
@@ -4699,7 +4699,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 134,
         "direction": 132,
-        "outSideAirTemp": 6.00,
+        "outsideAirTemp": 6.01,
         "windDirection": 345,
         "windSpeed": 10
     },
@@ -4714,7 +4714,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 6.00,
+        "outsideAirTemp": 6.01,
         "windDirection": 345,
         "windSpeed": 8
     },
@@ -4729,7 +4729,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 135,
         "direction": 132,
-        "outsideAirTemp": 6.40,
+        "outsideAirTemp": 6.41,
         "windDirection": 345,
         "windSpeed": 8
     },
@@ -4744,7 +4744,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 134,
         "direction": 131,
-        "outsideAirTemp": 6.40,
+        "outsideAirTemp": 6.41,
         "windDirection": 345,
         "windSpeed": 8
     },
@@ -4759,7 +4759,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 134,
         "direction": 132,
-        "outsideAirTemp": 6.40,
+        "outsideAirTemp": 6.41,
         "windDirection": 345,
         "windSpeed": 8
     },
@@ -4774,7 +4774,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 135,
         "direction": 132,
-        "outsideAirTemp": 6.80,
+        "outsideAirTemp": 6.81,
         "windDirection": 345,
         "windSpeed": 8
     },
@@ -4789,7 +4789,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 135,
         "direction": 132,
-        "outsideAirTemp": 6.80,
+        "outsideAirTemp": 6.81,
         "windDirection": 345,
         "windSpeed": 6
     },
@@ -4804,7 +4804,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 137,
         "direction": 132,
-        "outsideAirTemp": 6.80,
+        "outsideAirTemp": 6.81,
         "windDirection": 345,
         "windSpeed": 6
     },
@@ -4819,7 +4819,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 137,
         "direction": 132,
-        "outsideAirTemp": 7.20,
+        "outsideAirTemp": 7.21,
         "windDirection": 345,
         "windSpeed": 6
     },
@@ -4834,7 +4834,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 137,
         "direction": 132,
-        "outsideAirTemp": 7.20,
+        "outsideAirTemp": 7.21,
         "windDirection": 340,
         "windSpeed": 6
     },
@@ -4849,7 +4849,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 136,
         "direction": 132,
-        "outsideAirTemp": 7.20,
+        "outsideAirTemp": 7.21,
         "windDirection": 340,
         "windSpeed": 6
     },
@@ -4864,7 +4864,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 137,
         "direction": 132,
-        "outsideAirTemp": 7.70,
+        "outsideAirTemp": 7.71,
         "windDirection": 340,
         "windSpeed": 5
     },
@@ -4879,7 +4879,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 136,
         "direction": 132,
-        "outsideAirTemp": 7.70,
+        "outsideAirTemp": 7.71,
         "windDirection": 340,
         "windSpeed": 5
     },
@@ -4894,7 +4894,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 124,
         "direction": 132,
-        "outsideAirTemp": 7.70,
+        "outsideAirTemp": 7.71,
         "windDirection": 340,
         "windSpeed": 5
     },
@@ -4909,7 +4909,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 102,
         "direction": 132,
-        "outsideAirTemp": 7.70,
+        "outsideAirTemp": 7.71,
         "windDirection": 340,
         "windSpeed": 5
     },
@@ -4924,7 +4924,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 86,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -4939,7 +4939,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 76,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -4954,7 +4954,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 61,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -4969,7 +4969,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 46,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -4984,7 +4984,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 36,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -4999,7 +4999,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 32,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5014,7 +5014,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 28,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5029,7 +5029,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 25,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5044,7 +5044,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 22,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5059,7 +5059,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 21,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5074,7 +5074,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 21,
         "direction": 131,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5089,7 +5089,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 20,
         "direction": 126,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5104,7 +5104,7 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 20,
         "direction": 118,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5119,7 +5119,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 20,
         "direction": 109,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5134,7 +5134,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 19,
         "direction": 98,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5149,7 +5149,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 19,
         "direction": 87,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5164,7 +5164,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 18,
         "direction": 75,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5179,7 +5179,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 18,
         "direction": 64,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5194,7 +5194,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 17,
         "direction": 50,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5209,7 +5209,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 17,
         "direction": 45,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5224,7 +5224,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 17,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5239,7 +5239,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 16,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5254,7 +5254,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 15,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5269,7 +5269,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 14,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5284,7 +5284,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 13,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5299,7 +5299,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 12,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5314,7 +5314,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5329,7 +5329,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5344,7 +5344,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5359,7 +5359,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5374,7 +5374,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5389,7 +5389,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5404,7 +5404,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 12,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5419,7 +5419,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 13,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5434,7 +5434,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 12,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5449,7 +5449,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 12,
         "direction": 42,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5464,7 +5464,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 11,
         "direction": 47,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5479,7 +5479,7 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 11,
         "direction": 70,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5494,7 +5494,7 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 12,
         "direction": 87,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5509,7 +5509,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 12,
         "direction": 106,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5524,7 +5524,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 12,
         "direction": 129,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5539,7 +5539,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 11,
         "direction": 132,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5554,7 +5554,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 10,
         "direction": 129,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5569,7 +5569,7 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 8,
         "direction": 118,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5584,7 +5584,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 8,
         "direction": 112,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5599,7 +5599,7 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 9,
         "direction": 123,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5614,7 +5614,7 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 9,
         "direction": 132,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5629,7 +5629,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 7,
         "direction": 132,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5644,7 +5644,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 6,
         "direction": 160,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5659,7 +5659,7 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 6,
         "direction": 213,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5674,7 +5674,7 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 7,
         "direction": 222,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5689,7 +5689,7 @@ var flightData = [
         "secondsNextReport": 41,
         "speed": 5,
         "direction": 222,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     },
@@ -5704,7 +5704,7 @@ var flightData = [
         "secondsNextReport": null,
         "speed": 0,
         "direction": 222,
-        "outSideAirTemp": 8.00,
+        "outsideAirTemp": 8.01,
         "windDirection": 340,
         "windSpeed": 4
     }
