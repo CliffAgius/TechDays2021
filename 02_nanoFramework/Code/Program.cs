@@ -31,7 +31,7 @@ namespace TechDays2021
         private static int counter = 0;
         private static int Warning = 0;
 
-        public void Main()
+        public static void Main()
         {
             // Connect the ESP32 Device to the Wifi and check the connection...
             Debug.WriteLine("Waiting for network up and IP address...");
@@ -69,9 +69,6 @@ namespace TechDays2021
             }
             else
             {
-                //Update the RegistrationID with the Flight CallSign before we connect to DPS.
-                RegistrationID = FlightDataModel[0].callSign;
-
                 // Connect to DPS...
                 ConnectWithDPS();
 
@@ -87,7 +84,7 @@ namespace TechDays2021
             Thread.Sleep(Timeout.Infinite);
         }
 
-        private bool ConnectWithDPS()
+        private static bool ConnectWithDPS()
         {
             X509Certificate azureCA = new X509Certificate(Resources.GetBytes(Resources.BinaryResources.BaltimoreRootCA_crt));
             var provisioning = ProvisioningDeviceClient.Create(DpsAddress, IdScope, RegistrationID, SasKey, azureCA);
@@ -133,12 +130,12 @@ namespace TechDays2021
             return true;
         }
 
-        public string MethodCallbackStart(int rid, string payload)
+        public static string MethodCallbackStart(int rid, string payload)
         {
             return "Flight is closed and requesting pushback...";
         }
 
-        private void WorkerThread()
+        private static void WorkerThread()
         {
             try
             {
@@ -174,13 +171,14 @@ namespace TechDays2021
                     DeviceClient.SendMessage(messagePayload, new CancellationTokenSource(2000).Token);
 
                     // data sent
+                    Debug.WriteLine($"Message Payload - {messagePayload}");
                     Debug.WriteLine($"*** DATA SENT - Next packet will be sent in {FlightDataModel[counter].secondsNextReport} seconds ***");
 
                     // Wait before sending the next position update..
-                    Thread.Sleep(FlightDataModel[counter].secondsNextReport);
+                    Thread.Sleep(TimeSpan.FromSeconds(FlightDataModel[counter].secondsNextReport));
                     counter++;
 
-                    if (FlightDataModel.Length >= counter)
+                    if (counter >= FlightDataModel.Length)
                     {
                         // All the current data chunk has been used grab the next...
                         FlightDataModel = flightDataStore.GetFlightData();
@@ -194,7 +192,7 @@ namespace TechDays2021
         }
 
         // Cloud to Device (C2D) message has been recieved and needs to be processed...
-        private void DeviceClient_CloudToDeviceMessage(object sender, CloudToDeviceMessageEventArgs e)
+        private static void DeviceClient_CloudToDeviceMessage(object sender, CloudToDeviceMessageEventArgs e)
         {
             Debug.WriteLine($"*** C2D Message arrived: {e.Message} ***");
 
@@ -214,13 +212,21 @@ namespace TechDays2021
             }
         }
 
-        private void DeviceClient_TwinUpated(object sender, nanoFramework.Azure.Devices.Shared.TwinUpdateEventArgs e)
+        private static void DeviceClient_TwinUpated(object sender, nanoFramework.Azure.Devices.Shared.TwinUpdateEventArgs e)
         {
             if (e.Twin != null)
             {
                 Debug.WriteLine($"Got twins");
                 Debug.WriteLine($"  {e.Twin.ToJson()}");
             }
+        }
+
+        private static string ConvertDegreesToCompass(double degrees){
+            
+            var val = (int)Math.Floor((degrees / 22.5) + 0.5);
+            var arr = new string[] {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
+
+            return arr[(val % 16)];
         }
 
         // Types of Emergency Warning that can be sent from the Cloud to the Device.
@@ -230,14 +236,6 @@ namespace TechDays2021
             AltitudeError,          // Shift the Aircraft to 50,000ft...
             VerticalSpeedDive,      // Make the Aircraft dive at 6000ft per minute as if it was in an emergency decent...
             IceCrystalIcingWarning  // Make the Outside Air Temp read 0 degrees which at Cruise Altitude is an indication of Ice Crystal Icing and a real danger.
-        }
-
-        private string ConvertDegreesToCompass(double degrees){
-            
-            var val = (int)Math.Floor((degrees / 22.5) + 0.5);
-            var arr = new string[] {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
-
-            return arr[(val % 16)];
         }
     }
 }
