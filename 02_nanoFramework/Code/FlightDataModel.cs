@@ -6,10 +6,6 @@
         public int ID { get; set; }
         // FLight Callsign with be AAW which stands for Azure AirWays ;-)
         public string callSign { get; set; }
-        // Date formatted as DD/MM/YYYY
-        public string date { get; set; }
-        // Tiem formatted as HH:mm:ss
-        public string time { get; set; }
         // Flight Position Latitude formated to 4 decimal places.
         public double latitude { get; set; }
         // Flight Position Longitude formatted to 4 decimal places
