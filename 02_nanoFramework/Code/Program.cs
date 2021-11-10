@@ -196,6 +196,12 @@ namespace TechDays2021
                         FlightDataModel = flightDataStore.GetFlightData();
                         // Reset the Array counter...
                         counter = 0;
+
+                        if (FlightDataModel is null)
+                        {
+                            FlightFinished();
+                            break;
+                        }
                     }
                 }
             }
@@ -204,6 +210,13 @@ namespace TechDays2021
                 // Oh Dear bad things happened...
                 Debug.WriteLine($"-- D2C Error - {ex.Message} --");
             }
+        }
+
+        private static void FlightFinished()
+        {
+            Debug.WriteLine("The flight has finished...");
+            //Reset the File Counter ready to go again...
+            flightDataStore.FileCount = 1;
         }
 
         // Cloud to Device (C2D) message has been recieved and needs to be processed...
