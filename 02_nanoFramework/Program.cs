@@ -1,17 +1,12 @@
-using Amqp;
 using nanoFramework.Azure.Devices.Client;
 using nanoFramework.Azure.Devices.Provisioning.Client;
 using nanoFramework.Azure.Devices.Shared;
 using nanoFramework.Json;
 using nanoFramework.Networking;
-using nanoFramework.Runtime.Native;
 using System;
 using System.Diagnostics;
-using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
-using AmqpTrace = Amqp.Trace;
 
 namespace TechDays2021
 {
@@ -58,6 +53,7 @@ namespace TechDays2021
                     if (NetworkHelper.ConnectionError.Exception != null)
                     {
                         Debug.WriteLine($"ex: { NetworkHelper.ConnectionError.Exception}");
+                        throw NetworkHelper.ConnectionError.Exception;
                     }
                 }
                 // Otherwise, you are connected and have a valid IP and date
@@ -100,7 +96,7 @@ namespace TechDays2021
             if (myDeviceRegistration.Status != ProvisioningRegistrationStatusType.Assigned)
             {
                 Debug.WriteLine($"Registration is not assigned: {myDeviceRegistration.Status}, error message: {myDeviceRegistration.ErrorMessage}");
-                return false;
+                throw new OperationCanceledException();
             }
 
             Debug.WriteLine($"Device successfully assigned:");
@@ -130,14 +126,14 @@ namespace TechDays2021
             Debug.WriteLine($"Twin DeviceID: {DeviceTwin.DeviceId}, #desired: {DeviceTwin.Properties.Desired.Count}, #reported: {DeviceTwin.Properties.Reported.Count}");
 
             TwinCollection reported = new TwinCollection();
-            reported.Add("firmware", "myNano");
-            reported.Add("sdk", 0.2);
+            reported.Add("firmware", "nanoFramework");
+            reported.Add("sdk", "1.7.1-preview.1102");
             DeviceClient.UpdateReportedProperties(reported);
 
             return true;
         }
 
-        string MethodCallbackStart(int rid, string payload)
+        public static string MethodCallbackStart(int rid, string payload)
         {
             return "Flight is closed and requesting pushback...";
         }
