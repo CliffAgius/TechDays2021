@@ -194,6 +194,8 @@ namespace TechDays2021
                     {
                         // All the current data chunk has been used grab the next...
                         FlightDataModel = flightDataStore.GetFlightData();
+                        // Reset the Array counter...
+                        counter = 0;
                     }
                 }
             }
