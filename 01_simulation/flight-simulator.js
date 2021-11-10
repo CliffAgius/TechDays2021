@@ -1,20 +1,30 @@
 /*
 * TechDays 2021 - Flight into IoT Simulator Code
+*
+* Author:   Pete Gallagher
+* Twitter:  @pete_codes
+* Date:     10/11/2021
+*
 */
 const Client = require('azure-iot-device').Client;
 const Message = require('azure-iot-device').Message;
 const Protocol = require('azure-iot-device-mqtt').Mqtt;
 
-const connectionString = 'ENTER DEVICE CONNECTION STRING HERE';
-const LEDPin = 4;
+//
+// Enter your Device Primary Connection String here
+//
+const connectionString = 'ENTER DEVICE PRIMARY CONNECTION STRING HERE';
 
-var sendingMessage = false;
-var messageId = 0;
-var client;
+var sendingMessage;     // Used to determine if we're currently sending telemetry messages to the IoT hub  
+var messageId = 0;      // The Message Counter to set which item of Flight Data we send
+var client;             // The IoT Hub Client
 
+//
+// Simulated Flight Data
+//
 var flightData = [
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:00:50",
         "latitude": 51.473122,
@@ -24,12 +34,12 @@ var flightData = [
         "secondsNextReport": 39,
         "speed": 0,
         "direction": 270,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:01:29",
         "latitude": 51.473156,
@@ -39,12 +49,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 2,
         "direction": 270,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:01:42",
         "latitude": 51.473167,
@@ -54,12 +64,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 2,
         "direction": 270,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:01:55",
         "latitude": 51.473171,
@@ -69,12 +79,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 2,
         "direction": 270,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:02:07",
         "latitude": 51.473171,
@@ -84,12 +94,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 2,
         "direction": 275,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:02:19",
         "latitude": 51.47319,
@@ -99,12 +109,12 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 2,
         "direction": 300,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:02:34",
         "latitude": 51.473179,
@@ -114,12 +124,12 @@ var flightData = [
         "secondsNextReport": 116,
         "speed": 2,
         "direction": 348,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:04:30",
         "latitude": 51.473167,
@@ -129,12 +139,12 @@ var flightData = [
         "secondsNextReport": 50,
         "speed": 0,
         "direction": 70,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:05:20",
         "latitude": 51.473099,
@@ -144,12 +154,12 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 0,
         "direction": 180,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:06:27",
         "latitude": 51.473305,
@@ -159,12 +169,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 4,
         "direction": 7,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:06:36",
         "latitude": 51.473511,
@@ -174,12 +184,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 6,
         "direction": 7,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:06:44",
         "latitude": 51.473797,
@@ -189,12 +199,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 8,
         "direction": 356,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:06:49",
         "latitude": 51.474007,
@@ -204,12 +214,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 9,
         "direction": 357,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:06:54",
         "latitude": 51.474243,
@@ -219,12 +229,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 11,
         "direction": 357,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:06:59",
         "latitude": 51.474499,
@@ -234,12 +244,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 12,
         "direction": 358,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:03",
         "latitude": 51.474712,
@@ -249,12 +259,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 13,
         "direction": 1,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:09",
         "latitude": 51.475113,
@@ -264,12 +274,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 13,
         "direction": 359,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:15",
         "latitude": 51.47543,
@@ -279,12 +289,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 10,
         "direction": 4,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:21",
         "latitude": 51.475636,
@@ -294,12 +304,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 8,
         "direction": 22,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:26",
         "latitude": 51.475754,
@@ -309,12 +319,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 9,
         "direction": 50,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:29",
         "latitude": 51.475788,
@@ -324,12 +334,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 10,
         "direction": 73,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:33",
         "latitude": 51.475788,
@@ -339,12 +349,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 11,
         "direction": 87,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:39",
         "latitude": 51.475788,
@@ -354,12 +364,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 12,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:42",
         "latitude": 51.475788,
@@ -369,12 +379,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 12,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:47",
         "latitude": 51.475788,
@@ -384,12 +394,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 13,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:07:49",
         "latitude": 51.475788,
@@ -399,12 +409,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 14,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:08:02",
         "latitude": 51.475788,
@@ -414,12 +424,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 16,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:08:10",
         "latitude": 51.4758,
@@ -429,12 +439,12 @@ var flightData = [
         "secondsNextReport": 16,
         "speed": 17,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:08:26",
         "latitude": 51.4758,
@@ -444,12 +454,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 19,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:08:32",
         "latitude": 51.4758,
@@ -459,12 +469,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 20,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:08:45",
         "latitude": 51.475811,
@@ -474,12 +484,12 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 22,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:08:55",
         "latitude": 51.475811,
@@ -489,12 +499,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 23,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:01",
         "latitude": 51.475822,
@@ -504,12 +514,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 24,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:07",
         "latitude": 51.475822,
@@ -519,12 +529,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 25,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:13",
         "latitude": 51.475822,
@@ -534,12 +544,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 26,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:17",
         "latitude": 51.475857,
@@ -549,12 +559,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 26,
         "direction": 84,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:19",
         "latitude": 51.475872,
@@ -564,12 +574,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 26,
         "direction": 84,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:30",
         "latitude": 51.475914,
@@ -579,12 +589,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 27,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:37",
         "latitude": 51.475925,
@@ -594,12 +604,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 27,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:45",
         "latitude": 51.475941,
@@ -609,12 +619,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 29,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:09:51",
         "latitude": 51.475937,
@@ -624,12 +634,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 30,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:10:04",
         "latitude": 51.475952,
@@ -639,12 +649,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 23,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:10:12",
         "latitude": 51.475952,
@@ -654,12 +664,12 @@ var flightData = [
         "secondsNextReport": 25,
         "speed": 14,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:10:37",
         "latitude": 51.475964,
@@ -669,12 +679,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 15,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:10:45",
         "latitude": 51.475964,
@@ -684,12 +694,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 15,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:10:51",
         "latitude": 51.475964,
@@ -699,12 +709,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 16,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:10:57",
         "latitude": 51.475971,
@@ -714,12 +724,12 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 17,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:11:07",
         "latitude": 51.475971,
@@ -729,12 +739,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 19,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:11:13",
         "latitude": 51.475975,
@@ -744,12 +754,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 20,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:11:19",
         "latitude": 51.475986,
@@ -759,12 +769,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 21,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:11:25",
         "latitude": 51.475983,
@@ -774,12 +784,12 @@ var flightData = [
         "secondsNextReport": 14,
         "speed": 22,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:11:39",
         "latitude": 51.475998,
@@ -789,12 +799,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 24,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:11:47",
         "latitude": 51.475994,
@@ -804,12 +814,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 25,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:11:54",
         "latitude": 51.475998,
@@ -819,12 +829,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 20,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:12:02",
         "latitude": 51.475948,
@@ -834,12 +844,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 15,
         "direction": 95,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:12:15",
         "latitude": 51.475925,
@@ -849,12 +859,12 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 17,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:12:25",
         "latitude": 51.475929,
@@ -864,12 +874,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 19,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:12:32",
         "latitude": 51.475929,
@@ -879,12 +889,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 20,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:12:38",
         "latitude": 51.475929,
@@ -894,12 +904,12 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 18,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:12:53",
         "latitude": 51.475941,
@@ -909,12 +919,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 10,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:12:59",
         "latitude": 51.475929,
@@ -924,12 +934,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 8,
         "direction": 90,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:13:05",
         "latitude": 51.475941,
@@ -939,12 +949,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 7,
         "direction": 84,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:13:10",
         "latitude": 51.475998,
@@ -954,12 +964,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 5,
         "direction": 70,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:13:23",
         "latitude": 51.475941,
@@ -969,12 +979,12 @@ var flightData = [
         "secondsNextReport": 69,
         "speed": 1,
         "direction": 42,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:14:32",
         "latitude": 51.47628,
@@ -984,12 +994,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 4,
         "direction": 45,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:14:41",
         "latitude": 51.476418,
@@ -999,12 +1009,12 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 6,
         "direction": 47,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:14:51",
         "latitude": 51.476616,
@@ -1014,12 +1024,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 8,
         "direction": 53,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:14:55",
         "latitude": 51.476692,
@@ -1029,12 +1039,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 8,
         "direction": 56,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:15:03",
         "latitude": 51.476883,
@@ -1044,12 +1054,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 10,
         "direction": 50,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:15:15",
         "latitude": 51.477459,
@@ -1059,12 +1069,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 10,
         "direction": 2,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:15:26",
         "latitude": 51.477711,
@@ -1074,12 +1084,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 6,
         "direction": 306,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:15:31",
         "latitude": 51.477688,
@@ -1089,12 +1099,12 @@ var flightData = [
         "secondsNextReport": 123,
         "speed": 6,
         "direction": 275,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:17:34",
         "latitude": 51.477673,
@@ -1104,12 +1114,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 45,
         "direction": 267,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:17:41",
         "latitude": 51.477661,
@@ -1119,12 +1129,12 @@ var flightData = [
         "secondsNextReport": 25,
         "speed": 80,
         "direction": 270,
-        "outSideAirTemp": 15,
+        "outsideAirTemp": 15.00,
         "windDirection": 250,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:18:06",
         "latitude": 51.477585,
@@ -1134,12 +1144,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 145,
         "direction": 269,
-        "outSideAirTemp": 13.8,
+        "outsideAirTemp": 13.80,
         "windDirection": 260,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:18:12",
         "latitude": 51.477539,
@@ -1149,12 +1159,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 143,
         "direction": 269,
-        "outSideAirTemp": 13.15,
+        "outsideAirTemp": 13.15,
         "windDirection": 260,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:18:24",
         "latitude": 51.477463,
@@ -1164,12 +1174,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 142,
         "direction": 269,
-        "outSideAirTemp": 11.9,
+        "outsideAirTemp": 11.90,
         "windDirection": 260,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:18:30",
         "latitude": 51.477417,
@@ -1179,12 +1189,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 147,
         "direction": 269,
-        "outSideAirTemp": 11.55,
+        "outsideAirTemp": 11.55,
         "windDirection": 260,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:18:39",
         "latitude": 51.477325,
@@ -1194,12 +1204,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 149,
         "direction": 269,
-        "outSideAirTemp": 11.05,
+        "outsideAirTemp": 11.05,
         "windDirection": 260,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:18:48",
         "latitude": 51.477184,
@@ -1209,12 +1219,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 163,
         "direction": 268,
-        "outSideAirTemp": 10.9,
+        "outsideAirTemp": 10.90,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:18:54",
         "latitude": 51.476997,
@@ -1224,12 +1234,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 170,
         "direction": 267,
-        "outSideAirTemp": 10.7,
+        "outsideAirTemp": 10.70,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:18:58",
         "latitude": 51.476627,
@@ -1239,12 +1249,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 173,
         "direction": 261,
-        "outSideAirTemp": 10.6,
+        "outsideAirTemp": 10.60,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:04",
         "latitude": 51.475277,
@@ -1254,12 +1264,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 179,
         "direction": 250,
-        "outSideAirTemp": 10.45,
+        "outsideAirTemp": 10.45,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:05",
         "latitude": 51.47493,
@@ -1269,12 +1279,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 177,
         "direction": 254,
-        "outSideAirTemp": 10.4,
+        "outsideAirTemp": 10.40,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:09",
         "latitude": 51.47332,
@@ -1284,12 +1294,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 185,
         "direction": 239,
-        "outSideAirTemp": 10.3,
+        "outsideAirTemp": 10.30,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:10",
         "latitude": 51.472763,
@@ -1299,12 +1309,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 185,
         "direction": 237,
-        "outSideAirTemp": 10.25,
+        "outsideAirTemp": 10.25,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:11",
         "latitude": 51.472275,
@@ -1314,12 +1324,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 186,
         "direction": 235,
-        "outSideAirTemp": 10.2,
+        "outsideAirTemp": 10.20,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:12",
         "latitude": 51.471634,
@@ -1329,12 +1339,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 188,
         "direction": 230,
-        "outSideAirTemp": 10.15,
+        "outsideAirTemp": 10.15,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:15",
         "latitude": 51.469784,
@@ -1344,12 +1354,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 189,
         "direction": 222,
-        "outSideAirTemp": 10,
+        "outsideAirTemp": 10.00,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:18",
         "latitude": 51.467876,
@@ -1359,12 +1369,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 189,
         "direction": 216,
-        "outSideAirTemp": 9.8,
+        "outsideAirTemp": 9.80,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:19",
         "latitude": 51.467083,
@@ -1374,12 +1384,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 189,
         "direction": 225,
-        "outSideAirTemp": 9.7,
+        "outsideAirTemp": 9.70,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:21",
         "latitude": 51.46513,
@@ -1389,12 +1399,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 192,
         "direction": 205,
-        "outSideAirTemp": 9.55,
+        "outsideAirTemp": 9.55,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:22",
         "latitude": 51.464664,
@@ -1404,12 +1414,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 192,
         "direction": 205,
-        "outSideAirTemp": 9.5,
+        "outsideAirTemp": 9.50,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:24",
         "latitude": 51.462891,
@@ -1419,12 +1429,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 192,
         "direction": 199,
-        "outSideAirTemp": 9.35,
+        "outsideAirTemp": 9.35,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:25",
         "latitude": 51.462055,
@@ -1434,12 +1444,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 193,
         "direction": 196,
-        "outSideAirTemp": 9.25,
+        "outsideAirTemp": 9.25,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:27",
         "latitude": 51.459641,
@@ -1449,12 +1459,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 193,
         "direction": 192,
-        "outSideAirTemp": 9,
+        "outSideAirTemp": 9.00,
         "windDirection": 265,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:29",
         "latitude": 51.457901,
@@ -1464,12 +1474,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 192,
         "direction": 188,
-        "outSideAirTemp": 8.8,
+        "outsideAirTemp": 8.80,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:30",
         "latitude": 51.457401,
@@ -1479,12 +1489,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 192,
         "direction": 187,
-        "outSideAirTemp": 8.75,
+        "outsideAirTemp": 8.75,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:36",
         "latitude": 51.452454,
@@ -1494,12 +1504,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 190,
         "direction": 185,
-        "outSideAirTemp": 8.15,
+        "outsideAirTemp": 8.15,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:39",
         "latitude": 51.44986,
@@ -1509,12 +1519,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 190,
         "direction": 184,
-        "outSideAirTemp": 7.9,
+        "outsideAirTemp": 7.90,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:42",
         "latitude": 51.446739,
@@ -1524,12 +1534,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 190,
         "direction": 185,
-        "outSideAirTemp": 7.6,
+        "outsideAirTemp": 7.60,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:44",
         "latitude": 51.444973,
@@ -1539,12 +1549,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 194,
         "direction": 178,
-        "outSideAirTemp": 7.45,
+        "outsideAirTemp": 7.45,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:45",
         "latitude": 51.444134,
@@ -1554,12 +1564,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 194,
         "direction": 178,
-        "outSideAirTemp": 7.4,
+        "outsideAirTemp": 7.40,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:49",
         "latitude": 51.440502,
@@ -1569,12 +1579,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 200,
         "direction": 170,
-        "outSideAirTemp": 7.15,
+        "outsideAirTemp": 7.15,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:54",
         "latitude": 51.436111,
@@ -1584,12 +1594,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 205,
         "direction": 163,
-        "outSideAirTemp": 6.9,
+        "outsideAirTemp": 6.90,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:19:55",
         "latitude": 51.435196,
@@ -1599,12 +1609,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 207,
         "direction": 160,
-        "outSideAirTemp": 6.85,
+        "outsideAirTemp": 6.85,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:20:03",
         "latitude": 51.428024,
@@ -1614,12 +1624,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 224,
         "direction": 142,
-        "outSideAirTemp": 6.5,
+        "outsideAirTemp": 6.50,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:20:04",
         "latitude": 51.427689,
@@ -1629,12 +1639,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 224,
         "direction": 142,
-        "outSideAirTemp": 6.5,
+        "outsideAirTemp": 6.50,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:20:07",
         "latitude": 51.424805,
@@ -1644,12 +1654,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 231,
         "direction": 139,
-        "outSideAirTemp": 6.35,
+        "outsideAirTemp": 6.35,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:20:12",
         "latitude": 51.421097,
@@ -1659,12 +1669,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 239,
         "direction": 136,
-        "outSideAirTemp": 6.2,
+        "outsideAirTemp": 6.20,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:20:15",
         "latitude": 51.418716,
@@ -1674,12 +1684,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 241,
         "direction": 135,
-        "outSideAirTemp": 6.05,
+        "outsideAirTemp": 6.05,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:20:21",
         "latitude": 51.413452,
@@ -1689,12 +1699,12 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 252,
         "direction": 134,
-        "outSideAirTemp": 5.7,
+        "outsideAirTemp": 5.70,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:20:36",
         "latitude": 51.400467,
@@ -1704,12 +1714,12 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 268,
         "direction": 135,
-        "outSideAirTemp": 5.05,
+        "outsideAirTemp": 5.05,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:20:51",
         "latitude": 51.387543,
@@ -1719,12 +1729,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 270,
         "direction": 135,
-        "outSideAirTemp": 4.35,
+        "outsideAirTemp": 4.35,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:21:04",
         "latitude": 51.376053,
@@ -1734,12 +1744,12 @@ var flightData = [
         "secondsNextReport": 14,
         "speed": 273,
         "direction": 136,
-        "outSideAirTemp": 3.7,
+        "outsideAirTemp": 3.70,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:21:18",
         "latitude": 51.362621,
@@ -1749,12 +1759,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 274,
         "direction": 136,
-        "outSideAirTemp": 3.05,
+        "outsideAirTemp": 3.05,
         "windDirection": 270,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:21:31",
         "latitude": 51.35112,
@@ -1764,12 +1774,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 273,
         "direction": 136,
-        "outSideAirTemp": 2.8,
+        "outsideAirTemp": 2.80,
         "windDirection": 300,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:21:43",
         "latitude": 51.340416,
@@ -1779,12 +1789,12 @@ var flightData = [
         "secondsNextReport": 14,
         "speed": 272,
         "direction": 136,
-        "outSideAirTemp": 2.75,
+        "outsideAirTemp": 2.75,
         "windDirection": 300,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:21:57",
         "latitude": 51.327393,
@@ -1794,12 +1804,12 @@ var flightData = [
         "secondsNextReport": 25,
         "speed": 275,
         "direction": 131,
-        "outSideAirTemp": 2.75,
+        "outsideAirTemp": 2.75,
         "windDirection": 300,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:22:22",
         "latitude": 51.314716,
@@ -1809,12 +1819,12 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 296,
         "direction": 99,
-        "outSideAirTemp": 2.8,
+        "outsideAirTemp": 2.80,
         "windDirection": 300,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:22:37",
         "latitude": 51.315556,
@@ -1824,12 +1834,12 @@ var flightData = [
         "secondsNextReport": 17,
         "speed": 298,
         "direction": 85,
-        "outSideAirTemp": 2.75,
+        "outsideAirTemp": 2.75,
         "windDirection": 300,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:22:54",
         "latitude": 51.317368,
@@ -1839,12 +1849,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 296,
         "direction": 85,
-        "outSideAirTemp": 2.75,
+        "outsideAirTemp": 2.75,
         "windDirection": 300,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:23:06",
         "latitude": 51.318302,
@@ -1854,12 +1864,12 @@ var flightData = [
         "secondsNextReport": 18,
         "speed": 298,
         "direction": 88,
-        "outSideAirTemp": 2.75,
+        "outsideAirTemp": 2.75,
         "windDirection": 300,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:23:24",
         "latitude": 51.31842,
@@ -1869,12 +1879,12 @@ var flightData = [
         "secondsNextReport": 22,
         "speed": 298,
         "direction": 90,
-        "outSideAirTemp": 2.8,
+        "outsideAirTemp": 2.80,
         "windDirection": 300,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:23:46",
         "latitude": 51.318489,
@@ -1884,12 +1894,12 @@ var flightData = [
         "secondsNextReport": 21,
         "speed": 297,
         "direction": 89,
-        "outSideAirTemp": 2.75,
+        "outsideAirTemp": 2.75,
         "windDirection": 300,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:24:07",
         "latitude": 51.318443,
@@ -1899,12 +1909,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 298,
         "direction": 90,
-        "outSideAirTemp": 2.8,
+        "outsideAirTemp": 2.80,
         "windDirection": 300,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:24:19",
         "latitude": 51.318394,
@@ -1914,12 +1924,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 296,
         "direction": 90,
-        "outSideAirTemp": 2.75,
+        "outsideAirTemp": 2.75,
         "windDirection": 300,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:24:31",
         "latitude": 51.318329,
@@ -1929,12 +1939,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 296,
         "direction": 90,
-        "outSideAirTemp": 2.75,
+        "outsideAirTemp": 2.75,
         "windDirection": 300,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:24:43",
         "latitude": 51.318283,
@@ -1944,12 +1954,12 @@ var flightData = [
         "secondsNextReport": 14,
         "speed": 296,
         "direction": 90,
-        "outSideAirTemp": 2.7,
+        "outsideAirTemp": 2.70,
         "windDirection": 300,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:24:57",
         "latitude": 51.318146,
@@ -1959,12 +1969,12 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 301,
         "direction": 90,
-        "outSideAirTemp": 1.85,
+        "outsideAirTemp": 1.85,
         "windDirection": 300,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:25:12",
         "latitude": 51.317928,
@@ -1974,12 +1984,12 @@ var flightData = [
         "secondsNextReport": 19,
         "speed": 302,
         "direction": 90,
-        "outSideAirTemp": 0.2,
+        "outsideAirTemp": 0.20,
         "windDirection": 300,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:25:31",
         "latitude": 51.317837,
@@ -1989,12 +1999,12 @@ var flightData = [
         "secondsNextReport": 25,
         "speed": 302,
         "direction": 90,
-        "outSideAirTemp": -1.9,
+        "outsideAirTemp": -1.90,
         "windDirection": 300,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:25:56",
         "latitude": 51.317688,
@@ -2004,12 +2014,12 @@ var flightData = [
         "secondsNextReport": 14,
         "speed": 306,
         "direction": 90,
-        "outSideAirTemp": -4.25,
+        "outsideAirTemp": -4.25,
         "windDirection": 300,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:26:10",
         "latitude": 51.317558,
@@ -2019,12 +2029,12 @@ var flightData = [
         "secondsNextReport": 21,
         "speed": 307,
         "direction": 90,
-        "outSideAirTemp": -5.6,
+        "outsideAirTemp": -5.60,
         "windDirection": 300,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:26:31",
         "latitude": 51.31723,
@@ -2034,12 +2044,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 330,
         "direction": 90,
-        "outSideAirTemp": -6.45,
+        "outsideAirTemp": -6.45,
         "windDirection": 310,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:26:44",
         "latitude": 51.316956,
@@ -2049,12 +2059,12 @@ var flightData = [
         "secondsNextReport": 23,
         "speed": 337,
         "direction": 90,
-        "outSideAirTemp": -6.8,
+        "outsideAirTemp": -6.80,
         "windDirection": 310,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:27:07",
         "latitude": 51.316406,
@@ -2064,12 +2074,12 @@ var flightData = [
         "secondsNextReport": 23,
         "speed": 370,
         "direction": 90,
-        "outSideAirTemp": -7.4,
+        "outsideAirTemp": -7.40,
         "windDirection": 310,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:27:30",
         "latitude": 51.313602,
@@ -2079,12 +2089,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 379,
         "direction": 95,
-        "outSideAirTemp": -8.9,
+        "outsideAirTemp": -8.90,
         "windDirection": 310,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:27:42",
         "latitude": 51.311554,
@@ -2094,12 +2104,12 @@ var flightData = [
         "secondsNextReport": 30,
         "speed": 380,
         "direction": 95,
-        "outSideAirTemp": -10,
+        "outSideAirTemp": 10.00,
         "windDirection": 310,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:28:12",
         "latitude": 51.306339,
@@ -2109,12 +2119,12 @@ var flightData = [
         "secondsNextReport": 39,
         "speed": 392,
         "direction": 95,
-        "outSideAirTemp": -12.05,
+        "outsideAirTemp": -12.05,
         "windDirection": 320,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:28:51",
         "latitude": 51.300007,
@@ -2124,12 +2134,12 @@ var flightData = [
         "secondsNextReport": 33,
         "speed": 403,
         "direction": 95,
-        "outSideAirTemp": -14.65,
+        "outsideAirTemp": -14.65,
         "windDirection": 320,
         "windSpeed": 17
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:29:24",
         "latitude": 51.294434,
@@ -2139,12 +2149,12 @@ var flightData = [
         "secondsNextReport": 37,
         "speed": 409,
         "direction": 95,
-        "outSideAirTemp": -16.85,
+        "outsideAirTemp": -16.85,
         "windDirection": 320,
         "windSpeed": 20
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:30:01",
         "latitude": 51.286926,
@@ -2154,12 +2164,12 @@ var flightData = [
         "secondsNextReport": 42,
         "speed": 420,
         "direction": 96,
-        "outSideAirTemp": -19.15,
+        "outsideAirTemp": -19.15,
         "windDirection": 320,
         "windSpeed": 20
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:30:43",
         "latitude": 51.278503,
@@ -2169,12 +2179,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 427,
         "direction": 95,
-        "outSideAirTemp": -21.8,
+        "outsideAirTemp": -21.80,
         "windDirection": 330,
         "windSpeed": 22
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:30:52",
         "latitude": 51.276993,
@@ -2184,12 +2194,12 @@ var flightData = [
         "secondsNextReport": 88,
         "speed": 432,
         "direction": 95,
-        "outSideAirTemp": -22.25,
+        "outsideAirTemp": -22.25,
         "windDirection": 330,
         "windSpeed": 22
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:32:20",
         "latitude": 51.261089,
@@ -2199,12 +2209,12 @@ var flightData = [
         "secondsNextReport": 60,
         "speed": 449,
         "direction": 94,
-        "outSideAirTemp": -27.3,
+        "outsideAirTemp": -27.30,
         "windDirection": 330,
         "windSpeed": 24
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:33:20",
         "latitude": 51.240746,
@@ -2214,12 +2224,12 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 454,
         "direction": 100,
-        "outSideAirTemp": -30.45,
+        "outsideAirTemp": -30.45,
         "windDirection": 340,
         "windSpeed": 27
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:34:25",
         "latitude": 51.215012,
@@ -2229,12 +2239,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 465,
         "direction": 100,
-        "outSideAirTemp": -33.3,
+        "outsideAirTemp": -33.30,
         "windDirection": 340,
         "windSpeed": 27
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:35:27",
         "latitude": 51.189724,
@@ -2244,12 +2254,12 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 473,
         "direction": 100,
-        "outSideAirTemp": -35.9,
+        "outsideAirTemp": -35.90,
         "windDirection": 340,
         "windSpeed": 27
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:36:32",
         "latitude": 51.162354,
@@ -2259,12 +2269,12 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 479,
         "direction": 101,
-        "outSideAirTemp": -38.65,
+        "outsideAirTemp": -38.65,
         "windDirection": 345,
         "windSpeed": 30
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:37:36",
         "latitude": 51.134792,
@@ -2274,12 +2284,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 486,
         "direction": 101,
-        "outSideAirTemp": -41,
+        "outSideAirTemp": 41.00,
         "windDirection": 345,
         "windSpeed": 30
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:38:39",
         "latitude": 51.106934,
@@ -2289,12 +2299,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 494,
         "direction": 101,
-        "outSideAirTemp": -43,
+        "outSideAirTemp": 43.00,
         "windDirection": 345,
         "windSpeed": 30
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:39:40",
         "latitude": 51.079147,
@@ -2304,12 +2314,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 493,
         "direction": 101,
-        "outSideAirTemp": -45.3,
+        "outsideAirTemp": -45.30,
         "windDirection": 345,
         "windSpeed": 30
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:40:41",
         "latitude": 51.051086,
@@ -2319,12 +2329,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 490,
         "direction": 101,
-        "outSideAirTemp": -47.65,
+        "outsideAirTemp": -47.65,
         "windDirection": 350,
         "windSpeed": 32
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:41:42",
         "latitude": 51.022415,
@@ -2334,12 +2344,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 493,
         "direction": 101,
-        "outSideAirTemp": -49.4,
+        "outsideAirTemp": -49.40,
         "windDirection": 350,
         "windSpeed": 34
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:42:43",
         "latitude": 50.994019,
@@ -2349,12 +2359,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 474,
         "direction": 102,
-        "outSideAirTemp": -52.65,
+        "outsideAirTemp": -52.65,
         "windDirection": 350,
         "windSpeed": 35
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:43:45",
         "latitude": 50.96595,
@@ -2364,12 +2374,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 468,
         "direction": 102,
-        "outSideAirTemp": -52.95,
+        "outsideAirTemp": -52.95,
         "windDirection": 350,
         "windSpeed": 35
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:44:47",
         "latitude": 50.936783,
@@ -2379,12 +2389,12 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 482,
         "direction": 102,
-        "outSideAirTemp": -53,
+        "outSideAirTemp": 53.00,
         "windDirection": 350,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:45:52",
         "latitude": 50.905655,
@@ -2394,12 +2404,12 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 483,
         "direction": 102,
-        "outSideAirTemp": -53,
+        "outSideAirTemp": 53.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:46:56",
         "latitude": 50.874241,
@@ -2409,12 +2419,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 480,
         "direction": 102,
-        "outSideAirTemp": -53.7,
+        "outsideAirTemp": -53.70,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:47:59",
         "latitude": 50.843307,
@@ -2424,12 +2434,12 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 471,
         "direction": 102,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:49:04",
         "latitude": 50.811489,
@@ -2439,12 +2449,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 475,
         "direction": 103,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:50:07",
         "latitude": 50.779831,
@@ -2454,12 +2464,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 480,
         "direction": 103,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:51:10",
         "latitude": 50.747635,
@@ -2469,12 +2479,12 @@ var flightData = [
         "secondsNextReport": 45,
         "speed": 473,
         "direction": 103,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:51:55",
         "latitude": 50.724792,
@@ -2484,12 +2494,12 @@ var flightData = [
         "secondsNextReport": 90,
         "speed": 467,
         "direction": 103,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:53:25",
         "latitude": 50.679016,
@@ -2499,12 +2509,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 470,
         "direction": 103,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:54:26",
         "latitude": 50.64753,
@@ -2514,12 +2524,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 467,
         "direction": 103,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:55:28",
         "latitude": 50.614758,
@@ -2529,12 +2539,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 467,
         "direction": 104,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:56:31",
         "latitude": 50.581474,
@@ -2544,12 +2554,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 470,
         "direction": 104,
-        "outSideAirTemp": -54.9,
+        "outsideAirTemp": -54.90,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:57:33",
         "latitude": 50.548237,
@@ -2559,12 +2569,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 473,
         "direction": 104,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:58:36",
         "latitude": 50.513367,
@@ -2574,12 +2584,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 475,
         "direction": 104,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "10:59:38",
         "latitude": 50.479294,
@@ -2589,12 +2599,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 473,
         "direction": 104,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:00:39",
         "latitude": 50.444935,
@@ -2604,12 +2614,12 @@ var flightData = [
         "secondsNextReport": 77,
         "speed": 470,
         "direction": 104,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:01:56",
         "latitude": 50.402107,
@@ -2619,12 +2629,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 464,
         "direction": 105,
-        "outSideAirTemp": -55.1,
+        "outsideAirTemp": -55.10,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:02:59",
         "latitude": 50.367188,
@@ -2634,12 +2644,12 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 458,
         "direction": 105,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:04:03",
         "latitude": 50.331394,
@@ -2649,12 +2659,12 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 458,
         "direction": 105,
-        "outSideAirTemp": -54.9,
+        "outsideAirTemp": -54.90,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:05:10",
         "latitude": 50.294266,
@@ -2664,12 +2674,12 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 459,
         "direction": 104,
-        "outSideAirTemp": -54.9,
+        "outsideAirTemp": -54.90,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:06:17",
         "latitude": 50.273071,
@@ -2679,12 +2689,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 474,
         "direction": 97,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:07:18",
         "latitude": 50.255466,
@@ -2694,12 +2704,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 472,
         "direction": 97,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:08:21",
         "latitude": 50.236847,
@@ -2709,12 +2719,12 @@ var flightData = [
         "secondsNextReport": 65,
         "speed": 473,
         "direction": 97,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:09:26",
         "latitude": 50.217407,
@@ -2724,12 +2734,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 474,
         "direction": 98,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 42
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:10:28",
         "latitude": 50.197815,
@@ -2739,12 +2749,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 473,
         "direction": 98,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 42
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:11:29",
         "latitude": 50.178268,
@@ -2754,12 +2764,12 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 469,
         "direction": 98,
-        "outSideAirTemp": -55.1,
+        "outsideAirTemp": -55.10,
         "windDirection": 355,
         "windSpeed": 42
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:12:33",
         "latitude": 50.157291,
@@ -2769,12 +2779,12 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 466,
         "direction": 98,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 42
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:13:37",
         "latitude": 50.136295,
@@ -2784,12 +2794,12 @@ var flightData = [
         "secondsNextReport": 60,
         "speed": 466,
         "direction": 98,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 42
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:14:37",
         "latitude": 50.116093,
@@ -2799,12 +2809,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 465,
         "direction": 99,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 355,
         "windSpeed": 42
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:15:40",
         "latitude": 50.094631,
@@ -2814,12 +2824,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 466,
         "direction": 99,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 355,
         "windSpeed": 42
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:16:42",
         "latitude": 50.073166,
@@ -2829,12 +2839,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 470,
         "direction": 99,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 355,
         "windSpeed": 42
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:17:45",
         "latitude": 50.050545,
@@ -2844,12 +2854,12 @@ var flightData = [
         "secondsNextReport": 72,
         "speed": 472,
         "direction": 99,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:18:57",
         "latitude": 50.024475,
@@ -2859,12 +2869,12 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 474,
         "direction": 99,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:20:01",
         "latitude": 50.00061,
@@ -2874,12 +2884,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 475,
         "direction": 99,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:21:02",
         "latitude": 49.977551,
@@ -2889,12 +2899,12 @@ var flightData = [
         "secondsNextReport": 71,
         "speed": 474,
         "direction": 100,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:22:13",
         "latitude": 49.95013,
@@ -2904,12 +2914,12 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 470,
         "direction": 100,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:23:20",
         "latitude": 49.920059,
@@ -2919,12 +2929,12 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 468,
         "direction": 105,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 355,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:24:24",
         "latitude": 49.883698,
@@ -2934,12 +2944,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 461,
         "direction": 105,
-        "outSideAirTemp": -55.1,
+        "outsideAirTemp": -55.10,
         "windDirection": 355,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:25:25",
         "latitude": 49.849319,
@@ -2949,12 +2959,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 458,
         "direction": 105,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:26:26",
         "latitude": 49.814026,
@@ -2964,12 +2974,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 457,
         "direction": 105,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 355,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:27:28",
         "latitude": 49.778542,
@@ -2979,12 +2989,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 452,
         "direction": 105,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 355,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:28:30",
         "latitude": 49.742882,
@@ -2994,12 +3004,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 450,
         "direction": 106,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:29:32",
         "latitude": 49.70755,
@@ -3009,12 +3019,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 448,
         "direction": 106,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 355,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:30:33",
         "latitude": 49.671982,
@@ -3024,12 +3034,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 448,
         "direction": 106,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 355,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:31:34",
         "latitude": 49.636002,
@@ -3039,12 +3049,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 450,
         "direction": 106,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 355,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:32:35",
         "latitude": 49.599453,
@@ -3054,12 +3064,12 @@ var flightData = [
         "secondsNextReport": 66,
         "speed": 455,
         "direction": 106,
-        "outSideAirTemp": -54.9,
+        "outsideAirTemp": -54.90,
         "windDirection": 355,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:33:41",
         "latitude": 49.559509,
@@ -3069,12 +3079,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 458,
         "direction": 106,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 360,
         "windSpeed": 50
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:34:42",
         "latitude": 49.521698,
@@ -3084,12 +3094,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 459,
         "direction": 106,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 360,
         "windSpeed": 50
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:35:44",
         "latitude": 49.483749,
@@ -3099,12 +3109,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 460,
         "direction": 107,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 360,
         "windSpeed": 50
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:36:45",
         "latitude": 49.445599,
@@ -3114,12 +3124,12 @@ var flightData = [
         "secondsNextReport": 67,
         "speed": 459,
         "direction": 107,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 360,
         "windSpeed": 50
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:37:52",
         "latitude": 49.403191,
@@ -3129,12 +3139,12 @@ var flightData = [
         "secondsNextReport": 69,
         "speed": 458,
         "direction": 107,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 360,
         "windSpeed": 50
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:39:01",
         "latitude": 49.358917,
@@ -3144,12 +3154,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 458,
         "direction": 107,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 360,
         "windSpeed": 50
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:40:02",
         "latitude": 49.320187,
@@ -3159,12 +3169,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 460,
         "direction": 107,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 5,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:41:05",
         "latitude": 49.279083,
@@ -3174,12 +3184,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 462,
         "direction": 107,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 5,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:42:06",
         "latitude": 49.238953,
@@ -3189,12 +3199,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 459,
         "direction": 107,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 5,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:43:08",
         "latitude": 49.19838,
@@ -3204,12 +3214,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 456,
         "direction": 108,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 5,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:44:10",
         "latitude": 49.158184,
@@ -3219,12 +3229,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 456,
         "direction": 108,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 5,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:45:12",
         "latitude": 49.11657,
@@ -3234,12 +3244,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 458,
         "direction": 108,
-        "outSideAirTemp": -54.95,
+        "outsideAirTemp": -54.95,
         "windDirection": 5,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:46:15",
         "latitude": 49.07439,
@@ -3249,12 +3259,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 459,
         "direction": 108,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 5,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:47:17",
         "latitude": 49.032578,
@@ -3264,12 +3274,12 @@ var flightData = [
         "secondsNextReport": 60,
         "speed": 459,
         "direction": 108,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 5,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:48:17",
         "latitude": 48.991608,
@@ -3279,12 +3289,12 @@ var flightData = [
         "secondsNextReport": 64,
         "speed": 457,
         "direction": 108,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 10,
         "windSpeed": 60
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:49:21",
         "latitude": 48.947536,
@@ -3294,12 +3304,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 459,
         "direction": 108,
-        "outSideAirTemp": -55,
+        "outSideAirTemp": 55.00,
         "windDirection": 10,
         "windSpeed": 60
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:50:22",
         "latitude": 48.905273,
@@ -3309,12 +3319,12 @@ var flightData = [
         "secondsNextReport": 66,
         "speed": 458,
         "direction": 109,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 10,
         "windSpeed": 60
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:51:28",
         "latitude": 48.859879,
@@ -3324,12 +3334,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 456,
         "direction": 109,
-        "outSideAirTemp": -55.05,
+        "outsideAirTemp": -55.05,
         "windDirection": 10,
         "windSpeed": 60
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:52:29",
         "latitude": 48.8172,
@@ -3339,12 +3349,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 456,
         "direction": 109,
-        "outSideAirTemp": -53.45,
+        "outsideAirTemp": -53.45,
         "windDirection": 10,
         "windSpeed": 60
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:53:31",
         "latitude": 48.768963,
@@ -3354,12 +3364,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 459,
         "direction": 116,
-        "outSideAirTemp": -51.1,
+        "outsideAirTemp": -51.10,
         "windDirection": 15,
         "windSpeed": 65
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:54:33",
         "latitude": 48.702713,
@@ -3369,12 +3379,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 456,
         "direction": 127,
-        "outSideAirTemp": -51,
+        "outSideAirTemp": 51.00,
         "windDirection": 15,
         "windSpeed": 65
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:54:42",
         "latitude": 48.690662,
@@ -3384,12 +3394,12 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 455,
         "direction": 131,
-        "outSideAirTemp": -51,
+        "outSideAirTemp": 51.00,
         "windDirection": 15,
         "windSpeed": 65
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:54:52",
         "latitude": 48.676231,
@@ -3399,12 +3409,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 454,
         "direction": 133,
-        "outSideAirTemp": -51,
+        "outSideAirTemp": 51.00,
         "windDirection": 15,
         "windSpeed": 65
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:55:55",
         "latitude": 48.584988,
@@ -3414,12 +3424,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 452,
         "direction": 133,
-        "outSideAirTemp": -50.45,
+        "outsideAirTemp": -50.45,
         "windDirection": 15,
         "windSpeed": 67
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:56:57",
         "latitude": 48.497635,
@@ -3429,12 +3439,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 444,
         "direction": 133,
-        "outSideAirTemp": -46.2,
+        "outsideAirTemp": -46.20,
         "windDirection": 15,
         "windSpeed": 67
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:57:58",
         "latitude": 48.412216,
@@ -3444,12 +3454,12 @@ var flightData = [
         "secondsNextReport": 62,
         "speed": 429,
         "direction": 134,
-        "outSideAirTemp": -42.2,
+        "outsideAirTemp": -42.20,
         "windDirection": 15,
         "windSpeed": 60
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "11:59:00",
         "latitude": 48.328251,
@@ -3459,12 +3469,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 405,
         "direction": 134,
-        "outSideAirTemp": -36.35,
+        "outsideAirTemp": -36.35,
         "windDirection": 10,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:00:01",
         "latitude": 48.248322,
@@ -3474,12 +3484,12 @@ var flightData = [
         "secondsNextReport": 63,
         "speed": 410,
         "direction": 134,
-        "outSideAirTemp": -28.35,
+        "outsideAirTemp": -28.35,
         "windDirection": 10,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:01:04",
         "latitude": 48.164902,
@@ -3489,12 +3499,12 @@ var flightData = [
         "secondsNextReport": 61,
         "speed": 399,
         "direction": 134,
-        "outSideAirTemp": -22.7,
+        "outsideAirTemp": -22.70,
         "windDirection": 10,
         "windSpeed": 55
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:02:05",
         "latitude": 48.087391,
@@ -3504,12 +3514,12 @@ var flightData = [
         "secondsNextReport": 33,
         "speed": 386,
         "direction": 134,
-        "outSideAirTemp": -16.85,
+        "outsideAirTemp": -16.85,
         "windDirection": 5,
         "windSpeed": 50
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:02:38",
         "latitude": 48.045868,
@@ -3519,12 +3529,12 @@ var flightData = [
         "secondsNextReport": 32,
         "speed": 380,
         "direction": 134,
-        "outSideAirTemp": -13.6,
+        "outsideAirTemp": -13.60,
         "windDirection": 5,
         "windSpeed": 50
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:03:10",
         "latitude": 48.006531,
@@ -3534,12 +3544,12 @@ var flightData = [
         "secondsNextReport": 31,
         "speed": 376,
         "direction": 134,
-        "outSideAirTemp": -10.55,
+        "outsideAirTemp": -10.55,
         "windDirection": 360,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:03:41",
         "latitude": 47.969521,
@@ -3549,12 +3559,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 365,
         "direction": 134,
-        "outSideAirTemp": -8.6,
+        "outsideAirTemp": -8.60,
         "windDirection": 360,
         "windSpeed": 47
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:03:52",
         "latitude": 47.956192,
@@ -3564,12 +3574,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 362,
         "direction": 134,
-        "outSideAirTemp": -7.85,
+        "outsideAirTemp": -7.85,
         "windDirection": 360,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:04:05",
         "latitude": 47.940903,
@@ -3579,12 +3589,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 354,
         "direction": 135,
-        "outSideAirTemp": -7,
+        "outsideAirTemp": -7.00,
         "windDirection": 360,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:04:17",
         "latitude": 47.927353,
@@ -3594,12 +3604,12 @@ var flightData = [
         "secondsNextReport": 15,
         "speed": 350,
         "direction": 134,
-        "outSideAirTemp": -6.3,
+        "outsideAirTemp": -6.30,
         "windDirection": 360,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:04:32",
         "latitude": 47.910645,
@@ -3609,12 +3619,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 347,
         "direction": 134,
-        "outSideAirTemp": -5.4,
+        "outsideAirTemp": -5.40,
         "windDirection": 360,
         "windSpeed": 45
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:04:43",
         "latitude": 47.897781,
@@ -3624,12 +3634,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 345,
         "direction": 134,
-        "outSideAirTemp": -4.85,
+        "outsideAirTemp": -4.85,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:04:55",
         "latitude": 47.884796,
@@ -3639,12 +3649,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 333,
         "direction": 134,
-        "outSideAirTemp": -4.45,
+        "outsideAirTemp": -4.45,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:05:06",
         "latitude": 47.873474,
@@ -3654,12 +3664,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 322,
         "direction": 134,
-        "outSideAirTemp": -4.15,
+        "outsideAirTemp": -4.15,
         "windDirection": 355,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:05:17",
         "latitude": 47.861938,
@@ -3669,12 +3679,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 313,
         "direction": 134,
-        "outSideAirTemp": -3.85,
+        "outsideAirTemp": -3.85,
         "windDirection": 350,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:05:28",
         "latitude": 47.850487,
@@ -3684,12 +3694,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 306,
         "direction": 134,
-        "outSideAirTemp": -3.5,
+        "outsideAirTemp": -3.50,
         "windDirection": 350,
         "windSpeed": 40
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:05:40",
         "latitude": 47.83857,
@@ -3699,12 +3709,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 302,
         "direction": 135,
-        "outSideAirTemp": -3.1,
+        "outsideAirTemp": -3.10,
         "windDirection": 350,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:05:52",
         "latitude": 47.826736,
@@ -3714,12 +3724,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 298,
         "direction": 135,
-        "outSideAirTemp": -2.75,
+        "outsideAirTemp": -2.75,
         "windDirection": 350,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:06:05",
         "latitude": 47.814789,
@@ -3729,12 +3739,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 296,
         "direction": 135,
-        "outSideAirTemp": -2.7,
+        "outsideAirTemp": -2.70,
         "windDirection": 345,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:06:16",
         "latitude": 47.803284,
@@ -3744,12 +3754,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 298,
         "direction": 135,
-        "outSideAirTemp": -2.7,
+        "outsideAirTemp": -2.70,
         "windDirection": 345,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:06:28",
         "latitude": 47.791443,
@@ -3759,12 +3769,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 299,
         "direction": 135,
-        "outSideAirTemp": -2.65,
+        "outsideAirTemp": -2.65,
         "windDirection": 345,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:06:39",
         "latitude": 47.781372,
@@ -3774,12 +3784,12 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 300,
         "direction": 134,
-        "outSideAirTemp": -2.65,
+        "outsideAirTemp": -2.65,
         "windDirection": 345,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:06:49",
         "latitude": 47.770844,
@@ -3789,12 +3799,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 299,
         "direction": 134,
-        "outSideAirTemp": -2.65,
+        "outsideAirTemp": -2.65,
         "windDirection": 345,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:07:02",
         "latitude": 47.758965,
@@ -3804,12 +3814,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 292,
         "direction": 134,
-        "outSideAirTemp": -2.45,
+        "outsideAirTemp": -2.45,
         "windDirection": 345,
         "windSpeed": 37
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:07:13",
         "latitude": 47.748367,
@@ -3819,12 +3829,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 285,
         "direction": 134,
-        "outSideAirTemp": -2.2,
+        "outsideAirTemp": -2.20,
         "windDirection": 345,
         "windSpeed": 35
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:07:24",
         "latitude": 47.738251,
@@ -3834,12 +3844,12 @@ var flightData = [
         "secondsNextReport": 10,
         "speed": 280,
         "direction": 134,
-        "outSideAirTemp": -1.95,
+        "outsideAirTemp": -1.95,
         "windDirection": 345,
         "windSpeed": 35
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:07:34",
         "latitude": 47.728912,
@@ -3849,12 +3859,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 277,
         "direction": 134,
-        "outSideAirTemp": -1.65,
+        "outsideAirTemp": -1.65,
         "windDirection": 345,
         "windSpeed": 35
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:07:47",
         "latitude": 47.71772,
@@ -3864,12 +3874,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 273,
         "direction": 139,
-        "outSideAirTemp": -1.1,
+        "outsideAirTemp": -1.10,
         "windDirection": 345,
         "windSpeed": 32
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:07:53",
         "latitude": 47.710922,
@@ -3879,12 +3889,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 268,
         "direction": 149,
-        "outSideAirTemp": -0.75,
+        "outsideAirTemp": -0.75,
         "windDirection": 340,
         "windSpeed": 32
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:07:58",
         "latitude": 47.705475,
@@ -3894,12 +3904,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 267,
         "direction": 149,
-        "outSideAirTemp": -0.5,
+        "outsideAirTemp": -0.50,
         "windDirection": 340,
         "windSpeed": 32
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:07:59",
         "latitude": 47.704872,
@@ -3909,12 +3919,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 268,
         "direction": 149,
-        "outSideAirTemp": -0.5,
+        "outsideAirTemp": -0.50,
         "windDirection": 340,
         "windSpeed": 30
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:02",
         "latitude": 47.701721,
@@ -3924,12 +3934,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 267,
         "direction": 146,
-        "outSideAirTemp": -0.35,
+        "outsideAirTemp": -0.35,
         "windDirection": 340,
         "windSpeed": 30
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:04",
         "latitude": 47.699203,
@@ -3939,12 +3949,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 267,
         "direction": 145,
-        "outSideAirTemp": -0.2,
+        "outsideAirTemp": -0.20,
         "windDirection": 340,
         "windSpeed": 30
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:17",
         "latitude": 47.686855,
@@ -3954,12 +3964,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 268,
         "direction": 136,
-        "outSideAirTemp": 0.5,
+        "outsideAirTemp": 0.50,
         "windDirection": 340,
         "windSpeed": 27
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:23",
         "latitude": 47.68222,
@@ -3969,12 +3979,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 268,
         "direction": 135,
-        "outSideAirTemp": 0.8,
+        "outsideAirTemp": 0.80,
         "windDirection": 340,
         "windSpeed": 27
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:24",
         "latitude": 47.680847,
@@ -3984,12 +3994,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 268,
         "direction": 134,
-        "outSideAirTemp": 0.85,
+        "outsideAirTemp": 0.85,
         "windDirection": 335,
         "windSpeed": 27
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:26",
         "latitude": 47.679592,
@@ -3999,12 +4009,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 268,
         "direction": 134,
-        "outSideAirTemp": 0.95,
+        "outsideAirTemp": 0.95,
         "windDirection": 335,
         "windSpeed": 27
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:29",
         "latitude": 47.676987,
@@ -4014,12 +4024,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 268,
         "direction": 133,
-        "outSideAirTemp": 1.15,
+        "outsideAirTemp": 1.15,
         "windDirection": 335,
         "windSpeed": 25
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:32",
         "latitude": 47.67382,
@@ -4029,12 +4039,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 268,
         "direction": 132,
-        "outSideAirTemp": 1.35,
+        "outsideAirTemp": 1.35,
         "windDirection": 335,
         "windSpeed": 25
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:34",
         "latitude": 47.67205,
@@ -4044,12 +4054,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 268,
         "direction": 132,
-        "outSideAirTemp": 1.5,
+        "outsideAirTemp": 1.50,
         "windDirection": 335,
         "windSpeed": 25
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:35",
         "latitude": 47.6716,
@@ -4059,12 +4069,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 269,
         "direction": 132,
-        "outSideAirTemp": 1.5,
+        "outsideAirTemp": 1.50,
         "windDirection": 335,
         "windSpeed": 25
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:36",
         "latitude": 47.670841,
@@ -4074,12 +4084,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 269,
         "direction": 132,
-        "outSideAirTemp": 1.55,
+        "outsideAirTemp": 1.55,
         "windDirection": 335,
         "windSpeed": 25
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:47",
         "latitude": 47.661163,
@@ -4089,12 +4099,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 267,
         "direction": 131,
-        "outSideAirTemp": 2.2,
+        "outsideAirTemp": 2.20,
         "windDirection": 330,
         "windSpeed": 23
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:08:58",
         "latitude": 47.652126,
@@ -4104,12 +4114,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 265,
         "direction": 131,
-        "outSideAirTemp": 2.8,
+        "outsideAirTemp": 2.80,
         "windDirection": 330,
         "windSpeed": 23
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:09:11",
         "latitude": 47.642303,
@@ -4119,12 +4129,12 @@ var flightData = [
         "secondsNextReport": 13,
         "speed": 262,
         "direction": 131,
-        "outSideAirTemp": 3.35,
+        "outsideAirTemp": 3.35,
         "windDirection": 330,
         "windSpeed": 22
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:09:24",
         "latitude": 47.631271,
@@ -4134,12 +4144,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 257,
         "direction": 132,
-        "outSideAirTemp": 3.95,
+        "outsideAirTemp": 3.95,
         "windDirection": 330,
         "windSpeed": 20
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:09:35",
         "latitude": 47.622665,
@@ -4149,12 +4159,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 253,
         "direction": 132,
-        "outSideAirTemp": 4.4,
+        "outsideAirTemp": 4.40,
         "windDirection": 345,
         "windSpeed": 20
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:09:47",
         "latitude": 47.61351,
@@ -4164,12 +4174,12 @@ var flightData = [
         "secondsNextReport": 12,
         "speed": 248,
         "direction": 132,
-        "outSideAirTemp": 4.9,
+        "outsideAirTemp": 4.90,
         "windDirection": 345,
         "windSpeed": 18
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:09:59",
         "latitude": 47.604179,
@@ -4179,12 +4189,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 236,
         "direction": 132,
-        "outSideAirTemp": 4.9,
+        "outsideAirTemp": 4.90,
         "windDirection": 345,
         "windSpeed": 18
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:10:05",
         "latitude": 47.599823,
@@ -4194,12 +4204,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 230,
         "direction": 132,
-        "outSideAirTemp": 4.9,
+        "outsideAirTemp": 4.90,
         "windDirection": 345,
         "windSpeed": 18
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:10:12",
         "latitude": 47.594742,
@@ -4209,12 +4219,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 227,
         "direction": 132,
-        "outSideAirTemp": 4.9,
+        "outsideAirTemp": 4.90,
         "windDirection": 345,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:10:20",
         "latitude": 47.589478,
@@ -4224,12 +4234,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 225,
         "direction": 132,
-        "outSideAirTemp": 4.9,
+        "outsideAirTemp": 4.90,
         "windDirection": 350,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:10:29",
         "latitude": 47.583344,
@@ -4239,12 +4249,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 218,
         "direction": 131,
-        "outSideAirTemp": 4.7,
+        "outsideAirTemp": 4.70,
         "windDirection": 350,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:10:35",
         "latitude": 47.579086,
@@ -4254,12 +4264,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 213,
         "direction": 131,
-        "outSideAirTemp": 4.7,
+        "outsideAirTemp": 4.70,
         "windDirection": 350,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:10:44",
         "latitude": 47.573547,
@@ -4269,12 +4279,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 204,
         "direction": 132,
-        "outSideAirTemp": 4.7,
+        "outsideAirTemp": 4.70,
         "windDirection": 350,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:10:50",
         "latitude": 47.569683,
@@ -4284,12 +4294,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 201,
         "direction": 132,
-        "outSideAirTemp": 4.7,
+        "outsideAirTemp": 4.70,
         "windDirection": 350,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:10:56",
         "latitude": 47.56596,
@@ -4299,12 +4309,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 198,
         "direction": 132,
-        "outSideAirTemp": 4.7,
+        "outsideAirTemp": 4.70,
         "windDirection": 350,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:05",
         "latitude": 47.560455,
@@ -4314,12 +4324,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 196,
         "direction": 132,
-        "outSideAirTemp": 4.7,
+        "outsideAirTemp": 4.70,
         "windDirection": 355,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:11",
         "latitude": 47.556927,
@@ -4329,12 +4339,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 195,
         "direction": 132,
-        "outSideAirTemp": 4.7,
+        "outsideAirTemp": 4.70,
         "windDirection": 355,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:18",
         "latitude": 47.552551,
@@ -4344,12 +4354,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 192,
         "direction": 132,
-        "outSideAirTemp": 4.9,
+        "outsideAirTemp": 4.90,
         "windDirection": 355,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:24",
         "latitude": 47.54892,
@@ -4359,12 +4369,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 191,
         "direction": 131,
-        "outSideAirTemp": 4.9,
+        "outsideAirTemp": 4.90,
         "windDirection": 355,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:30",
         "latitude": 47.545532,
@@ -4374,12 +4384,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 191,
         "direction": 132,
-        "outSideAirTemp": 4.9,
+        "outsideAirTemp": 4.90,
         "windDirection": 355,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:37",
         "latitude": 47.541706,
@@ -4389,12 +4399,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 185,
         "direction": 131,
-        "outSideAirTemp": 5.1,
+        "outsideAirTemp": 5.10,
         "windDirection": 355,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:43",
         "latitude": 47.538254,
@@ -4404,12 +4414,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 178,
         "direction": 132,
-        "outSideAirTemp": 5.1,
+        "outsideAirTemp": 5.10,
         "windDirection": 360,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:50",
         "latitude": 47.534073,
@@ -4419,12 +4429,12 @@ var flightData = [
         "secondsNextReport": 9,
         "speed": 174,
         "direction": 132,
-        "outSideAirTemp": 5.1,
+        "outsideAirTemp": 5.10,
         "windDirection": 360,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:11:59",
         "latitude": 47.529373,
@@ -4434,12 +4444,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 167,
         "direction": 132,
-        "outSideAirTemp": 5.1,
+        "outsideAirTemp": 5.10,
         "windDirection": 360,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:12:05",
         "latitude": 47.526215,
@@ -4449,12 +4459,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 164,
         "direction": 132,
-        "outSideAirTemp": 5.3,
+        "outsideAirTemp": 5.30,
         "windDirection": 360,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:12:12",
         "latitude": 47.52269,
@@ -4464,12 +4474,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 158,
         "direction": 131,
-        "outSideAirTemp": 5.3,
+        "outsideAirTemp": 5.30,
         "windDirection": 360,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:12:19",
         "latitude": 47.519638,
@@ -4479,12 +4489,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 153,
         "direction": 132,
-        "outSideAirTemp": 5.3,
+        "outsideAirTemp": 5.30,
         "windDirection": 360,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:12:26",
         "latitude": 47.516235,
@@ -4494,12 +4504,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 148,
         "direction": 132,
-        "outSideAirTemp": 5.3,
+        "outsideAirTemp": 5.30,
         "windDirection": 360,
         "windSpeed": 15
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:12:32",
         "latitude": 47.513447,
@@ -4509,12 +4519,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 146,
         "direction": 132,
-        "outSideAirTemp": 5.5,
+        "outsideAirTemp": 5.50,
         "windDirection": 360,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:12:38",
         "latitude": 47.510559,
@@ -4524,12 +4534,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 144,
         "direction": 132,
-        "outSideAirTemp": 5.5,
+        "outsideAirTemp": 5.50,
         "windDirection": 360,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:12:45",
         "latitude": 47.507584,
@@ -4539,12 +4549,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 140,
         "direction": 132,
-        "outSideAirTemp": 5.5,
+        "outsideAirTemp": 5.50,
         "windDirection": 355,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:12:50",
         "latitude": 47.505432,
@@ -4554,12 +4564,12 @@ var flightData = [
         "secondsNextReport": 11,
         "speed": 138,
         "direction": 131,
-        "outSideAirTemp": 5.7,
+        "outsideAirTemp": 5.70,
         "windDirection": 355,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:01",
         "latitude": 47.500946,
@@ -4569,12 +4579,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 136,
         "direction": 132,
-        "outSideAirTemp": 5.7,
+        "outsideAirTemp": 5.70,
         "windDirection": 355,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:09",
         "latitude": 47.497387,
@@ -4584,12 +4594,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 5.7,
+        "outsideAirTemp": 5.70,
         "windDirection": 355,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:15",
         "latitude": 47.495106,
@@ -4599,12 +4609,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 5.7,
+        "outsideAirTemp": 5.70,
         "windDirection": 355,
         "windSpeed": 12
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:22",
         "latitude": 47.492157,
@@ -4614,12 +4624,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 5.7,
+        "outsideAirTemp": 5.70,
         "windDirection": 355,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:27",
         "latitude": 47.489777,
@@ -4629,12 +4639,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 5.7,
+        "outsideAirTemp": 5.70,
         "windDirection": 350,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:33",
         "latitude": 47.487167,
@@ -4644,12 +4654,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 138,
         "direction": 132,
-        "outSideAirTemp": 6,
+        "outSideAirTemp": 6.00,
         "windDirection": 350,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:39",
         "latitude": 47.484787,
@@ -4659,12 +4669,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 138,
         "direction": 132,
-        "outSideAirTemp": 6,
+        "outSideAirTemp": 6.00,
         "windDirection": 350,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:46",
         "latitude": 47.481812,
@@ -4674,12 +4684,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 136,
         "direction": 132,
-        "outSideAirTemp": 6,
+        "outSideAirTemp": 6.00,
         "windDirection": 350,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:53",
         "latitude": 47.478836,
@@ -4689,12 +4699,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 134,
         "direction": 132,
-        "outSideAirTemp": 6,
+        "outSideAirTemp": 6.00,
         "windDirection": 345,
         "windSpeed": 10
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:13:59",
         "latitude": 47.476227,
@@ -4704,12 +4714,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 6,
+        "outSideAirTemp": 6.00,
         "windDirection": 345,
         "windSpeed": 8
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:05",
         "latitude": 47.47374,
@@ -4719,12 +4729,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 6.4,
+        "outsideAirTemp": 6.40,
         "windDirection": 345,
         "windSpeed": 8
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:13",
         "latitude": 47.470596,
@@ -4734,12 +4744,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 134,
         "direction": 131,
-        "outSideAirTemp": 6.4,
+        "outsideAirTemp": 6.40,
         "windDirection": 345,
         "windSpeed": 8
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:18",
         "latitude": 47.46817,
@@ -4749,12 +4759,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 134,
         "direction": 132,
-        "outSideAirTemp": 6.4,
+        "outsideAirTemp": 6.40,
         "windDirection": 345,
         "windSpeed": 8
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:24",
         "latitude": 47.465607,
@@ -4764,12 +4774,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 6.8,
+        "outsideAirTemp": 6.80,
         "windDirection": 345,
         "windSpeed": 8
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:30",
         "latitude": 47.463135,
@@ -4779,12 +4789,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 135,
         "direction": 132,
-        "outSideAirTemp": 6.8,
+        "outsideAirTemp": 6.80,
         "windDirection": 345,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:38",
         "latitude": 47.459839,
@@ -4794,12 +4804,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 137,
         "direction": 132,
-        "outSideAirTemp": 6.8,
+        "outsideAirTemp": 6.80,
         "windDirection": 345,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:44",
         "latitude": 47.457138,
@@ -4809,12 +4819,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 137,
         "direction": 132,
-        "outSideAirTemp": 7.2,
+        "outsideAirTemp": 7.20,
         "windDirection": 345,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:50",
         "latitude": 47.454712,
@@ -4824,12 +4834,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 137,
         "direction": 132,
-        "outSideAirTemp": 7.2,
+        "outsideAirTemp": 7.20,
         "windDirection": 340,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:14:58",
         "latitude": 47.451534,
@@ -4839,12 +4849,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 136,
         "direction": 132,
-        "outSideAirTemp": 7.2,
+        "outsideAirTemp": 7.20,
         "windDirection": 340,
         "windSpeed": 6
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:03",
         "latitude": 47.449066,
@@ -4854,12 +4864,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 137,
         "direction": 132,
-        "outSideAirTemp": 7.7,
+        "outsideAirTemp": 7.70,
         "windDirection": 340,
         "windSpeed": 5
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:09",
         "latitude": 47.446564,
@@ -4869,12 +4879,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 136,
         "direction": 132,
-        "outSideAirTemp": 7.7,
+        "outsideAirTemp": 7.70,
         "windDirection": 340,
         "windSpeed": 5
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:17",
         "latitude": 47.443222,
@@ -4884,12 +4894,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 124,
         "direction": 132,
-        "outSideAirTemp": 7.7,
+        "outsideAirTemp": 7.70,
         "windDirection": 340,
         "windSpeed": 5
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:24",
         "latitude": 47.440872,
@@ -4899,12 +4909,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 102,
         "direction": 132,
-        "outSideAirTemp": 7.7,
+        "outsideAirTemp": 7.70,
         "windDirection": 340,
         "windSpeed": 5
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:30",
         "latitude": 47.439056,
@@ -4914,12 +4924,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 86,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:36",
         "latitude": 47.437569,
@@ -4929,12 +4939,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 76,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:42",
         "latitude": 47.436321,
@@ -4944,12 +4954,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 61,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:49",
         "latitude": 47.435181,
@@ -4959,12 +4969,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 46,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:15:55",
         "latitude": 47.434479,
@@ -4974,12 +4984,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 36,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:01",
         "latitude": 47.433815,
@@ -4989,12 +4999,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 32,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:07",
         "latitude": 47.433239,
@@ -5004,12 +5014,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 28,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:14",
         "latitude": 47.432728,
@@ -5019,12 +5029,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 25,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:20",
         "latitude": 47.432285,
@@ -5034,12 +5044,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 22,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:25",
         "latitude": 47.431877,
@@ -5049,12 +5059,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 21,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:32",
         "latitude": 47.431469,
@@ -5064,12 +5074,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 21,
         "direction": 131,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:36",
         "latitude": 47.43116,
@@ -5079,12 +5089,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 20,
         "direction": 126,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:39",
         "latitude": 47.431061,
@@ -5094,12 +5104,12 @@ var flightData = [
         "secondsNextReport": 1,
         "speed": 20,
         "direction": 118,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:40",
         "latitude": 47.431011,
@@ -5109,12 +5119,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 20,
         "direction": 109,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:42",
         "latitude": 47.430969,
@@ -5124,12 +5134,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 19,
         "direction": 98,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:44",
         "latitude": 47.430981,
@@ -5139,12 +5149,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 19,
         "direction": 87,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:46",
         "latitude": 47.431023,
@@ -5154,12 +5164,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 18,
         "direction": 75,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:48",
         "latitude": 47.431091,
@@ -5169,12 +5179,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 18,
         "direction": 64,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:51",
         "latitude": 47.431248,
@@ -5184,12 +5194,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 17,
         "direction": 50,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:54",
         "latitude": 47.4314,
@@ -5199,12 +5209,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 17,
         "direction": 45,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:16:57",
         "latitude": 47.431599,
@@ -5214,12 +5224,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 17,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:00",
         "latitude": 47.431767,
@@ -5229,12 +5239,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 16,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:03",
         "latitude": 47.431927,
@@ -5244,12 +5254,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 15,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:09",
         "latitude": 47.432224,
@@ -5259,12 +5269,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 14,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:15",
         "latitude": 47.432522,
@@ -5274,12 +5284,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 13,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:21",
         "latitude": 47.432762,
@@ -5289,12 +5299,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 12,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:27",
         "latitude": 47.432995,
@@ -5304,12 +5314,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:32",
         "latitude": 47.43322,
@@ -5319,12 +5329,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:39",
         "latitude": 47.433449,
@@ -5334,12 +5344,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:46",
         "latitude": 47.433712,
@@ -5349,12 +5359,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:52",
         "latitude": 47.433949,
@@ -5364,12 +5374,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:17:57",
         "latitude": 47.43417,
@@ -5379,12 +5389,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 11,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:03",
         "latitude": 47.43441,
@@ -5394,12 +5404,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 12,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:10",
         "latitude": 47.434681,
@@ -5409,12 +5419,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 13,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:15",
         "latitude": 47.434925,
@@ -5424,12 +5434,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 12,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:23",
         "latitude": 47.43523,
@@ -5439,12 +5449,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 12,
         "direction": 42,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:27",
         "latitude": 47.435368,
@@ -5454,12 +5464,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 11,
         "direction": 47,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:30",
         "latitude": 47.435417,
@@ -5469,12 +5479,12 @@ var flightData = [
         "secondsNextReport": 3,
         "speed": 11,
         "direction": 70,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:33",
         "latitude": 47.435413,
@@ -5484,12 +5494,12 @@ var flightData = [
         "secondsNextReport": 2,
         "speed": 12,
         "direction": 87,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:35",
         "latitude": 47.43536,
@@ -5499,12 +5509,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 12,
         "direction": 106,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:40",
         "latitude": 47.435211,
@@ -5514,12 +5524,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 12,
         "direction": 129,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:44",
         "latitude": 47.435062,
@@ -5529,12 +5539,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 11,
         "direction": 132,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:48",
         "latitude": 47.434925,
@@ -5544,12 +5554,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 10,
         "direction": 129,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:52",
         "latitude": 47.434856,
@@ -5559,12 +5569,12 @@ var flightData = [
         "secondsNextReport": 4,
         "speed": 8,
         "direction": 118,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:18:56",
         "latitude": 47.434799,
@@ -5574,12 +5584,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 8,
         "direction": 112,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:19:01",
         "latitude": 47.434696,
@@ -5589,12 +5599,12 @@ var flightData = [
         "secondsNextReport": 6,
         "speed": 9,
         "direction": 123,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:19:07",
         "latitude": 47.434521,
@@ -5604,12 +5614,12 @@ var flightData = [
         "secondsNextReport": 5,
         "speed": 9,
         "direction": 132,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:19:12",
         "latitude": 47.434387,
@@ -5619,12 +5629,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 7,
         "direction": 132,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:19:20",
         "latitude": 47.434181,
@@ -5634,12 +5644,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 6,
         "direction": 160,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:19:28",
         "latitude": 47.433994,
@@ -5649,12 +5659,12 @@ var flightData = [
         "secondsNextReport": 7,
         "speed": 6,
         "direction": 213,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:19:35",
         "latitude": 47.433857,
@@ -5664,12 +5674,12 @@ var flightData = [
         "secondsNextReport": 8,
         "speed": 7,
         "direction": 222,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:19:43",
         "latitude": 47.433678,
@@ -5679,12 +5689,12 @@ var flightData = [
         "secondsNextReport": 41,
         "speed": 5,
         "direction": 222,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     },
     {
-        "callSign": "AAW874",
+        "callSign": "AAW888",
         "date": "15-11-21",
         "time": "12:20:24",
         "latitude": 47.434547,
@@ -5694,19 +5704,24 @@ var flightData = [
         "secondsNextReport": null,
         "speed": 0,
         "direction": 222,
-        "outSideAirTemp": 8,
+        "outSideAirTemp": 8.00,
         "windDirection": 340,
         "windSpeed": 4
     }
 ];
 
-
+//
+// Retrieve and Process an individual message from the Simulated Flight Data
+//
 function getMessage(cb) {
 
     console.log("Getting flight data");
 
-    data = flightData[messageId];
+    data = flightData[messageId];           // Get the Current Message
 
+    //
+    // Transform the Simulated Flight Data from the array to suit the environment and return in the cb variable
+    //
     cb(JSON.stringify({
         messageId: messageId,
         deviceId: 'Raspberry Pi Flight Simulator',
@@ -5721,7 +5736,7 @@ function getMessage(cb) {
         speed: data.speed,
         direction: data.direction,
         directionString: degToCompass(data.direction),
-        outSideAirTemp: data.outSideAirTemp,
+        outsideAirTemp:data.outsideAirTemp,
         windDirection: data.windDirection,
         windDirectionString: degToCompass(data.windDirection),
         windSpeed: data.windSpeed
@@ -5731,14 +5746,31 @@ function getMessage(cb) {
 
 }
 
+//
+// Send a Device to Cloud Message with the Simulated Flight Data
+//
 function sendMessage() {
     if (!sendingMessage) { return; }
 
+    //
+    // Get the Message, encode it, and send it to the IoT Hub
+    //
     getMessage(function (content) {
         var message = new Message(content);
+
+        //
+        // In order to route messages using IoT Hub, we must make sure to encode as JSON and UTF-8
+        //
+        // Note: These two lines aren't obeyed in the Online Raspberry Pi Simulator as it's using old SDK versions...
+        //       ... So, routing won't work in the simulator!
+        //
         message.contentType = "application/json";
         message.contentEncoding = "utf-8";
         console.log('Sending message: ' + content);
+
+        //
+        // Send a Device to Cloud Message with the Simulated Flight Data
+        //
         client.sendEvent(message, function (err) {
             if (err) {
                 console.error('Failed to send message to Azure IoT Hub');
@@ -5747,8 +5779,18 @@ function sendMessage() {
             }
         });
     });
+
+    //
+    // If we've reached the end of the Flight Data, then exit the program
+    //
+    if (messageId == flightData.length) {
+        process.exit();
+    }
 }
 
+//
+// Start Sending Messages Cloud to Device Direct Method Callback
+//
 function onStart(request, response) {
     console.log('Try to invoke method start(' + request.payload + ')');
     sendingMessage = true;
@@ -5760,6 +5802,9 @@ function onStart(request, response) {
     });
 }
 
+//
+// Stop Sending Messages Cloud to Device Direct Method Callback
+//
 function onStop(request, response) {
     console.log('Try to invoke method stop(' + request.payload + ')');
     sendingMessage = false;
@@ -5771,6 +5816,9 @@ function onStop(request, response) {
     });
 }
 
+//
+// Cloud to Device Message Callback
+//
 function receiveMessageCallback(msg) {
     var message = msg.getData().toString('utf-8');
     client.complete(msg, function () {
@@ -5778,17 +5826,25 @@ function receiveMessageCallback(msg) {
     });
 }
 
+//
+// Convert the Degrees Readings to a Compass Heading for use in Power BI
+//
 function degToCompass(num) {
     var val = Math.floor((num / 22.5) + 0.5);
     var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
     return arr[(val % 16)];
 }
 
-sendingMessage = true;
+//
+// Start of Code
+//
+sendingMessage = true; // Default to sending messages to IoT hub
 
-// create a client
-client = Client.fromConnectionString(connectionString, Protocol);
+client = Client.fromConnectionString(connectionString, Protocol); // Create an IoT Hub Client from the Connection String at the top of this file
 
+//
+// Open a connection to the IoT Hub
+//
 client.open(function (err) {
     if (err) {
         console.error('[IoT hub Client] Connect error: ' + err.message);
@@ -5797,9 +5853,15 @@ client.open(function (err) {
 
     console.log("Welcome to TechDays 2021 - Flight into IoT!");
 
-    // set C2D and device method callback
+    //
+    // Setup the C2D Message and device method callbacks
+    //
     client.onDeviceMethod('start', onStart);
     client.onDeviceMethod('stop', onStop);
     client.on('message', receiveMessageCallback);
+    
+    //
+    // Every 2 seconds, send a Device to Cloud Message with the Flight Data
+    //
     setInterval(sendMessage, 2000);
 });
