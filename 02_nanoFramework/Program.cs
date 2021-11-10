@@ -95,7 +95,7 @@ namespace TechDays2021
                     Debug.WriteLine($"*** DATA SENT - Lat - {Latitude}, Lon - {Longitude} ***");
 
                     // update the location data
-                    GetNewDestination();
+                   
 
                     // wait before sending the next position update
                     Thread.Sleep(5000);
@@ -128,23 +128,6 @@ namespace TechDays2021
             {
                 Debug.WriteLine(Fx.Format(format, args));
             }
-        }
-
-        // Starting at the last Lat/Lon move along the bearing and for the distance to reset the Lat/Lon at a new point...
-        public static void GetNewDestination()
-        {
-            // Get a random Bearing and Distance...
-            double distance = _random.Next(10);     // Random distance from 0 to 10km...
-            double bearing = _random.Next(360);     // Random bearing from 0 to 360 degrees...
-
-            double lat1 = Latitude * (Math.PI / 180);
-            double lon1 = Longitude * (Math.PI / 180);
-            double brng = bearing * (Math.PI / 180);
-            double lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(distance / radius) + Math.Cos(lat1) * Math.Sin(distance / radius) * Math.Cos(brng));
-            double lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(distance / radius) * Math.Cos(lat1), Math.Cos(distance / radius) - Math.Sin(lat1) * Math.Sin(lat2));
-
-            Latitude = lat2 * (180 / Math.PI);
-            Longitude = lon2 * (180 / Math.PI);
         }
     }
 }
