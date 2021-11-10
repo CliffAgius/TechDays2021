@@ -166,7 +166,7 @@ namespace TechDays2021
                                 FlightDataModel[counter].vSFPM = -6000;
                                 break;
                             case (int)Emergency.IceCrystalIcingWarning:
-                                FlightDataModel[counter].outSideAirTemp = 0;
+                                FlightDataModel[counter].outsideAirTemp = 0;
                                 break;
                             default:
                                 break;

@@ -27,7 +27,7 @@
         // Aircraft flight direction converted to a compass heading string (N,S,E,W etc)
         public string directionString { get; set; }
         // Outside Temperature at the Aircrafts Altitude.  Measured in Degrees Celsius.
-        public object outSideAirTemp { get; set; }
+        public double outsideAirTemp { get; set; }
         // Direction the wind is blowing from at the height of the Aircraft.
         public int windDirection { get; set; }
         // DIrection the wind is blowing converted to a compass heading string (N,S,E,W etc)
