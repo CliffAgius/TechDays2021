@@ -22,19 +22,13 @@ namespace TechDays2021
         const string _hubName = "<ENTER YOUR IOTHub NAME>";
         const string _deviceId = "TechDays2021-Device1";    // <- Give your device a meaningful name...
         const string _sasToken = "<ENTER YOUR SAS TOKEN>";  // <- See blog post on how to obtain your SAS token.
-
-        // Lat/Lon Points
-        static double Latitude;
-        static double Longitude;
-        const double radius = 6378;   // Radius of earth in Kilometers at the equator, yes it's a big planet. Fun Fact it's 6356Km pole to pole so the planet is an oblate spheroid or a squashed ball.
-        private static Random _random = new Random();
+        
+        // AMQP Tracing.
         static bool TraceOn = false;
 
         public static void Main()
         {
-            // Set-up first Point and I have chossen to use the great Royal Observatory, Greenwich, UK where East meets West.
-            Latitude = 51.476852;
-            Longitude = 0.0;
+            // Connect the ESP32 Device to the Wifi and check the connection...
 
             Debug.WriteLine("Waiting for network up and IP address...");
             bool success = false;
@@ -56,14 +50,14 @@ namespace TechDays2021
                 Debug.WriteLine($"YAY! Connected to Wifi - {Ssid}");
             }
 
-            // setup AMQP
-            // set trace level 
+            // Setup AMQP
+            // Set trace level 
             AmqpTrace.TraceLevel = TraceLevel.Frame | TraceLevel.Information;
-            // enable trace
+            // Enable tracing
             AmqpTrace.TraceListener = WriteTrace;
             Connection.DisableServerCertValidation = false;
 
-            // launch worker thread
+            // launch worker thread where the real work is done!
             new Thread(WorkerThread).Start();
 
             Thread.Sleep(Timeout.Infinite);
