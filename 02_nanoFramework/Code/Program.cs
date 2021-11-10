@@ -230,5 +230,16 @@ namespace TechDays2021
             VerticalSpeedDive,      // Make the Aircraft dive at 6000ft per minute as if it was in an emergency decent...
             IceCrystalIcingWarning  // Make the Outside Air Temp read 0 degrees which at Cruise Altitude is an indication of Ice Crystal Icing and a real danger.
         }
+
+        private string ConvertDegreesToCompass(double value){
+            
+            var val = Math.floor((num / 22.5) + 0.5);
+            var arr = new string[] {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
+
+            return arr[(val % 16)];
+
+            //directionString
+            //windDirectionString
+        }
     }
 }
