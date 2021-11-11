@@ -31,6 +31,7 @@ namespace TechDays2021
         // Model Data...
         private static FlightDataStore flightDataStore = new();
         private static FlightDataModel[] FlightDataModel;
+        private static bool runThread = false;
         private static int counter = 0;
         private static int Warning = 0;
 
@@ -79,14 +80,45 @@ namespace TechDays2021
                 //Add the events for C2D messages.
                 DeviceClient.CloudToDeviceMessage += DeviceClient_CloudToDeviceMessage;
                 DeviceClient.TwinUpated += DeviceClient_TwinUpated;
-                DeviceClient.AddMethodCallback(MethodCallbackStart);
-
-                // launch worker thread where the real work is done!
-                new Thread(WorkerThread).Start();
+                DeviceClient.AddMethodCallback(DirectMethodFlightStatus);
             }
 
             // Should never reach here but it's to stop the device crashing if we reach the end of the program...
             Thread.Sleep(Timeout.Infinite);
+        }
+
+        public static string DirectMethodFlightStatus(int rid, string payload)
+        {
+            payload = payload.ToUpper();
+            Debug.WriteLine($"The flight status recieved - {payload} ");
+            // Reset the File Counter ready to start...
+            flightDataStore.FileCount = 1;
+            // Update the Twin Report...
+            UpdateDeviceTwinReport();
+
+            if (payload.Contains("STOP"))
+            {
+                // Stop the thread...
+                runThread = false;
+            }
+            else
+            {
+                // Start the thread...
+                runThread = true;
+                // Launch worker thread where the real work is done!...
+                new Thread(WorkerThread).Start();
+            }
+            // Update
+            return $"Flight status changed to - {payload}";
+        }
+
+        private static void FlightFinished()
+        {
+            Debug.WriteLine("The flight has finished...");
+            //Reset the File Counter ready to go again...
+            flightDataStore.FileCount = 1;
+            // Stop the Worker Thread.
+            runThread = false;
         }
 
         private static bool ConnectWithDPS()
@@ -132,18 +164,20 @@ namespace TechDays2021
             DeviceTwin = DeviceClient.GetTwin(new CancellationTokenSource(15000).Token);
             Debug.WriteLine($"Twin DeviceID: {DeviceTwin.DeviceId}, #desired: {DeviceTwin.Properties.Desired.Count}, #reported: {DeviceTwin.Properties.Reported.Count}");
 
-            // Update the Device Twins with information for this Device...
-            TwinCollection reported = new TwinCollection();
-            reported.Add("firmware", "nanoFramework");
-            reported.Add("sdk", "1.7.1-preview.1102");
-            DeviceClient.UpdateReportedProperties(reported);
+            // Update the Device Twins...
+            UpdateDeviceTwinReport();
 
             return true;
         }
 
-        public static string MethodCallbackStart(int rid, string payload)
+        public static void UpdateDeviceTwinReport()
         {
-            return "Flight is closed and requesting pushback...";
+            // Update the Device Twins with information for this Device...
+            TwinCollection reported = new TwinCollection();
+            reported.Add("firmware", "nanoFramework");
+            reported.Add("sdk", "1.7.1-preview.1102");
+            reported.Add("FlightRunningStatus", runThread);
+            DeviceClient.UpdateReportedProperties(reported);
         }
 
         private static void WorkerThread()
@@ -152,10 +186,10 @@ namespace TechDays2021
             {
                 string messagePayload = "";
 
-                while (true)
+                while (runThread)
                 {
                     // Check if there are any warning active and if so fake the error...
-                    if (Warning != 0)
+                    if (Warning != (int)Emergency.None || Warning != (int)Emergency.ClearWarnings)
                     {
                         switch (Warning)
                         {
@@ -212,28 +246,27 @@ namespace TechDays2021
             }
         }
 
-        private static void FlightFinished()
-        {
-            Debug.WriteLine("The flight has finished...");
-            //Reset the File Counter ready to go again...
-            flightDataStore.FileCount = 1;
-        }
-
         // Cloud to Device (C2D) message has been recieved and needs to be processed...
         private static void DeviceClient_CloudToDeviceMessage(object sender, CloudToDeviceMessageEventArgs e)
         {
             Debug.WriteLine($"*** C2D Message arrived: {e.Message} ***");
 
+            // Force the message to lowercase just to remove any typing of cases etc...
+            string msg = e.Message.ToLower();
+
             // Switch on the message sent in so that we know what data to fake as part of the warning...
-            switch (e.Message)
+            switch (msg)
             {
-                case "AltitudeError":
+                case "clearwarnings":
+                    Warning = (int)Emergency.ClearWarnings;
+                    break;
+                case "altitudeerror":
                     Warning = (int)Emergency.AltitudeError;
                     break;
-                case "VerticalSpeedDive":
+                case "verticalspeeddive":
                     Warning = (int)Emergency.VerticalSpeedDive;
                     break;
-                case "IceCrystalIcingWarning":
+                case "icecrystalicingwarning":
                     Warning = (int)Emergency.IceCrystalIcingWarning;
                     break;
                 default:
@@ -265,6 +298,7 @@ namespace TechDays2021
         enum Emergency
         {
             None,
+            ClearWarnings,          // Clear All Warnings and revert to live JSON data...
             AltitudeError,          // Shift the Aircraft to an out of limits Altitude...
             VerticalSpeedDive,      // Make the Aircraft dive at 6000ft per minute as if it was in an emergency decent...
             IceCrystalIcingWarning  // Make the Outside Air Temp read 0 degrees which at Cruise Altitude is an indication of Ice Crystal Icing and a real danger.

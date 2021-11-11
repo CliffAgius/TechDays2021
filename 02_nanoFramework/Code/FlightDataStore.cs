@@ -38,7 +38,6 @@ namespace TechDays2021
             {
                 Debug.WriteLine($"Card failed to mount : {ex.Message}");
             }
-            Debug.WriteLine($"IsMounted {mycard.IsMounted}");
 
             if (string.IsNullOrEmpty(FlightDataFilePath)) //Generally only "should" happen on initialization.
             {
