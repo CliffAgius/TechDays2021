@@ -35,6 +35,9 @@ namespace TechDays2021
         private static int counter = 0;
         private static int Warning = 0;
 
+        // Worker Thread
+        private static Thread workerThread = new Thread(WorkerThread);
+
         public static void Main()
         {
             // Connect the ESP32 Device to the Wifi and check the connection...
@@ -89,27 +92,32 @@ namespace TechDays2021
 
         public static string DirectMethodFlightStatus(int rid, string payload)
         {
+            // Incoming payload...
+            Debug.WriteLine($"Call back called :-) rid={rid}, payload={payload}");
+
             payload = payload.ToUpper();
             Debug.WriteLine($"The flight status recieved - {payload} ");
             // Reset the File Counter ready to start...
             flightDataStore.FileCount = 1;
-            // Update the Twin Report...
-            UpdateDeviceTwinReport();
 
             if (payload.Contains("STOP"))
             {
                 // Stop the thread...
                 runThread = false;
+                // Suspend the workerthread so that the device halts sending data.
+                workerThread.Suspend();
             }
             else
             {
                 // Start the thread...
                 runThread = true;
-                // Launch worker thread where the real work is done!...
-                new Thread(WorkerThread).Start();
+                // Start worker thread where the real work is done!...
+                workerThread.Start();
             }
-            // Update
-            return $"Flight status changed to - {payload}";
+            // Update the Twin Report...
+            UpdateDeviceTwinReport();
+
+            return "{\"Success\":\"OK\"}";
         }
 
         private static void FlightFinished()
