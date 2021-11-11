@@ -13,7 +13,7 @@ const Protocol = require('azure-iot-device-mqtt').Mqtt;
 //
 // Enter your Device Primary Connection String here
 //
-const connectionString = 'ENTER DEVICE PRIMARY CONNECTION STRING HERE';
+const connectionString = 'ENTER CONNECTION STRING';
 
 var sendingMessage;     // Used to determine if we're currently sending telemetry messages to the IoT hub  
 var messageId = 0;      // The Message Counter to set which item of Flight Data we send
