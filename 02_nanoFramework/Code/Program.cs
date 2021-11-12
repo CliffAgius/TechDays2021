@@ -99,6 +99,8 @@ namespace TechDays2021
             Debug.WriteLine($"The flight status recieved - {payload} ");
             // Reset the File Counter ready to start...
             flightDataStore.FileCount = 1;
+            //Create a holder for the return message
+            string rtnMessage = "";
 
             if (payload.Contains("STOP"))
             {
@@ -106,18 +108,27 @@ namespace TechDays2021
                 runThread = false;
                 // Suspend the workerthread so that the device halts sending data.
                 workerThread.Suspend();
+                // Update the return message...
+                rtnMessage = "{\"Status\":\"Flight Stopped\"}";
             }
-            else
+            else if (payload.Contains("START"))
             {
                 // Start the thread...
                 runThread = true;
                 // Start worker thread where the real work is done!...
                 workerThread.Start();
+                // Update the return message...
+                rtnMessage = "{\"Status\":\"Flight Started\"}";
+            }
+            else
+            {
+                // Message recieved wasn't a known command so return a helpful ERROR message...
+                rtnMessage = "{\"ERROR\":\"Unknown command please use START or STOP...\"}";
             }
             // Update the Twin Report...
             UpdateDeviceTwinReport();
 
-            return "{\"Success\":\"OK\"}";
+            return rtnMessage;
         }
 
         private static void FlightFinished()
