@@ -1,3 +1,9 @@
+//
+// Copyright (c) Clifford Agius
+// Portions Copyright (c) Microsoft Corporation.  All rights reserved.
+// See LICENSE file in the project root for full license information.
+//
+
 using nanoFramework.Azure.Devices.Client;
 using nanoFramework.Azure.Devices.Provisioning.Client;
 using nanoFramework.Azure.Devices.Shared;
