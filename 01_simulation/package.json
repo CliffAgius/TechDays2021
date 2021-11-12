@@ -1,0 +1,16 @@
+{
+  "name": "flight-simulator",
+  "version": "1.0.0",
+  "description": "TechDays 2021 - Flight Into IoT - Flight Simulator",
+  "main": "flight-simulator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pete Gallagher",
+  "license": "ISC",
+  "dependencies": {
+    "azure-iot-device": "^1.17.8",
+    "azure-iot-device-mqtt": "^1.15.8",
+    "azure-iot-security-symmetric-key": "^1.7.12"
+  }
+}
