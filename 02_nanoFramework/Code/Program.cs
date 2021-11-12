@@ -3,6 +3,7 @@ using nanoFramework.Azure.Devices.Provisioning.Client;
 using nanoFramework.Azure.Devices.Shared;
 using nanoFramework.Json;
 using nanoFramework.Networking;
+using nanoFramework.Runtime.Native;
 using System;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
@@ -192,10 +193,13 @@ namespace TechDays2021
         public static void UpdateDeviceTwinReport()
         {
             // Update the Device Twins with information for this Device...
-            TwinCollection reported = new TwinCollection();
-            reported.Add("firmware", "nanoFramework");
-            reported.Add("sdk", "1.7.1-preview.1102");
-            reported.Add("FlightRunningStatus", runThread);
+            TwinCollection reported = new()
+            {
+                { "firmware", "nanoFramework" },
+                { "sdk", SystemInfo.Version },
+                { "FlightRunningStatus", runThread }
+            };
+
             DeviceClient.UpdateReportedProperties(reported);
         }
 
