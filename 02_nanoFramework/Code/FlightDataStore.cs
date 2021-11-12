@@ -1,4 +1,10 @@
-﻿using System.IO;
+﻿//
+// Copyright (c) Clifford Agius
+// Portions Copyright (c) Microsoft Corporation.  All rights reserved.
+// See LICENSE file in the project root for full license information.
+//
+
+using System.IO;
 using System.Diagnostics;
 using System.Threading;
 using nanoFramework.System.IO.FileSystem;
@@ -10,7 +16,6 @@ namespace TechDays2021
     public class FlightDataStore
     {
         private string FlightDataFilePath { get; set; }
-        static SDCard mycard;
         public int FileCount { get; set; } = 1;
 
         public FlightDataStore(string path = "")
@@ -24,10 +29,10 @@ namespace TechDays2021
         {
             // Configure the SD card, this is for the ESP32CAM board other ESP Boards look at the nanoFramework Docs as this line is different depending on the board.
             // GitHub Repo for the sample - https://github.com/nanoframework/Samples/blob/main/samples/System.IO.FileSystem/MountExample/Program.cs
-            mycard = new SDCard(new SDCard.SDCardMmcParameters { dataWidth = SDCard.SDDataWidth._4_bit, enableCardDetectPin = false });
+            SDCard mycard = new SDCard(new SDCard.SDCardMmcParameters { dataWidth = SDCard.SDDataWidth._4_bit, enableCardDetectPin = false });
 
             // Some devices are a little slow when booted so give it time to sort itself out...
-            Thread.Sleep(3000);     // Wait until the Storage Devices are mounted (SD Card & USB). This usally takes some seconds after startup.
+            Thread.Sleep(3000);     // Wait until the Storage Devices are mounted (SD Card & USB). This usually takes some seconds after startup.
 
             try
             {
@@ -78,7 +83,8 @@ namespace TechDays2021
                     }
                 }
             }
-            return null;
+
+            return new FlightDataModel[0];
         }
     }
 }

@@ -1,8 +1,15 @@
+//
+// Copyright (c) Clifford Agius
+// Portions Copyright (c) Microsoft Corporation.  All rights reserved.
+// See LICENSE file in the project root for full license information.
+//
+
 using nanoFramework.Azure.Devices.Client;
 using nanoFramework.Azure.Devices.Provisioning.Client;
 using nanoFramework.Azure.Devices.Shared;
 using nanoFramework.Json;
 using nanoFramework.Networking;
+using nanoFramework.Runtime.Native;
 using System;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
@@ -12,21 +19,14 @@ namespace TechDays2021
 {
     public class Program
     {
-        // *** Notes from the nanoFrameWork Team ***
-        // *  Browse our samples repository: https://github.com/nanoframework/samples
-        // *  Check our documentation online: https://docs.nanoframework.net/
-        // *  Join our lively Discord community: https://discord.gg/gCyBu8T.
-        // *****************************************
-
         // Azure DPS/IoTHub settings...
-        public static string RegistrationID = "nanoFramework-01";   //TempName will be replaced by the Flight number from the JSON packets.
-        const string DpsAddress = "global.azure-devices-provisioning.net";
-        const string IdScope = "0ne00426F38";
-        const string SasKey = "266pldCRiFGxSXkt6QcCPkqfCf8FMFIvD6yqpi+6Jy0=";
+        private static string RegistrationID = "nanoFramework-01";   //TempName will be replaced by the Flight number from the JSON packets.
+        private const string DpsAddress = "global.azure-devices-provisioning.net";
+        private const string IdScope = "0ne00426F38";
+        private const string SasKey = "266pldCRiFGxSXkt6QcCPkqfCf8FMFIvD6yqpi+6Jy0=";
 
         // Device details...
-        public static DeviceClient DeviceClient;
-        public static Twin DeviceTwin;
+        private static DeviceClient DeviceClient;
 
         // Model Data...
         private static FlightDataStore flightDataStore = new();
@@ -40,18 +40,18 @@ namespace TechDays2021
 
         public static void Main()
         {
-            // Connect the ESP32 Device to the Wifi and check the connection...
+            // Connect the ESP32 Device to the Wi-Fi and check the connection...
             Debug.WriteLine("Waiting for network up and IP address...");
 
-            // Check if there is any stored Wifi COnfiguration...
+            // Check if there is any stored Wi-Fi COnfiguration...
             if (!NetworkHelper.IsConfigurationStored())
             {
                 Debug.WriteLine("No configuration stored in the device");
             }
             else
             {
-                // The wifi credentials are already stored on the device
-                // Give 60 seconds to the wifi join to happen
+                // The Wi-Fi credentials are already stored on the device
+                // Give 60 seconds to the Wi-Fi join to happen
                 CancellationTokenSource cs = new(60000);
                 var success = NetworkHelper.ReconnectWifi(setDateTime: true, token: cs.Token);
                 if (!success)
@@ -65,28 +65,33 @@ namespace TechDays2021
                     }
                 }
                 // Otherwise, you are connected and have a valid IP and date
-                Debug.WriteLine($"YAY! Connected to Wifi...");
+                Debug.WriteLine($"YAY! Connected to Wi-Fi...");
             }
 
             // Get the JSON Data from the SD card File...
             FlightDataModel = flightDataStore.GetFlightData();
 
-            if (FlightDataModel == null || FlightDataModel.Length == 0)
+            if (FlightDataModel.Length == 0)
             {
                 Debug.WriteLine($"-- JSON Data missing... --");
             }
             else
             {
                 // Connect to DPS...
-                ConnectWithDPS();
-
-                //Add the events for C2D messages.
-                DeviceClient.CloudToDeviceMessage += DeviceClient_CloudToDeviceMessage;
-                DeviceClient.TwinUpated += DeviceClient_TwinUpated;
-                DeviceClient.AddMethodCallback(DirectMethodFlightStatus);
+                if (ConnectWithDPS())
+                {
+                    //Add the events for C2D messages.
+                    DeviceClient.CloudToDeviceMessage += DeviceClient_CloudToDeviceMessage;
+                    DeviceClient.TwinUpated += DeviceClient_TwinUpated;
+                    DeviceClient.AddMethodCallback(DirectMethodFlightStatus);
+                }
+                else
+                {
+                    Debug.WriteLine("Something wrong in the DPS step...");
+                }
             }
 
-            // Should never reach here but it's to stop the device crashing if we reach the end of the program...
+            // keep the 'Main' thread running forever so all the others keep doing it's thing
             Thread.Sleep(Timeout.Infinite);
         }
 
@@ -96,7 +101,7 @@ namespace TechDays2021
             Debug.WriteLine($"Call back called :-) rid={rid}, payload={payload}");
 
             payload = payload.ToUpper();
-            Debug.WriteLine($"The flight status recieved - {payload} ");
+            Debug.WriteLine($"The flight status received - {payload} ");
             // Reset the File Counter ready to start...
             flightDataStore.FileCount = 1;
             //Create a holder for the return message
@@ -106,7 +111,7 @@ namespace TechDays2021
             {
                 // Stop the thread...
                 runThread = false;
-                // Suspend the workerthread so that the device halts sending data.
+                // Suspend the worker thread so that the device halts sending data.
                 workerThread.Suspend();
                 // Update the return message...
                 rtnMessage = "{\"Status\":\"Flight Stopped\"}";
@@ -122,7 +127,7 @@ namespace TechDays2021
             }
             else
             {
-                // Message recieved wasn't a known command so return a helpful ERROR message...
+                // Message received wasn't a known command so return a helpful ERROR message...
                 rtnMessage = "{\"ERROR\":\"Unknown command please use START or STOP...\"}";
             }
             // Update the Twin Report...
@@ -180,7 +185,7 @@ namespace TechDays2021
             }
 
             // Grab the Device Twins that have been set by the DPS and IoTHub for this device...
-            DeviceTwin = DeviceClient.GetTwin(new CancellationTokenSource(15000).Token);
+            var DeviceTwin = DeviceClient.GetTwin(new CancellationTokenSource(15000).Token);
             Debug.WriteLine($"Twin DeviceID: {DeviceTwin.DeviceId}, #desired: {DeviceTwin.Properties.Desired.Count}, #reported: {DeviceTwin.Properties.Reported.Count}");
 
             // Update the Device Twins...
@@ -192,10 +197,13 @@ namespace TechDays2021
         public static void UpdateDeviceTwinReport()
         {
             // Update the Device Twins with information for this Device...
-            TwinCollection reported = new TwinCollection();
-            reported.Add("firmware", "nanoFramework");
-            reported.Add("sdk", "1.7.1-preview.1102");
-            reported.Add("FlightRunningStatus", runThread);
+            TwinCollection reported = new()
+            {
+                { "firmware", "nanoFramework" },
+                { "sdk", SystemInfo.Version },
+                { "FlightRunningStatus", runThread }
+            };
+
             DeviceClient.UpdateReportedProperties(reported);
         }
 
@@ -226,7 +234,7 @@ namespace TechDays2021
                         }
                     }
 
-                    // Serialize the Current FlightDataModel into JSON to send as the mssage payload...
+                    // Serialize the Current FlightDataModel into JSON to send as the message payload...
                     FlightDataModel[counter].directionString = ConvertDegreesToCompass(FlightDataModel[counter].direction);
                     FlightDataModel[counter].windDirectionString = ConvertDegreesToCompass(FlightDataModel[counter].windDirection);
                     messagePayload = JsonConvert.SerializeObject(FlightDataModel[counter]);
@@ -247,6 +255,13 @@ namespace TechDays2021
                     {
                         // All the current data chunk has been used grab the next...
                         FlightDataModel = flightDataStore.GetFlightData();
+
+                        if(FlightDataModel.Length == 0)
+                        {
+                            // couldn't read flight data!!
+                            Debug.WriteLine("-- SD Card Error - Failed to get data from SD Card --");
+                        }
+
                         // Reset the Array counter...
                         counter = 0;
 
@@ -265,7 +280,7 @@ namespace TechDays2021
             }
         }
 
-        // Cloud to Device (C2D) message has been recieved and needs to be processed...
+        // Cloud to Device (C2D) message has been received and needs to be processed...
         private static void DeviceClient_CloudToDeviceMessage(object sender, CloudToDeviceMessageEventArgs e)
         {
             Debug.WriteLine($"*** C2D Message arrived: {e.Message} ***");
