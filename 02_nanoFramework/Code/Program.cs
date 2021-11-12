@@ -14,14 +14,14 @@ namespace TechDays2021
     public class Program
     {
         // Azure DPS/IoTHub settings...
-        public static string RegistrationID = "nanoFramework-01";   //TempName will be replaced by the Flight number from the JSON packets.
-        const string DpsAddress = "global.azure-devices-provisioning.net";
-        const string IdScope = "0ne00426F38";
-        const string SasKey = "266pldCRiFGxSXkt6QcCPkqfCf8FMFIvD6yqpi+6Jy0=";
+        private static string RegistrationID = "nanoFramework-01";   //TempName will be replaced by the Flight number from the JSON packets.
+        private const string DpsAddress = "global.azure-devices-provisioning.net";
+        private const string IdScope = "0ne00426F38";
+        private const string SasKey = "266pldCRiFGxSXkt6QcCPkqfCf8FMFIvD6yqpi+6Jy0=";
 
         // Device details...
-        public static DeviceClient DeviceClient;
-        public static Twin DeviceTwin;
+        private static DeviceClient DeviceClient;
+        private static Twin DeviceTwin;
 
         // Model Data...
         private static FlightDataStore flightDataStore = new();
