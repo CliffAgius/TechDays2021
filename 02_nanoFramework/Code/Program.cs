@@ -21,7 +21,6 @@ namespace TechDays2021
 
         // Device details...
         private static DeviceClient DeviceClient;
-        private static Twin DeviceTwin;
 
         // Model Data...
         private static FlightDataStore flightDataStore = new();
@@ -180,7 +179,7 @@ namespace TechDays2021
             }
 
             // Grab the Device Twins that have been set by the DPS and IoTHub for this device...
-            DeviceTwin = DeviceClient.GetTwin(new CancellationTokenSource(15000).Token);
+            var DeviceTwin = DeviceClient.GetTwin(new CancellationTokenSource(15000).Token);
             Debug.WriteLine($"Twin DeviceID: {DeviceTwin.DeviceId}, #desired: {DeviceTwin.Properties.Desired.Count}, #reported: {DeviceTwin.Properties.Reported.Count}");
 
             // Update the Device Twins...
