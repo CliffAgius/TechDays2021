@@ -71,7 +71,7 @@ namespace TechDays2021
             // Get the JSON Data from the SD card File...
             FlightDataModel = flightDataStore.GetFlightData();
 
-            if (FlightDataModel == null || FlightDataModel.Length == 0)
+            if (FlightDataModel.Length == 0)
             {
                 Debug.WriteLine($"-- JSON Data missing... --");
             }
@@ -255,6 +255,13 @@ namespace TechDays2021
                     {
                         // All the current data chunk has been used grab the next...
                         FlightDataModel = flightDataStore.GetFlightData();
+
+                        if(FlightDataModel.Length == 0)
+                        {
+                            // couldn't read flight data!!
+                            Debug.WriteLine("-- SD Card Error - Failed to get data from SD Card --");
+                        }
+
                         // Reset the Array counter...
                         counter = 0;
 

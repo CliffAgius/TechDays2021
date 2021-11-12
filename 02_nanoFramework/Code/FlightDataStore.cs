@@ -83,7 +83,8 @@ namespace TechDays2021
                     }
                 }
             }
-            return null;
+
+            return new FlightDataModel[0];
         }
     }
 }
