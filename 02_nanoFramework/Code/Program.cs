@@ -20,7 +20,7 @@ namespace TechDays2021
     public class Program
     {
         // Azure DPS/IoTHub settings...
-        private static string RegistrationID = "nanoFramework-01";   //TempName will be replaced by the Flight number from the JSON packets.
+        private static string RegistrationID = "nanoFramework-01";
         private const string DpsAddress = "global.azure-devices-provisioning.net";
         private const string IdScope = "0ne00426F38";
         private const string SasKey = "266pldCRiFGxSXkt6QcCPkqfCf8FMFIvD6yqpi+6Jy0=";
@@ -179,7 +179,7 @@ namespace TechDays2021
             // Open the IoTHub connection and check it has worked...
             if (!DeviceClient.Open())
             {
-                Debug.WriteLine($"can't open the device");
+                Debug.WriteLine($"Can't open the device connection with IoTHub...");
                 DeviceClient.Close();
                 return false;
             }
@@ -215,7 +215,7 @@ namespace TechDays2021
 
                 while (runThread)
                 {
-                    // Check if there are any warning active and if so fake the error...
+                    // Check if there are any Warnings active and if so fake the error...
                     if (Warning != (int)Emergency.None || Warning != (int)Emergency.ClearWarnings)
                     {
                         switch (Warning)
@@ -260,16 +260,12 @@ namespace TechDays2021
                         {
                             // couldn't read flight data!!
                             Debug.WriteLine("-- SD Card Error - Failed to get data from SD Card --");
+                            FlightFinished();
+                            break;
                         }
 
                         // Reset the Array counter...
                         counter = 0;
-
-                        if (FlightDataModel is null)
-                        {
-                            FlightFinished();
-                            break;
-                        }
                     }
                 }
             }
