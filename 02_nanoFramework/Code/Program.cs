@@ -92,7 +92,7 @@ namespace TechDays2021
                 }
             }
 
-            // Should never reach here but it's to stop the device crashing if we reach the end of the program...
+            // keep the 'Main' thread running forever so all the others keep doing it's thing
             Thread.Sleep(Timeout.Infinite);
         }
 
