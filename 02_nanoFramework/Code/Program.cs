@@ -13,12 +13,6 @@ namespace TechDays2021
 {
     public class Program
     {
-        // *** Notes from the nanoFrameWork Team ***
-        // *  Browse our samples repository: https://github.com/nanoframework/samples
-        // *  Check our documentation online: https://docs.nanoframework.net/
-        // *  Join our lively Discord community: https://discord.gg/gCyBu8T.
-        // *****************************************
-
         // Azure DPS/IoTHub settings...
         public static string RegistrationID = "nanoFramework-01";   //TempName will be replaced by the Flight number from the JSON packets.
         const string DpsAddress = "global.azure-devices-provisioning.net";
