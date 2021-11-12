@@ -40,18 +40,18 @@ namespace TechDays2021
 
         public static void Main()
         {
-            // Connect the ESP32 Device to the Wifi and check the connection...
+            // Connect the ESP32 Device to the Wi-Fi and check the connection...
             Debug.WriteLine("Waiting for network up and IP address...");
 
-            // Check if there is any stored Wifi COnfiguration...
+            // Check if there is any stored Wi-Fi COnfiguration...
             if (!NetworkHelper.IsConfigurationStored())
             {
                 Debug.WriteLine("No configuration stored in the device");
             }
             else
             {
-                // The wifi credentials are already stored on the device
-                // Give 60 seconds to the wifi join to happen
+                // The Wi-Fi credentials are already stored on the device
+                // Give 60 seconds to the Wi-Fi join to happen
                 CancellationTokenSource cs = new(60000);
                 var success = NetworkHelper.ReconnectWifi(setDateTime: true, token: cs.Token);
                 if (!success)
@@ -65,7 +65,7 @@ namespace TechDays2021
                     }
                 }
                 // Otherwise, you are connected and have a valid IP and date
-                Debug.WriteLine($"YAY! Connected to Wifi...");
+                Debug.WriteLine($"YAY! Connected to Wi-Fi...");
             }
 
             // Get the JSON Data from the SD card File...
@@ -101,7 +101,7 @@ namespace TechDays2021
             Debug.WriteLine($"Call back called :-) rid={rid}, payload={payload}");
 
             payload = payload.ToUpper();
-            Debug.WriteLine($"The flight status recieved - {payload} ");
+            Debug.WriteLine($"The flight status received - {payload} ");
             // Reset the File Counter ready to start...
             flightDataStore.FileCount = 1;
             //Create a holder for the return message
@@ -111,7 +111,7 @@ namespace TechDays2021
             {
                 // Stop the thread...
                 runThread = false;
-                // Suspend the workerthread so that the device halts sending data.
+                // Suspend the worker thread so that the device halts sending data.
                 workerThread.Suspend();
                 // Update the return message...
                 rtnMessage = "{\"Status\":\"Flight Stopped\"}";
@@ -127,7 +127,7 @@ namespace TechDays2021
             }
             else
             {
-                // Message recieved wasn't a known command so return a helpful ERROR message...
+                // Message received wasn't a known command so return a helpful ERROR message...
                 rtnMessage = "{\"ERROR\":\"Unknown command please use START or STOP...\"}";
             }
             // Update the Twin Report...
@@ -234,7 +234,7 @@ namespace TechDays2021
                         }
                     }
 
-                    // Serialize the Current FlightDataModel into JSON to send as the mssage payload...
+                    // Serialize the Current FlightDataModel into JSON to send as the message payload...
                     FlightDataModel[counter].directionString = ConvertDegreesToCompass(FlightDataModel[counter].direction);
                     FlightDataModel[counter].windDirectionString = ConvertDegreesToCompass(FlightDataModel[counter].windDirection);
                     messagePayload = JsonConvert.SerializeObject(FlightDataModel[counter]);
@@ -280,7 +280,7 @@ namespace TechDays2021
             }
         }
 
-        // Cloud to Device (C2D) message has been recieved and needs to be processed...
+        // Cloud to Device (C2D) message has been received and needs to be processed...
         private static void DeviceClient_CloudToDeviceMessage(object sender, CloudToDeviceMessageEventArgs e)
         {
             Debug.WriteLine($"*** C2D Message arrived: {e.Message} ***");

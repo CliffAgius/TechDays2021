@@ -16,7 +16,7 @@ namespace TechDays2021
         public double latitude { get; set; }
         // Flight Position Longitude formatted to 4 decimal places
         public double longitude { get; set; }
-        // Aircraft Alititude in Feet
+        // Aircraft Altitude in Feet
         public int altitude { get; set; }
         // Aircraft Vertical Speed in Feet Per Minute
         public int vSFPM { get; set; }
@@ -24,7 +24,7 @@ namespace TechDays2021
         public int secondsNextReport { get; set; }
         // Aircraft speed in Knots so Nautical Miles Per Hour. 1 Knot (KT) = 1.15 Miles Per Hour (MPH)
         public int speed { get; set; }
-        // Aicraft flight direction in degree's (direction of travel over the ground)
+        // Aircraft flight direction in degree's (direction of travel over the ground)
         public int direction { get; set; }
         // Aircraft flight direction converted to a compass heading string (N,S,E,W etc)
         public string directionString { get; set; }

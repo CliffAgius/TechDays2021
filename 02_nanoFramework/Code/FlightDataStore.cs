@@ -32,7 +32,7 @@ namespace TechDays2021
             SDCard mycard = new SDCard(new SDCard.SDCardMmcParameters { dataWidth = SDCard.SDDataWidth._4_bit, enableCardDetectPin = false });
 
             // Some devices are a little slow when booted so give it time to sort itself out...
-            Thread.Sleep(3000);     // Wait until the Storage Devices are mounted (SD Card & USB). This usally takes some seconds after startup.
+            Thread.Sleep(3000);     // Wait until the Storage Devices are mounted (SD Card & USB). This usually takes some seconds after startup.
 
             try
             {
