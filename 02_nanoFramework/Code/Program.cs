@@ -79,12 +79,17 @@ namespace TechDays2021
             else
             {
                 // Connect to DPS...
-                ConnectWithDPS();
-
-                //Add the events for C2D messages.
-                DeviceClient.CloudToDeviceMessage += DeviceClient_CloudToDeviceMessage;
-                DeviceClient.TwinUpated += DeviceClient_TwinUpated;
-                DeviceClient.AddMethodCallback(DirectMethodFlightStatus);
+                if (ConnectWithDPS())
+                {
+                    //Add the events for C2D messages.
+                    DeviceClient.CloudToDeviceMessage += DeviceClient_CloudToDeviceMessage;
+                    DeviceClient.TwinUpated += DeviceClient_TwinUpated;
+                    DeviceClient.AddMethodCallback(DirectMethodFlightStatus);
+                }
+                else
+                {
+                    Debug.WriteLine("Something wrong in the DPS step...");
+                }
             }
 
             // Should never reach here but it's to stop the device crashing if we reach the end of the program...
