@@ -200,7 +200,7 @@ namespace TechDays2021
             TwinCollection reported = new()
             {
                 { "firmware", "nanoFramework" },
-                { "sdk", SystemInfo.Version },
+                { "sdk", SystemInfo.Version.ToString() },
                 { "FlightRunningStatus", runThread }
             };
 
