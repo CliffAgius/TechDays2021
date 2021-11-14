@@ -15,7 +15,6 @@ using System;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
-using GC = nanoFramework.Runtime.Native.GC;
 
 namespace TechDays2021
 {
@@ -82,7 +81,7 @@ namespace TechDays2021
                 // Connect to DPS...
                 if (ConnectWithDPS())
                 {
-                    //Add the events for C2D messages.
+                    // Add the IoTHub events.
                     DeviceClient.CloudToDeviceMessage += DeviceClient_CloudToDeviceMessage;
                     DeviceClient.TwinUpated += DeviceClient_TwinUpated;
                     DeviceClient.AddMethodCallback(ChangeFlightStatus);
@@ -201,12 +200,17 @@ namespace TechDays2021
             // Get memory Data...
             NativeMemory.GetMemoryInfo(NativeMemory.MemoryType.All, out uint totalSize, out uint totalFreeSize, out uint largestFreeBlock);
 
+            string TotalSize = (totalSize / 1000000).ToString() + "MB";
+            string TotalFreeSize = (totalFreeSize / 1000000).ToString() + "MB";
+
             // Update the Device Twins with information for this Device...
             TwinCollection reported = new()
             {
                 { "firmware", "nanoFramework" },
                 { "sdk", SystemInfo.Version.ToString() },
-                { "Total Memory", totalSize.ToString()},
+                { "DevicePlatform", SystemInfo.Platform},
+                { "TotalMemory", TotalSize},
+                { "TotalFreeMemory", TotalFreeSize},
                 { "FlightRunningStatus", runThread }
             };
 
