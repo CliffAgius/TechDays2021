@@ -10,10 +10,12 @@ using nanoFramework.Azure.Devices.Shared;
 using nanoFramework.Json;
 using nanoFramework.Networking;
 using nanoFramework.Runtime.Native;
+using nanoFramework.Hardware.Esp32;
 using System;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using GC = nanoFramework.Runtime.Native.GC;
 
 namespace TechDays2021
 {
@@ -83,7 +85,7 @@ namespace TechDays2021
                     //Add the events for C2D messages.
                     DeviceClient.CloudToDeviceMessage += DeviceClient_CloudToDeviceMessage;
                     DeviceClient.TwinUpated += DeviceClient_TwinUpated;
-                    DeviceClient.AddMethodCallback(DirectMethodFlightStatus);
+                    DeviceClient.AddMethodCallback(ChangeFlightStatus);
                 }
                 else
                 {
@@ -95,7 +97,7 @@ namespace TechDays2021
             Thread.Sleep(Timeout.Infinite);
         }
 
-        public static string DirectMethodFlightStatus(int rid, string payload)
+        public static string ChangeFlightStatus(int rid, string payload)
         {
             // Incoming payload...
             Debug.WriteLine($"Call back called :-) rid={rid}, payload={payload}");
@@ -196,11 +198,15 @@ namespace TechDays2021
 
         public static void UpdateDeviceTwinReport()
         {
+            // Get memory Data...
+            NativeMemory.GetMemoryInfo(NativeMemory.MemoryType.All, out uint totalSize, out uint totalFreeSize, out uint largestFreeBlock);
+
             // Update the Device Twins with information for this Device...
             TwinCollection reported = new()
             {
                 { "firmware", "nanoFramework" },
                 { "sdk", SystemInfo.Version.ToString() },
+                { "Total Memory", totalSize.ToString()},
                 { "FlightRunningStatus", runThread }
             };
 
