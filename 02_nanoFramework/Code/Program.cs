@@ -15,6 +15,7 @@ using System;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using System.Globalization;
 
 namespace TechDays2021
 {
@@ -200,11 +201,11 @@ namespace TechDays2021
             // Get memory Data...
             NativeMemory.GetMemoryInfo(NativeMemory.MemoryType.All, out uint totalSize, out uint totalFreeSize, out uint largestFreeBlock);
 
-            string TotalSize = (totalSize / 1000000).ToString() + "MB";
-            string TotalFreeSize = (totalFreeSize / 1000000).ToString() + "MB";
+            string TotalSize = (totalSize / 1000000.00).ToString("F") + "MB";
+            string TotalFreeSize = (totalFreeSize / 1000000.00).ToString("F") + "MB";
 
             // Update the Device Twins with information for this Device...
-            TwinCollection reported = new()
+            TwinCollection reported = new()     // <- Fancy C#9 Feature
             {
                 { "firmware", "nanoFramework" },
                 { "sdk", SystemInfo.Version.ToString() },
