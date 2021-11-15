@@ -15,7 +15,6 @@ using System;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
-using System.Globalization;
 
 namespace TechDays2021
 {
